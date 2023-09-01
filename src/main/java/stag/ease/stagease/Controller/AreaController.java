@@ -23,12 +23,14 @@ public class AreaController {
     @GetMapping("/list")
     public ResponseEntity<List<AreaDTO>> listar() {
         List<AreaDTO> areas = service.listar();
+
         return ResponseEntity.ok(areas);
     }
 
     @GetMapping("/{nome}")
     public ResponseEntity<AreaDTO> buscar(@PathVariable("nome") String nomeArea) {
         AreaDTO area = service.findByNomeArea(nomeArea);
+
         return ResponseEntity.ok(area);
     }
 
@@ -57,6 +59,7 @@ public class AreaController {
         try {
             AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
             repository.delete(entity);
+
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());

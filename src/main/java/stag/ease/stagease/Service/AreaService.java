@@ -24,6 +24,7 @@ public class AreaService {
         AreaEntity entity = repository.findByNomeArea(nomeArea);
         AreaDTO area = new AreaDTO();
         BeanUtils.copyProperties(entity, area);
+
         return area;
     }
 
@@ -38,12 +39,10 @@ public class AreaService {
 
     @Transactional
     public AreaDTO create(AreaDTO dto) {
-        if (dto.getId() != null) {
-            throw new RuntimeException("Não insira o id manualmente");
-        }
         AreaEntity entity = modelMapper.map(dto, AreaEntity.class);
         AreaDTO local = new AreaDTO();
         BeanUtils.copyProperties(repository.save(entity), local);
+
         return local;
     }
 
@@ -53,6 +52,7 @@ public class AreaService {
         modelMapper.map(dto, entity);
         AreaDTO areaDTO = new AreaDTO();
         BeanUtils.copyProperties(repository.save(entity), areaDTO);
+
         return areaDTO;
     }
 }
