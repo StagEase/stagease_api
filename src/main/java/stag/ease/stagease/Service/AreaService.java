@@ -34,12 +34,12 @@ public class AreaService {
     }
 
     @Transactional
-    public AreaDTO create(AreaDTO dto) {
-        AreaEntity entity = modelMapper.map(dto, AreaEntity.class);
-        AreaDTO retornoDTO = toAreaDTO(entity);
+    public AreaEntity create(AreaDTO dto) {
+        AreaEntity entity = new AreaEntity();
+        modelMapper.map(dto, entity);
         repository.save(entity);
 
-        return retornoDTO;
+        return entity;
     }
 
     @Transactional

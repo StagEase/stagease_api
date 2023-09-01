@@ -36,13 +36,14 @@ public class AreaController {
     }
 
     @PostMapping
-    public ResponseEntity<AreaDTO> create(@RequestBody @Validated final AreaDTO dto) {
+    public ResponseEntity<AreaEntity> create(@RequestBody @Validated final AreaDTO dto) {
+        AreaEntity entity = new AreaEntity();
         try {
-            this.service.create(dto);
+            entity = service.create(dto);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return ResponseEntity.ok(dto);
+        return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
