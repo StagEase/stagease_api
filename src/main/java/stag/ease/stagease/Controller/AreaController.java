@@ -25,14 +25,14 @@ public class AreaController {
     public ResponseEntity<List<AreaEntity>> list() {
         List<AreaEntity> lista = repository.findAll();
 
-        return ResponseEntity.ok(lista);
+        return new ResponseEntity<>(lista, HttpStatus.FOUND);
     }
 
     @GetMapping
     public ResponseEntity<AreaEntity> searchByNomeArea(@RequestParam("nome") final String nomeArea) {
         AreaEntity entity = repository.findByNomeArea(nomeArea);
 
-        return ResponseEntity.ok(entity);
+        return new ResponseEntity<>(entity, HttpStatus.FOUND);
     }
 
     @PostMapping
