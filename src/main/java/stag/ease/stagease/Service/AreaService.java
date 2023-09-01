@@ -22,14 +22,14 @@ public class AreaService {
     @Transactional
     public AreaDTO findByNomeArea(String nomeArea) {
         AreaEntity entity = repository.findByNomeArea(nomeArea);
-        AreaDTO area = new AreaDTO();
-        BeanUtils.copyProperties(entity, area);
+        AreaDTO retornoDTO = new AreaDTO();
+        BeanUtils.copyProperties(entity, retornoDTO);
 
-        return area;
+        return retornoDTO;
     }
 
     @Transactional
-    public List<AreaDTO> listar() {
+    public List<AreaDTO> list() {
         List<AreaEntity> entityList = repository.findAll();
 
         return entityList.stream()
@@ -40,19 +40,19 @@ public class AreaService {
     @Transactional
     public AreaDTO create(AreaDTO dto) {
         AreaEntity entity = modelMapper.map(dto, AreaEntity.class);
-        AreaDTO local = new AreaDTO();
-        BeanUtils.copyProperties(repository.save(entity), local);
+        AreaDTO retornoDTO = new AreaDTO();
+        BeanUtils.copyProperties(repository.save(entity), retornoDTO);
 
-        return local;
+        return retornoDTO;
     }
 
     @Transactional
     public AreaDTO update(Long id, AreaDTO dto) {
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, entity);
-        AreaDTO areaDTO = new AreaDTO();
-        BeanUtils.copyProperties(repository.save(entity), areaDTO);
+        AreaDTO retornoDTO = new AreaDTO();
+        BeanUtils.copyProperties(repository.save(entity), retornoDTO);
 
-        return areaDTO;
+        return retornoDTO;
     }
 }

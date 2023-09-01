@@ -22,25 +22,24 @@ public class AreaController {
     private AreaRepository repository;
 
     @GetMapping("/list")
-    public ResponseEntity<List<AreaDTO>> listar() {
-        List<AreaDTO> areas = service.listar();
+    public ResponseEntity<List<AreaDTO>> list() {
+        List<AreaDTO> lista = service.list();
 
-        return ResponseEntity.ok(areas);
+        return ResponseEntity.ok(lista);
     }
 
-    @GetMapping("/{nome}")
-    public ResponseEntity<AreaDTO> search(@PathVariable("nome") String nomeArea) {
-        AreaDTO area = service.findByNomeArea(nomeArea);
+    @GetMapping
+    public ResponseEntity<AreaDTO> searchByNomeArea(@RequestParam("nome") final String nomeArea) {
+        AreaDTO nome = service.findByNomeArea(nomeArea);
 
-        return ResponseEntity.ok(area);
+        return ResponseEntity.ok(nome);
     }
 
     @PostMapping
     public ResponseEntity<AreaDTO> create(@RequestBody @Validated final AreaDTO dto) {
         try {
             this.service.create(dto);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         return ResponseEntity.ok(dto);
@@ -50,8 +49,7 @@ public class AreaController {
     public ResponseEntity<AreaDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final AreaDTO dto) {
         try {
             service.update(id, dto);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         return ResponseEntity.ok(dto);
