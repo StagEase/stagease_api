@@ -15,13 +15,13 @@ public class AbstractEntity {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "cadastro", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime cadastro;
 
-    @Column(name = "atualizacao")
+    @Column()
     private LocalDateTime atualizacao;
 
-    @Column(name = "ativo", nullable = false)
+    @Column(nullable = false)
     private boolean ativo;
 
     @PrePersist
