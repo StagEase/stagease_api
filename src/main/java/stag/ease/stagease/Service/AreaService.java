@@ -17,7 +17,7 @@ public class AreaService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public AreaEntity findByNome(String nomeArea) {
+    public AreaEntity findByNomeArea(String nomeArea) {
         return repository.findByNomeArea(nomeArea);
     }
 
