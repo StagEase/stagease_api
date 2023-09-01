@@ -49,20 +49,10 @@ public class AreaService {
 
     @Transactional
     public AreaDTO update(Long id, AreaDTO dto) {
-        AreaEntity entity = this.repository.findById(id).orElse(null);
-        if (!entity.getId().equals(dto.getId())) {
-            throw new RuntimeException("Não foi possivel encontrar o registro informado");
-        }
+        AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, entity);
         AreaDTO areaDTO = new AreaDTO();
         BeanUtils.copyProperties(repository.save(entity), areaDTO);
         return areaDTO;
-    }
-
-    @Transactional
-    public void delete(Long id) {
-        AreaEntity entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Não foi possivel encontrar o registro informado"));
-        repository.delete(entity);
     }
 }

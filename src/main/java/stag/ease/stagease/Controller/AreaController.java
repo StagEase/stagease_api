@@ -38,7 +38,7 @@ public class AreaController {
             return ResponseEntity.ok(this.service.create(dto));
         }
         catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -48,18 +48,18 @@ public class AreaController {
             return ResponseEntity.ok(service.update(id, dto));
         }
         catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") final Long id) {
-       final AreaEntity local = this.repository.findById(id).orElse(null);
-       try {
-           this.repository.delete(local);
-           return ResponseEntity.ok("Local deletado com sucesso");
-       } catch (IllegalArgumentException e) {
-           return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
-       }
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
+        try {
+            AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
+            repository.delete(entity);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 }
