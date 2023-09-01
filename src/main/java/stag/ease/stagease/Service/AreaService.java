@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AreaService {
     @Autowired
@@ -22,6 +25,15 @@ public class AreaService {
         AreaDTO area = new AreaDTO();
         BeanUtils.copyProperties(entity, area);
         return area;
+    }
+
+    @Transactional
+    public List<AreaDTO> listar() {
+        List<AreaEntity> entityList = repository.findAll();
+
+        return entityList.stream()
+                .map(entity -> modelMapper.map(entity, AreaDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Transactional

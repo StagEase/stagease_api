@@ -21,8 +21,9 @@ public class AreaController {
     private AreaRepository repository;
 
     @GetMapping("/list")
-    public ResponseEntity<List<AreaEntity>> list() {
-        return ResponseEntity.ok(this.repository.findAll());
+    public ResponseEntity<List<AreaDTO>> listar() {
+        List<AreaDTO> areas = service.listar();
+        return ResponseEntity.ok(areas);
     }
 
     @GetMapping("/{nome}")
