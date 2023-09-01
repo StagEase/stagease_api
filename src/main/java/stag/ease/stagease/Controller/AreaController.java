@@ -22,17 +22,17 @@ public class AreaController {
     private AreaRepository repository;
 
     @GetMapping("/list")
-    public ResponseEntity<List<AreaDTO>> list() {
-        List<AreaDTO> lista = service.list();
+    public ResponseEntity<List<AreaEntity>> list() {
+        List<AreaEntity> lista = repository.findAll();
 
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping
-    public ResponseEntity<AreaDTO> searchByNomeArea(@RequestParam("nome") final String nomeArea) {
-        AreaDTO nome = service.findByNomeArea(nomeArea);
+    public ResponseEntity<AreaEntity> searchByNomeArea(@RequestParam("nome") final String nomeArea) {
+        AreaEntity entity = repository.findByNomeArea(nomeArea);
 
-        return ResponseEntity.ok(nome);
+        return ResponseEntity.ok(entity);
     }
 
     @PostMapping
@@ -47,13 +47,14 @@ public class AreaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AreaDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final AreaDTO dto) {
+    public ResponseEntity<AreaEntity> update(@PathVariable("id") final Long id, @RequestBody @Validated final AreaDTO dto) {
+        AreaEntity entity = new AreaEntity();
         try {
-            service.update(id, dto);
+            entity = service.update(id, dto);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return ResponseEntity.ok(dto);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
