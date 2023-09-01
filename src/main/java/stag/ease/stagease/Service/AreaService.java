@@ -17,8 +17,11 @@ public class AreaService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public AreaEntity findByNomeArea(String nomeArea) {
-        return repository.findByNomeArea(nomeArea);
+    public AreaDTO findByNomeArea(String nomeArea) {
+        AreaEntity entity = repository.findByNomeArea(nomeArea);
+        AreaDTO area = new AreaDTO();
+        BeanUtils.copyProperties(entity, area);
+        return area;
     }
 
     @Transactional

@@ -26,8 +26,8 @@ public class AreaController {
     }
 
     @GetMapping("/{nome}")
-    public ResponseEntity<AreaEntity> buscar(@PathVariable("nome") String nomeArea) {
-        AreaEntity area = service.findByNomeArea(nomeArea);
+    public ResponseEntity<AreaDTO> buscar(@PathVariable("nome") String nomeArea) {
+        AreaDTO area = service.findByNomeArea(nomeArea);
         return ResponseEntity.ok(area);
     }
 
