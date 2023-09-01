@@ -3,6 +3,7 @@ package stag.ease.stagease.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.DTO.AreaDTO;
@@ -28,30 +29,32 @@ public class AreaController {
     }
 
     @GetMapping("/{nome}")
-    public ResponseEntity<AreaDTO> buscar(@PathVariable("nome") String nomeArea) {
+    public ResponseEntity<AreaDTO> search(@PathVariable("nome") String nomeArea) {
         AreaDTO area = service.findByNomeArea(nomeArea);
 
         return ResponseEntity.ok(area);
     }
 
     @PostMapping
-    public ResponseEntity<AreaDTO> create(@RequestBody final AreaDTO dto) {
+    public ResponseEntity<AreaDTO> create(@RequestBody @Validated final AreaDTO dto) {
         try {
-            return ResponseEntity.ok(this.service.create(dto));
+            this.service.create(dto);
         }
         catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AreaDTO> update(@PathVariable("id") final Long id, @RequestBody final AreaDTO dto) {
+    public ResponseEntity<AreaDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final AreaDTO dto) {
         try {
-            return ResponseEntity.ok(service.update(id, dto));
+            service.update(id, dto);
         }
         catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
