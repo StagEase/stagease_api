@@ -30,19 +30,14 @@ public class AreaService {
 
     @Transactional
     public List<AreaDTO> list() {
-        List<AreaEntity> entityList = repository.findAll();
-
-        return entityList.stream()
-                .map(entity -> modelMapper.map(entity, AreaDTO.class))
-                .collect(Collectors.toList());
+        return repository.findAll().stream().map(this::toAreaDTO).toList();
     }
 
     @Transactional
     public AreaDTO create(AreaDTO dto) {
         AreaEntity entity = modelMapper.map(dto, AreaEntity.class);
         AreaDTO retornoDTO = new AreaDTO();
-        repository.save(entity);
-        BeanUtils.copyProperties(entity, retornoDTO);
+        BeanUtils.copyProperties(repository.save(entity), retornoDTO);
 
         return retornoDTO;
     }
@@ -55,5 +50,9 @@ public class AreaService {
         BeanUtils.copyProperties(repository.save(entity), retornoDTO);
 
         return retornoDTO;
+    }
+
+    public AreaDTO toAreaDTO(AreaEntity entity) {
+        return modelMapper.map(entity, AreaDTO.class);
     }
 }
