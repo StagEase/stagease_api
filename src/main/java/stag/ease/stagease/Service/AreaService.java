@@ -41,7 +41,8 @@ public class AreaService {
     public AreaDTO create(AreaDTO dto) {
         AreaEntity entity = modelMapper.map(dto, AreaEntity.class);
         AreaDTO retornoDTO = new AreaDTO();
-        BeanUtils.copyProperties(repository.save(entity), retornoDTO);
+        repository.save(entity);
+        BeanUtils.copyProperties(entity, retornoDTO);
 
         return retornoDTO;
     }
