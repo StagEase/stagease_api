@@ -29,8 +29,8 @@ public class AreaController {
     }
 
     @GetMapping
-    public ResponseEntity<AreaEntity> searchByNomeArea(@RequestParam("nome") final String nomeArea) {
-        AreaEntity entity = repository.findByNomeArea(nomeArea);
+    public ResponseEntity<AreaEntity> searchByNomeArea(@RequestParam("nome") final String nome) {
+        AreaEntity entity = repository.findByNomeArea(nome);
 
         return new ResponseEntity<>(entity, HttpStatus.FOUND);
     }
