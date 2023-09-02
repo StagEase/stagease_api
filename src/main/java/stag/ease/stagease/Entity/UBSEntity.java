@@ -43,5 +43,4 @@ public class UBSEntity extends AbstractEntity{
 
     @Column
     private String descricao;
-
 }
