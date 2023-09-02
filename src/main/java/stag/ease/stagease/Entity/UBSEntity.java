@@ -19,7 +19,7 @@ public class UBSEntity extends AbstractEntity{
     private String gerente;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(nullable = false)
     private Distrito distrito;
 
     @Column
@@ -41,7 +41,7 @@ public class UBSEntity extends AbstractEntity{
     @JsonIgnore
     private List<SolicitacaoEntity> solicitacoes;
 
-    @Column(length = 255)
+    @Column
     private String descricao;
 
 }
