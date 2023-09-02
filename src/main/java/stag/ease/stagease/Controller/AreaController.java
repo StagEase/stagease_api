@@ -17,9 +17,15 @@ import java.util.List;
 @RequestMapping(value = "/area")
 public class AreaController {
     @Autowired
-    private AreaService service;
+    private final AreaService service;
     @Autowired
-    private AreaRepository repository;
+    private final AreaRepository repository;
+
+    @Autowired
+    public AreaController(AreaRepository repository, AreaService service) {
+        this.repository = repository;
+        this.service = service;
+    }
 
     @GetMapping("/list")
     public ResponseEntity<List<AreaEntity>> list() {

@@ -17,9 +17,15 @@ import java.util.List;
 @RequestMapping(value = "/ubs")
 public class UBSController {
     @Autowired
-    private UBSService service;
+    private final UBSService service;
     @Autowired
-    private UBSRepository repository;
+    private final UBSRepository repository;
+
+    @Autowired
+    public UBSController(UBSRepository repository, UBSService service) {
+        this.repository = repository;
+        this.service = service;
+    }
 
     @GetMapping("/list")
     public ResponseEntity<List<UBSEntity>> list() {

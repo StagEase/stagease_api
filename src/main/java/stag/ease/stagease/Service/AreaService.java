@@ -1,6 +1,5 @@
 package stag.ease.stagease.Service;
 
-import org.springframework.beans.BeanUtils;
 import stag.ease.stagease.DTO.AreaDTO;
 import stag.ease.stagease.Entity.AreaEntity;
 import stag.ease.stagease.Repository.AreaRepository;
@@ -9,20 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class AreaService {
     @Autowired
-    private AreaRepository repository;
+    private final AreaRepository repository;
     @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper ModelMapper;
+
+    @Autowired
+    public AreaService(AreaRepository repository, ModelMapper modelMapper) {
+        this.repository = repository;
+        this.ModelMapper = modelMapper;
+    }
 
     @Transactional
     public AreaEntity create(AreaDTO dto) {
         AreaEntity entity = new AreaEntity();
-        modelMapper.map(dto, entity);
+        ModelMapper.map(dto, entity);
         repository.save(entity);
 
         return entity;
@@ -31,7 +33,7 @@ public class AreaService {
     @Transactional
     public AreaEntity update(Long id, AreaDTO dto) {
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
-        modelMapper.map(dto, entity);
+        ModelMapper.map(dto, entity);
         repository.save(entity);
 
         return entity;
