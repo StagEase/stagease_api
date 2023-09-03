@@ -41,7 +41,6 @@ public class UBSEntity extends AbstractEntity{
     private List<AreaEntity> areaList;
 
     @OneToMany(mappedBy = "ubs")
-    @JsonIgnore
     private List<SolicitacaoEntity> solicitacaoList;
 
     @Column

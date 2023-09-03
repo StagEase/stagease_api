@@ -18,6 +18,7 @@ import java.util.List;
 public class SupervisorEntity extends AbstractEntity{
     @OneToMany(mappedBy = "supervisor")
     private List<SolicitacaoEntity> solicitacaoList;
+
     @ManyToMany(mappedBy = "supervisorList")
     private List<UBSEntity> ubsList;
 }
