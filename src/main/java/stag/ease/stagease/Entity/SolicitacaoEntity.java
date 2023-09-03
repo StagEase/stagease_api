@@ -1,34 +1,38 @@
 package stag.ease.stagease.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import stag.ease.stagease.Entity.Enum.Situacao;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Getter
-@Setter
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
 public class SolicitacaoEntity extends AbstractEntity {
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ubs_id", referencedColumnName = "id", nullable = false)
     private UBSEntity ubs;
 
-    @Column(nullable = false)
-    private AreaEntity areaSolicitacao;
+    @ManyToOne
+    @JoinColumn(name = "area_id", referencedColumnName = "id", nullable = false)
+    private AreaEntity area;
 
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "supervisor_id", referencedColumnName = "id", nullable = false)
     private SupervisorEntity supervisor;
 
     @Column(nullable = false)
     private int qntdEstagiarios;
 
-    @Column(nullable = false)
-    private InstituicaiDeEnsinoEntity instituicaiDeEnsino;
+    @ManyToOne
+    @JoinColumn(name = "instituicaoDeEnsino_id", referencedColumnName = "id", nullable = false)
+    private InstituicaoDeEnsinoEntity instituicaoDeEnsino;
 
     @Column(nullable = false)
     private LocalDate dataInicio;

@@ -13,8 +13,8 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 @Entity
-@Table(name = "supervisor", schema = "stagease")
-public class SupervisorEntity extends AbstractEntity{
-    @OneToMany(mappedBy = "supervisor")
+@Table(name = "instituicao_de_ensino", schema = "stagease")
+public class InstituicaoDeEnsinoEntity extends AbstractEntity{
+    @OneToMany(mappedBy = "instituicaoDeEnsino")
     private List<SolicitacaoEntity> solicitacaoList;
 }
