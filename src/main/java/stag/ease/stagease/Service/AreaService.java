@@ -13,18 +13,18 @@ public class AreaService {
     @Autowired
     private final AreaRepository repository;
     @Autowired
-    private final ModelMapper ModelMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public AreaService(AreaRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
-        this.ModelMapper = modelMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Transactional
     public AreaEntity create(AreaDTO dto) {
         AreaEntity entity = new AreaEntity();
-        ModelMapper.map(dto, entity);
+        modelMapper.map(dto, entity);
         repository.save(entity);
 
         return entity;
@@ -33,7 +33,7 @@ public class AreaService {
     @Transactional
     public AreaEntity update(Long id, AreaDTO dto) {
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
-        ModelMapper.map(dto, entity);
+        modelMapper.map(dto, entity);
         repository.save(entity);
 
         return entity;

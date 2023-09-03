@@ -13,18 +13,18 @@ public class UBSService {
     @Autowired
     private final UBSRepository repository;
     @Autowired
-    private final ModelMapper ModelMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public UBSService(UBSRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
-        this.ModelMapper = modelMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Transactional
     public UBSEntity create(UBSDTO dto) {
         UBSEntity entity = new UBSEntity();
-        ModelMapper.map(dto, entity);
+        modelMapper.map(dto, entity);
         repository.save(entity);
 
         return entity;
@@ -33,7 +33,7 @@ public class UBSService {
     @Transactional
     public UBSEntity update(Long id, UBSDTO dto) {
         UBSEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
-        ModelMapper.map(dto, entity);
+        modelMapper.map(dto, entity);
         repository.save(entity);
 
         return entity;
