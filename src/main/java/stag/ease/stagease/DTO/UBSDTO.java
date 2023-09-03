@@ -12,8 +12,7 @@ import stag.ease.stagease.Entity.SupervisorEntity;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class UBSDTO {
     @NotBlank(message = "Este campo não pode ser nulo")
     private String nomeArea;

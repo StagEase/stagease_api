@@ -13,8 +13,7 @@ import stag.ease.stagease.Entity.UBSEntity;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class AreaDTO extends AbstractDTO{
     @NotBlank(message = "Este campo não pode ser nullo")
     private String nomeArea;

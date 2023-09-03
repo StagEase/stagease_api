@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class SolicitacaoDTO extends AbstractDTO{
     @NotBlank(message = "Este campo não pode ser nulo")
     private UBSDTO ubs;
