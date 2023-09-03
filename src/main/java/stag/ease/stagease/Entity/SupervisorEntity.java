@@ -1,6 +1,7 @@
 package stag.ease.stagease.Entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -17,4 +18,6 @@ import java.util.List;
 public class SupervisorEntity extends AbstractEntity{
     @OneToMany(mappedBy = "supervisor")
     private List<SolicitacaoEntity> solicitacaoList;
+    @ManyToMany(mappedBy = "supervisorList")
+    private List<UBSEntity> ubsList;
 }
