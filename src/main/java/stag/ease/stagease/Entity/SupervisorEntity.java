@@ -1,4 +1,7 @@
 package stag.ease.stagease.Entity;
 
-public class SupervisorEntity {
+import jakarta.persistence.Entity;
+
+@Entity
+public class SupervisorEntity extends AbstractEntity{
 }
