@@ -15,20 +15,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UBSDTO {
-    @NotBlank(message = "Este campo não pode ser nullo")
+    @NotBlank(message = "Este campo não pode ser nulo")
     private String nomeArea;
 
-    @NotBlank(message = "Este campo não pode ser nullo")
+    @NotBlank(message = "Este campo não pode ser nulo")
     private String gerente;
 
-    @NotBlank(message = "Este campo não pode ser nullo")
+    @NotBlank(message = "Este campo não pode ser nulo")
     private Distrito distrito;
 
     private List<String> contatos;
 
     private List<SupervisorEntity> supervisor;
 
-    @NotBlank(message = "Este campo não pode ser nullo")
+    @NotBlank(message = "Este campo não pode ser nulo")
     private List<AreaEntity> areasUBS;
 
     private List<SolicitacaoEntity> solicitacoes;
