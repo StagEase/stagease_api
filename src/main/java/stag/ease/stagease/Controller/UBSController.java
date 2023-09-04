@@ -17,15 +17,9 @@ import java.util.List;
 @RequestMapping(value = "/ubs")
 public class UBSController {
     @Autowired
-    private final UBSService service;
+    private UBSService service;
     @Autowired
-    private final UBSRepository repository;
-
-    @Autowired
-    public UBSController(UBSRepository repository, UBSService service) {
-        this.repository = repository;
-        this.service = service;
-    }
+    private UBSRepository repository;
 
     @GetMapping("/list")
     public ResponseEntity<List<UBSEntity>> list() {
@@ -42,25 +36,21 @@ public class UBSController {
     }
 
     @PostMapping
-    public ResponseEntity<UBSEntity> create(@RequestBody @Validated final UBSDTO dto) {
-        UBSEntity entity = new UBSEntity();
+    public ResponseEntity<UBSDTO> create(@RequestBody @Validated final UBSDTO dto) {
         try {
-            entity = service.create(dto);
+            return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UBSEntity> update(@PathVariable("id") final Long id, @RequestBody @Validated final UBSDTO dto) {
-        UBSEntity entity = new UBSEntity();
+    public ResponseEntity<UBSDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final UBSDTO dto) {
         try {
-            entity = service.update(id, dto);
+            return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

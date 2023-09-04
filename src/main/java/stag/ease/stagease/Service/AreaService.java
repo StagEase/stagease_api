@@ -12,24 +12,10 @@ import stag.ease.stagease.Repository.AreaRepository;
 @Service
 public class AreaService {
     @Autowired
-    private final AreaRepository repository;
+    private AreaRepository repository;
     @Autowired
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
-    @Autowired
-    public AreaService(AreaRepository repository, ModelMapper modelMapper) {
-        this.repository = repository;
-        this.modelMapper = modelMapper;
-    }
-
-    //    @Transactional
-//    public AreaEntity create(AreaDTO dto) {
-//        AreaEntity entity = new AreaEntity();
-//        modelMapper.map(dto, entity);
-//        repository.save(entity);
-//
-//        return entity;
-//    }
     @Transactional
     public AreaDTO create(AreaDTO dto) {
         AreaEntity entity = modelMapper.map(dto, AreaEntity.class);
@@ -40,11 +26,12 @@ public class AreaService {
     }
 
     @Transactional
-    public AreaEntity update(Long id, AreaDTO dto) {
+    public AreaDTO update(Long id, AreaDTO dto) {
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, entity);
+        AreaDTO retornoDTO = new AreaDTO();
         repository.save(entity);
 
-        return entity;
+        return retornoDTO;
     }
 }

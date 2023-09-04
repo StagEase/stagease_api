@@ -21,12 +21,6 @@ public class AreaController {
     @Autowired
     private AreaRepository repository;
 
-    @Autowired
-    public AreaController(AreaRepository repository, AreaService service) {
-        this.repository = repository;
-        this.service = service;
-    }
-
     @GetMapping("/list")
     public ResponseEntity<List<AreaEntity>> list() {
         List<AreaEntity> lista = repository.findAll();
@@ -41,35 +35,23 @@ public class AreaController {
         return new ResponseEntity<>(entity, HttpStatus.FOUND);
     }
 
-//    @PostMapping
-//    public ResponseEntity<AreaEntity> create(@RequestBody @Validated final AreaDTO dto) {
-//        AreaEntity entity = new AreaEntity();
-//        try {
-//            entity = service.create(dto);
-//        } catch (Exception e) {
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-//        }
-//        return new ResponseEntity<>(entity, HttpStatus.CREATED);
-//    }
-
     @PostMapping
     public ResponseEntity<AreaDTO> create(@RequestBody @Validated final AreaDTO dto) {
         try {
-            return ResponseEntity.ok(service.create(dto));
+            return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AreaEntity> update(@PathVariable("id") final Long id, @RequestBody @Validated final AreaDTO dto) {
-        AreaEntity entity = new AreaEntity();
+    public ResponseEntity<AreaDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final AreaDTO dto) {
         try {
-            entity = service.update(id, dto);
+            return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{id}")

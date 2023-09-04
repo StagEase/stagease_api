@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stag.ease.stagease.DTO.AreaDTO;
 import stag.ease.stagease.DTO.UBSDTO;
 import stag.ease.stagease.Entity.UBSEntity;
 import stag.ease.stagease.Repository.UBSRepository;
@@ -11,31 +12,26 @@ import stag.ease.stagease.Repository.UBSRepository;
 @Service
 public class UBSService {
     @Autowired
-    private final UBSRepository repository;
+    private UBSRepository repository;
     @Autowired
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public UBSService(UBSRepository repository, ModelMapper modelMapper) {
-        this.repository = repository;
-        this.modelMapper = modelMapper;
-    }
+    private ModelMapper modelMapper;
 
     @Transactional
-    public UBSEntity create(UBSDTO dto) {
-        UBSEntity entity = new UBSEntity();
-        modelMapper.map(dto, entity);
+    public UBSDTO create(UBSDTO dto) {
+        UBSEntity entity = modelMapper.map(dto, UBSEntity.class);
+        UBSDTO retornoDTO = new UBSDTO();
         repository.save(entity);
 
-        return entity;
+        return retornoDTO;
     }
 
     @Transactional
-    public UBSEntity update(Long id, UBSDTO dto) {
+    public UBSDTO update(Long id, UBSDTO dto) {
         UBSEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, entity);
+        UBSDTO retornoDTO = new UBSDTO();
         repository.save(entity);
 
-        return entity;
+        return retornoDTO;
     }
 }
