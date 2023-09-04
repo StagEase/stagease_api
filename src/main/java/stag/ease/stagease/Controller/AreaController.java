@@ -17,9 +17,9 @@ import java.util.List;
 @RequestMapping(value = "/area")
 public class AreaController {
     @Autowired
-    private final AreaService service;
+    private AreaService service;
     @Autowired
-    private final AreaRepository repository;
+    private AreaRepository repository;
 
     @Autowired
     public AreaController(AreaRepository repository, AreaService service) {
@@ -41,15 +41,24 @@ public class AreaController {
         return new ResponseEntity<>(entity, HttpStatus.FOUND);
     }
 
+//    @PostMapping
+//    public ResponseEntity<AreaEntity> create(@RequestBody @Validated final AreaDTO dto) {
+//        AreaEntity entity = new AreaEntity();
+//        try {
+//            entity = service.create(dto);
+//        } catch (Exception e) {
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+//        }
+//        return new ResponseEntity<>(entity, HttpStatus.CREATED);
+//    }
+
     @PostMapping
-    public ResponseEntity<AreaEntity> create(@RequestBody @Validated final AreaDTO dto) {
-        AreaEntity entity = new AreaEntity();
+    public ResponseEntity<AreaDTO> create(@RequestBody @Validated final AreaDTO dto) {
         try {
-            entity = service.create(dto);
+            return ResponseEntity.ok(service.create(dto));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

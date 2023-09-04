@@ -10,15 +10,20 @@ import lombok.NoArgsConstructor;
 import stag.ease.stagease.Entity.SolicitacaoEntity;
 import stag.ease.stagease.Entity.UBSEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor @NoArgsConstructor
-public class AreaDTO extends AbstractDTO{
-    @NotBlank(message = "Este campo não pode ser nullo")
+public class AreaDTO{
+   // @NotBlank(message = "Este campo não pode ser nullo")
+    private Long id;
+    private LocalDateTime cadastro;
+    private LocalDateTime atualizacao;
+    private boolean ativo;
     private String nomeArea;
-
-    private List<UBSEntity> ubsList;
-
-    private List<SolicitacaoEntity> solicitacaoList;
+//
+//    private List<UBSEntity> ubsList;
+//
+//    private List<SolicitacaoEntity> solicitacaoList;
 }

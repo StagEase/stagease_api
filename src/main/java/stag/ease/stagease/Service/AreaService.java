@@ -1,12 +1,13 @@
 package stag.ease.stagease.Service;
 
-import stag.ease.stagease.DTO.AreaDTO;
-import stag.ease.stagease.Entity.AreaEntity;
-import stag.ease.stagease.Repository.AreaRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stag.ease.stagease.DTO.AreaDTO;
+import stag.ease.stagease.Entity.AreaEntity;
+import stag.ease.stagease.Repository.AreaRepository;
 
 @Service
 public class AreaService {
@@ -21,13 +22,21 @@ public class AreaService {
         this.modelMapper = modelMapper;
     }
 
+    //    @Transactional
+//    public AreaEntity create(AreaDTO dto) {
+//        AreaEntity entity = new AreaEntity();
+//        modelMapper.map(dto, entity);
+//        repository.save(entity);
+//
+//        return entity;
+//    }
     @Transactional
-    public AreaEntity create(AreaDTO dto) {
-        AreaEntity entity = new AreaEntity();
-        modelMapper.map(dto, entity);
+    public AreaDTO create(AreaDTO dto) {
+        AreaEntity entity = modelMapper.map(dto, AreaEntity.class);
+        AreaDTO retornoDTO = new AreaDTO();
         repository.save(entity);
 
-        return entity;
+        return retornoDTO;
     }
 
     @Transactional

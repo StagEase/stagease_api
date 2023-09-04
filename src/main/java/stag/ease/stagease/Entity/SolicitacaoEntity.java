@@ -15,11 +15,11 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
 public class SolicitacaoEntity extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ubs_id", referencedColumnName = "id", nullable = false)
     private UBSEntity ubs;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "area_id", referencedColumnName = "id", nullable = false)
     private AreaEntity area;
 
