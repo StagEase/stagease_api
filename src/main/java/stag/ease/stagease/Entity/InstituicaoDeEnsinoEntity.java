@@ -1,5 +1,6 @@
 package stag.ease.stagease.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +26,6 @@ public class InstituicaoDeEnsinoEntity{
     private String nomeIE;
 
     @OneToMany(mappedBy = "instituicaoDeEnsino")
+    @JsonIgnore
     private List<SolicitacaoEntity> solicitacaoList;
 }
