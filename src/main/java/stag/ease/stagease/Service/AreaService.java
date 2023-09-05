@@ -20,11 +20,15 @@ public class AreaService {
 
     @Transactional
     public AreaDTO findByNomeArea(String nomeArea) {
+        //Busca uma entidade no repositório de acordo com o nome informado
+        //Em seguida cria uma dto de acordo do dados da entidade
         return modelMapper.map(repository.findByNomeArea(nomeArea), AreaDTO.class);
     }
 
     @Transactional
     public List<AreaDTO> list() {
+        //Busca todas entidades no repositório
+        //Em seguida, tranforma cada uma delas em dto de acordo com os dados da entidade
         return repository.findAll().stream()
                 .map(entity -> modelMapper.map(entity, AreaDTO.class))
                 .collect(Collectors.toList());
@@ -34,17 +38,19 @@ public class AreaService {
     public AreaDTO create(AreaDTO dto) {
         // Cria uma entidade que recebe os valores da dto da requisição
         // Durante a transformação da entity para dto ele salva a entidade no banco
-        // Por fim cria uma dto que recebe os valores da entidade que foi salva
-        AreaEntity entity = repository.save(modelMapper.map(dto, AreaEntity.class));
-        return new AreaDTO(entity.getId(), entity.isAtivo(), entity.getNomeArea(), entity.getUbsList(), entity.getSolicitacaoList());
-        //return modelMapper.map(repository.save(modelMapper.map(dto, AreaEntity.class)), AreaDTO.class);
+        // Retorna uma dto que recebe os valores da entidade que foi salva
+        return modelMapper.map(repository.save(modelMapper.map(dto, AreaEntity.class)), AreaDTO.class);
     }
 
     @Transactional
     public AreaDTO update(Long id, AreaDTO dto) {
+        // Cria uma entidade que recebe o retorno da busca do id no repositório
+        // Retorna erro caso nada for encontrado
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
+        // Copia os dados da dto recebida para a entidade, ao mesmo tempo que salva a entidade
         modelMapper.map(dto, repository.save(entity));
 
-        return new AreaDTO(entity.getId(), entity.isAtivo(), entity.getNomeArea(), entity.getUbsList(), entity.getSolicitacaoList());
+        //Retorna uma dto que recebe os valores da entidade que foi salva
+        return modelMapper.map(entity, AreaDTO.class);
     }
 }
