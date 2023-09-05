@@ -36,7 +36,7 @@ public class AreaService {
         // Durante a transformação da entity para dto ele salva a entidade no banco
         // Por fim cria uma dto que recebe os valores da entidade que foi salva
         AreaEntity entity = repository.save(modelMapper.map(dto, AreaEntity.class));
-        return new AreaDTO(entity.getId(), entity.getNomeArea());
+        return new AreaDTO(entity.getId(), entity.isAtivo(), entity.getNomeArea(), entity.getUbsList(), entity.getSolicitacaoList());
     }
 
     @Transactional
@@ -44,6 +44,6 @@ public class AreaService {
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, repository.save(entity));
 
-        return new AreaDTO(entity.getId(), entity.getNomeArea());
+        return new AreaDTO(entity.getId(), entity.isAtivo(), entity.getNomeArea(), entity.getUbsList(), entity.getSolicitacaoList());
     }
 }

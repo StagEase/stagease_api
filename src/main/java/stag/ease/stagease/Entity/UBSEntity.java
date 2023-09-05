@@ -14,7 +14,14 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "ubs", schema = "stagease")
-public class UBSEntity extends AbstractEntity{
+public class UBSEntity {
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, unique = true)
+    private Long id;
+
+    @Column(nullable = false)
+    private boolean ativo;
+
     @Column(length = 50, nullable = false, unique = true)
     private String nomeUBS;
 
@@ -26,7 +33,7 @@ public class UBSEntity extends AbstractEntity{
     private Distrito distrito;
 
     @Column
-    private List<String> contatos;
+    private List<String> contatoList;
 
     @ManyToMany
     @JoinTable(name = "ubs_supervisor",
@@ -41,6 +48,7 @@ public class UBSEntity extends AbstractEntity{
     private List<AreaEntity> areaList;
 
     @OneToMany(mappedBy = "ubs")
+    @JsonIgnore
     private List<SolicitacaoEntity> solicitacaoList;
 
     @Column

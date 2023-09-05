@@ -4,7 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stag.ease.stagease.DTO.AreaDTO;
 import stag.ease.stagease.DTO.UBSDTO;
+import stag.ease.stagease.Entity.AreaEntity;
 import stag.ease.stagease.Entity.UBSEntity;
 import stag.ease.stagease.Repository.UBSRepository;
 
@@ -32,7 +34,14 @@ public class UBSService {
 
     @Transactional
     public UBSDTO create(UBSDTO dto) {
-        return modelMapper.map(repository.save(modelMapper.map(dto, UBSEntity.class)), UBSDTO.class);
+        // Cria uma entidade que recebe os valores da dto da requisição
+        // Durante a transformação da entity para dto ele salva a entidade no banco
+        // Por fim cria uma dto que recebe os valores da entidade que foi salva
+        UBSEntity entity = repository.save(modelMapper.map(dto, UBSEntity.class));
+        return new UBSDTO(entity.getId(), entity.isAtivo(), entity.getNomeUBS(),
+                entity.getGerente(), entity.getDistrito(), entity.getContatoList(),
+                entity.getSupervisorList(), entity.getAreaList(),
+                entity.getSolicitacaoList(), entity.getDescricao());
     }
 
     @Transactional
@@ -40,6 +49,9 @@ public class UBSService {
         UBSEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, repository.save(entity));
 
-        return modelMapper.map(entity, UBSDTO.class);
+        return new UBSDTO(entity.getId(), entity.isAtivo(), entity.getNomeUBS(),
+                entity.getGerente(), entity.getDistrito(), entity.getContatoList(),
+                entity.getSupervisorList(), entity.getAreaList(),
+                entity.getSolicitacaoList(), entity.getDescricao());
     }
 }

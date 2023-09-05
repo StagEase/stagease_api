@@ -13,7 +13,13 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor @NoArgsConstructor
-public class UBSDTO extends AbstractDTO{
+public class UBSDTO {
+    @NotBlank(message = "Este campo não pode ser nulo")
+    private Long id;
+
+    @NotBlank(message = "Este campo não pode ser nulo")
+    private boolean ativo;
+
     @NotBlank(message = "Este campo não pode ser nulo")
     private String nomeArea;
 
@@ -23,12 +29,12 @@ public class UBSDTO extends AbstractDTO{
     @NotBlank(message = "Este campo não pode ser nulo")
     private Distrito distrito;
 
-    private List<String> contatos;
+    private List<String> contatoList;
 
-    private List<SupervisorEntity> supervisor;
+    private List<SupervisorEntity> supervisorList;
 
     @NotBlank(message = "Este campo não pode ser nulo")
-    private List<AreaEntity> areasUBS;
+    private List<AreaEntity> areaList;
 
     private List<SolicitacaoEntity> solicitacoes;
 

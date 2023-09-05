@@ -24,7 +24,7 @@ public class SolicitacaoDTO {
 //    @NotBlank(message = "Este campo não pode ser nulo")
     private int qntdEstagiarios;
 //    @NotBlank(message = "Este campo não pode ser nulo")
-    private InstituicaiDeEnsinoDTO instituicaiDeEnsino;
+    private InstituicaoDeEnsinoDTO instituicaoDeEnsino;
 //    @NotBlank(message = "Este campo não pode ser nulo")
     private LocalDate dataInicio;
 //    @NotBlank(message = "Este campo não pode ser nulo")

@@ -15,15 +15,19 @@ import java.util.List;
 @Table(name = "area", schema = "stagease")
 public class AreaEntity {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, unique = true)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private boolean ativo;
 
     @Column(length = 50, nullable = false, unique = true)
     private String nomeArea;
 
-    //@ManyToMany(mappedBy = "areaList")
-    //private List<UBSEntity> ubsList;
+    @ManyToMany(mappedBy = "areaList")
+    private List<UBSEntity> ubsList;
 
-    //@OneToMany(mappedBy = "area")
-    //@JsonIgnore
-    //private List<SolicitacaoEntity> solicitacaoList;
+    @OneToMany(mappedBy = "area")
+    @JsonIgnore
+    private List<SolicitacaoEntity> solicitacaoList;
 }

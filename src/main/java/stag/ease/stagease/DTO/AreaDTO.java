@@ -11,18 +11,17 @@ import stag.ease.stagease.Entity.UBSEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class AreaDTO {
     private Long id;
 
+    private boolean ativo;
+
     @NotBlank(message = "Este campo não pode ser nulo")
     private String nomeArea;
 
-    public AreaDTO(Long id, LocalDateTime cadastro, LocalDateTime atualizacao, boolean ativo, String nomeArea) {
-    }
+    private List<UBSEntity> ubsList;
 
-    //private List<UBSEntity> ubsList;
-
-    //private List<SolicitacaoEntity> solicitacaoList;
+    private List<SolicitacaoEntity> solicitacaoList;
 }
