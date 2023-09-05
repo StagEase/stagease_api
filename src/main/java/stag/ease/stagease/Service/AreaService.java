@@ -39,7 +39,7 @@ public class AreaService {
 
     @Transactional
     public AreaDTO update(Long id, AreaDTO dto) {
-AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
+        AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
 
         return modelMapper.map(repository.save(modelMapper.map(dto, AreaEntity.class)), AreaDTO.class);
     }
