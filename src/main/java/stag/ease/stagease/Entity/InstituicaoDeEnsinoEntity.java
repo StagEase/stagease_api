@@ -13,14 +13,7 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "instituicao_de_ensino", schema = "stagease")
-public class InstituicaoDeEnsinoEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
-    private boolean ativo;
+public class InstituicaoDeEnsinoEntity extends AbstractEntity{
 
     @Column(nullable = false, unique = true)
     private String nomeIE;

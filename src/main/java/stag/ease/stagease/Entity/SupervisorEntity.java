@@ -13,14 +13,7 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "supervisor", schema = "stagease")
-public class SupervisorEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
-    private boolean ativo;
+public class SupervisorEntity extends AbstractEntity{
 
     @Column(nullable = false)
     private String nomeSupervisor;
