@@ -14,7 +14,15 @@ import java.time.LocalTime;
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
-public class SolicitacaoEntity extends AbstractEntity {
+public class SolicitacaoEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, unique = true)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private boolean ativo;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ubs_id", referencedColumnName = "id", nullable = false)
     private UBSEntity ubs;

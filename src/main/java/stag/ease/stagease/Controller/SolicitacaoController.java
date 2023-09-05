@@ -1,6 +1,7 @@
 package stag.ease.stagease.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -32,35 +33,32 @@ public class SolicitacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<SolicitacaoEntity> create(@RequestBody @Validated final SolicitacaoDTO dto) {
-        SolicitacaoEntity entity = new SolicitacaoEntity();
+    public ResponseEntity<SolicitacaoDTO> create(@RequestBody @Validated final SolicitacaoDTO dto) {
         try {
-            entity = service.create(dto);
+            return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SolicitacaoEntity> update(@PathVariable("id") final Long id, @RequestBody @Validated final SolicitacaoDTO dto) {
-        SolicitacaoEntity entity = new SolicitacaoEntity();
+    public ResponseEntity<SolicitacaoDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final SolicitacaoDTO dto) {
         try {
-            entity = service.update(id, dto);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-        return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id){
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
         try {
-            SolicitacaoEntity entity = repository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel encontrar o id informado"));
+            SolicitacaoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel encontrar o id informado"));
             entity.setAtivo(false);
-        }catch (RuntimeException e){
+            repository.save(entity);
+            return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Flag desativada"));
+        } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Flag desativada"));
     }
 }
