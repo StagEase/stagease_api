@@ -31,7 +31,7 @@ public class AreaController {
     }
 
     @GetMapping
-    public ResponseEntity<AreaDTO> searchByNomeArea(@RequestParam("nome") final String nome) {
+    public ResponseEntity<AreaDTO> searchByNomeArea(@RequestParam("nome") String nome) {
         try {
             return new ResponseEntity<>(service.findByNomeArea(nome), HttpStatus.OK);
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class AreaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AreaDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final AreaDTO dto) {
+    public ResponseEntity<AreaDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated AreaDTO dto) {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class AreaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
             repository.delete(entity);

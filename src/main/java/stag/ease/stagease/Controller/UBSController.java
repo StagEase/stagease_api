@@ -31,7 +31,7 @@ public class UBSController {
     }
 
     @GetMapping
-    public ResponseEntity<UBSDTO> searchByNomeUBS(@RequestParam("nome") final String nome) {
+    public ResponseEntity<UBSDTO> searchByNomeUBS(@RequestParam("nome") String nome) {
         try {
             return new ResponseEntity<>(service.findByNomeUBS(nome), HttpStatus.OK);
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class UBSController {
     }
 
     @PostMapping
-    public ResponseEntity<UBSDTO> create(@RequestBody @Validated final UBSDTO dto) {
+    public ResponseEntity<UBSDTO> create(@RequestBody @Validated UBSDTO dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class UBSController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UBSDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final UBSDTO dto) {
+    public ResponseEntity<UBSDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated UBSDTO dto) {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class UBSController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             UBSEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
             repository.delete(entity);
