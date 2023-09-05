@@ -46,6 +46,6 @@ public class AreaService {
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, repository.save(entity));
 
-        return modelMapper.map(entity, AreaDTO.class);
+        return new AreaDTO(entity.getId(), entity.getNomeArea());
     }
 }
