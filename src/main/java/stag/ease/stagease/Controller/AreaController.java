@@ -22,21 +22,17 @@ public class AreaController {
     private AreaRepository repository;
 
     @GetMapping("/list")
-    public ResponseEntity<List<AreaEntity>> list() {
-        List<AreaEntity> lista = repository.findAll();
-
-        return new ResponseEntity<>(lista, HttpStatus.FOUND);
+    public ResponseEntity<List<AreaDTO>> list() {
+        return new ResponseEntity<>(service.list(), HttpStatus.FOUND);
     }
 
     @GetMapping
-    public ResponseEntity<AreaEntity> searchByNomeArea(@RequestParam("nome") final String nome) {
-        AreaEntity entity = repository.findByNomeArea(nome);
-
-        return new ResponseEntity<>(entity, HttpStatus.FOUND);
+    public ResponseEntity<AreaDTO> searchByNomeArea(@RequestParam("nome") final String nome) {
+        return new ResponseEntity<>(service.findByNomeArea(nome), HttpStatus.FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<AreaDTO> create(@RequestBody @Validated final AreaDTO dto) {
+    public ResponseEntity<AreaDTO> create(@RequestBody @Validated AreaDTO dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
