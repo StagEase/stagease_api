@@ -11,7 +11,7 @@ import stag.ease.stagease.Entity.UBSEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter @Setter
+@Getter
 @AllArgsConstructor @NoArgsConstructor
 public class AreaDTO {
     private Long id;

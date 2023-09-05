@@ -22,17 +22,21 @@ public class UBSController {
     private UBSRepository repository;
 
     @GetMapping("/list")
-    public ResponseEntity<List<UBSEntity>> list() {
-        List<UBSEntity> lista = repository.findAll();
-
-        return new ResponseEntity<>(lista, HttpStatus.FOUND);
+    public ResponseEntity<List<UBSDTO>> list() {
+        try {
+            return new ResponseEntity<>(service.list(), HttpStatus.FOUND);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping
-    public ResponseEntity<UBSEntity> searchByNomeUBS(@RequestParam("nome") final String nome) {
-        UBSEntity entity = repository.findByNomeUBS(nome);
-
-        return new ResponseEntity<>(entity, HttpStatus.FOUND);
+    public ResponseEntity<UBSDTO> searchByNomeUBS(@RequestParam("nome") final String nome) {
+        try {
+            return new ResponseEntity<>(service.findByNomeUBS(nome), HttpStatus.FOUND);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping

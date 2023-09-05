@@ -23,12 +23,20 @@ public class AreaController {
 
     @GetMapping("/list")
     public ResponseEntity<List<AreaDTO>> list() {
-        return new ResponseEntity<>(service.list(), HttpStatus.FOUND);
+        try {
+            return new ResponseEntity<>(service.list(), HttpStatus.FOUND);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping
     public ResponseEntity<AreaDTO> searchByNomeArea(@RequestParam("nome") final String nome) {
-        return new ResponseEntity<>(service.findByNomeArea(nome), HttpStatus.FOUND);
+        try {
+            return new ResponseEntity<>(service.findByNomeArea(nome), HttpStatus.FOUND);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping

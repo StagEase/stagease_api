@@ -21,7 +21,7 @@ public class UBSService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public UBSDTO findByNomeArea(String nomeUBS) {
+    public UBSDTO findByNomeUBS(String nomeUBS) {
         return modelMapper.map(repository.findByNomeUBS(nomeUBS), UBSDTO.class);
     }
 
