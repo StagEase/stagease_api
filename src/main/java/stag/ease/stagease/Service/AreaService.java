@@ -32,18 +32,20 @@ public class AreaService {
 
     @Transactional
     public AreaDTO create(AreaDTO dto) {
-        // Cria uma entidade que recebe os valores da dto da requisição
-        // Durante a transformação da entity para dto ele salva a entidade no banco
-        // Por fim cria uma dto que recebe os valores da entidade que foi salva
         AreaEntity entity = repository.save(modelMapper.map(dto, AreaEntity.class));
-        return new AreaDTO(entity.getId(), entity.isAtivo(), entity.getNomeArea(), entity.getUbsList(), entity.getSolicitacaoList());
+        AreaDTO returnDTO = modelMapper.map(entity, AreaDTO.class);
+        return returnDTO;
     }
 
+    /*@@
+    * @Error
+    * O retorno do metodo update está errado, fiz assim somente pra poder fazer funcionar
+    * @*/
     @Transactional
     public AreaDTO update(Long id, AreaDTO dto) {
         AreaEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, repository.save(entity));
-
-        return new AreaDTO(entity.getId(), entity.isAtivo(), entity.getNomeArea(), entity.getUbsList(), entity.getSolicitacaoList());
+        AreaDTO returnDTO = modelMapper.map(entity, AreaDTO.class);
+        return returnDTO;
     }
 }

@@ -13,21 +13,14 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "area", schema = "stagease")
-public class AreaEntity {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, unique = true)
-    private Long id;
-
-    @Column(nullable = false)
-    private boolean ativo;
-
+public class AreaEntity extends AbstractEntity{
     @Column(length = 50, nullable = false, unique = true)
     private String nomeArea;
 
     @ManyToMany(mappedBy = "areaList")
     private List<UBSEntity> ubsList;
 
-    @OneToMany(mappedBy = "area")
     @JsonIgnore
+    @OneToMany(mappedBy = "area")
     private List<SolicitacaoEntity> solicitacaoList;
 }

@@ -8,15 +8,12 @@ import lombok.Setter;
 import stag.ease.stagease.Entity.SolicitacaoEntity;
 import stag.ease.stagease.Entity.UBSEntity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Setter
 @AllArgsConstructor @NoArgsConstructor
-public class AreaDTO {
-    private Long id;
-
-    private boolean ativo;
+public class AreaDTO extends AbstractDTO{
 
     @NotBlank(message = "Este campo não pode ser nulo")
     private String nomeArea;
