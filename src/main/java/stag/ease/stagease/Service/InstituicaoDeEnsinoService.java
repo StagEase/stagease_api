@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.DTO.InstituicaoDeEnsinoDTO;
-import stag.ease.stagease.DTO.SolicitacaoDTO;
 import stag.ease.stagease.Entity.InstituicaoDeEnsinoEntity;
-import stag.ease.stagease.Entity.SolicitacaoEntity;
 import stag.ease.stagease.Repository.InstituicaoDeEnsinoRepository;
 
 @Service
