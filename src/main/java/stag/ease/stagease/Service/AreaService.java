@@ -37,6 +37,7 @@ public class AreaService {
         // Por fim cria uma dto que recebe os valores da entidade que foi salva
         AreaEntity entity = repository.save(modelMapper.map(dto, AreaEntity.class));
         return new AreaDTO(entity.getId(), entity.isAtivo(), entity.getNomeArea(), entity.getUbsList(), entity.getSolicitacaoList());
+        //return modelMapper.map(repository.save(modelMapper.map(dto, AreaEntity.class)), AreaDTO.class);
     }
 
     @Transactional

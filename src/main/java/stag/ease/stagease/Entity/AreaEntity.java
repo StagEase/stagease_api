@@ -27,7 +27,7 @@ public class AreaEntity {
     @ManyToMany(mappedBy = "areaList")
     private List<UBSEntity> ubsList;
 
-    @OneToMany(mappedBy = "area")
     @JsonIgnore
+    @OneToMany(mappedBy = "area")
     private List<SolicitacaoEntity> solicitacaoList;
 }

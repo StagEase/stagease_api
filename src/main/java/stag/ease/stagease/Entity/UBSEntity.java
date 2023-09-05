@@ -47,8 +47,8 @@ public class UBSEntity {
             inverseJoinColumns = @JoinColumn(name = "area_id"))
     private List<AreaEntity> areaList;
 
-    @OneToMany(mappedBy = "ubs")
     @JsonIgnore
+    @OneToMany(mappedBy = "ubs")
     private List<SolicitacaoEntity> solicitacaoList;
 
     @Column
