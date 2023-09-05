@@ -18,7 +18,7 @@ public class AreaEntity {
     @Column(nullable = false, unique = true)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private boolean ativo;
 
     @Column(length = 50, nullable = false, unique = true)

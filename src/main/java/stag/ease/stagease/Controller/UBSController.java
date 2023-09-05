@@ -24,18 +24,18 @@ public class UBSController {
     @GetMapping("/list")
     public ResponseEntity<List<UBSDTO>> list() {
         try {
-            return new ResponseEntity<>(service.list(), HttpStatus.FOUND);
+            return new ResponseEntity<>(service.list(), HttpStatus.OK);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
     @GetMapping
     public ResponseEntity<UBSDTO> searchByNomeUBS(@RequestParam("nome") final String nome) {
         try {
-            return new ResponseEntity<>(service.findByNomeUBS(nome), HttpStatus.FOUND);
+            return new ResponseEntity<>(service.findByNomeUBS(nome), HttpStatus.OK);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
