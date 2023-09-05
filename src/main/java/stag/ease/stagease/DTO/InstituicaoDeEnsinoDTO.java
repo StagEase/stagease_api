@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class InstituicaiDeEnsinoDTO {
+public class InstituicaoDeEnsinoDTO {
     private Long id;
     private boolean ativo;
     //    @NotBlank(message = "Este campo não pode ser nulo")
