@@ -10,12 +10,22 @@ import stag.ease.stagease.DTO.SolicitacaoDTO;
 import stag.ease.stagease.Entity.SolicitacaoEntity;
 import stag.ease.stagease.Repository.SolicitacaoRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class SolicitacaoService {
     @Autowired
     private SolicitacaoRepository repository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Transactional
+    public List<SolicitacaoDTO> getList() {
+        return repository.findAll().stream()
+                .map(entity -> modelMapper.map(entity, SolicitacaoDTO.class))
+                .collect(Collectors.toList());
+    }
 
     @Transactional
     public SolicitacaoDTO create(SolicitacaoDTO dto) {
@@ -32,5 +42,12 @@ public class SolicitacaoService {
         SolicitacaoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, repository.save(entity));
         return modelMapper.map(entity, SolicitacaoDTO.class);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        SolicitacaoEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
+        entity.setAtivo(false);
+        repository.save(entity);
     }
 }

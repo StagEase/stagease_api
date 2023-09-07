@@ -10,18 +10,13 @@ import stag.ease.stagease.Entity.Enum.Situacao;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
-public class SolicitacaoEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
-    private boolean ativo;
+public class SolicitacaoEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ubs_id", referencedColumnName = "id", nullable = false)
@@ -31,14 +26,14 @@ public class SolicitacaoEntity {
     @JoinColumn(name = "area_id", referencedColumnName = "id", nullable = false)
     private AreaEntity area;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "supervisor_id", referencedColumnName = "id", nullable = false)
     private SupervisorEntity supervisor;
 
     @Column(nullable = false)
     private int qntdEstagiarios;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "instituicaoDeEnsino_id", referencedColumnName = "id", nullable = false)
     private InstituicaoDeEnsinoEntity instituicaoDeEnsino;
 

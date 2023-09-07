@@ -12,7 +12,7 @@ public class Mapper {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+        //modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 
         // Configuração de mapeamento personalizado para AbstractEntity e AbstractDTO
         modelMapper.typeMap(AbstractEntity.class, AbstractDTO.class)

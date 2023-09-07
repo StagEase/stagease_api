@@ -17,19 +17,19 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/solicitacao")
 public class SolicitacaoController {
-    private final SolicitacaoService service;
-    private final SolicitacaoRepository repository;
-
     @Autowired
-    public SolicitacaoController(SolicitacaoService service, SolicitacaoRepository repository) {
-        this.service = service;
-        this.repository = repository;
-    }
+    private SolicitacaoService service;
+    @Autowired
+    private SolicitacaoRepository repository;
+
 
     @GetMapping("/list")
-    public ResponseEntity<List<SolicitacaoEntity>> list() {
-        List<SolicitacaoEntity> lista = repository.findAll();
-        return new ResponseEntity<>(lista, HttpStatus.FOUND);
+    public List<SolicitacaoDTO> list() {
+        try {
+            return service.getList();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -53,9 +53,7 @@ public class SolicitacaoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
         try {
-            SolicitacaoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel encontrar o id informado"));
-            entity.setAtivo(false);
-            repository.save(entity);
+            service.delete(id);
             return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Flag desativada"));
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());

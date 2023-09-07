@@ -4,17 +4,17 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import stag.ease.stagease.Entity.Enum.Situacao;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SolicitacaoDTO {
-    private Long id;
-    private boolean ativo;
+public class SolicitacaoDTO extends AbstractDTO{
 //    @NotBlank(message = "Este campo não pode ser nulo")
     private UBSDTO ubs;
 //    @NotBlank(message = "Este campo não pode ser nulo")
@@ -33,8 +33,6 @@ public class SolicitacaoDTO {
     private LocalTime inicioExpediente;
 //    @NotBlank(message = "Este campo não pode ser nulo")
     private LocalTime fimExpediente;
-//    @NotBlank(message = "Este campo não pode ser nulo")
     private Situacao situacao;
     private String descricao;
-
 }
