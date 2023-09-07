@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import stag.ease.stagease.DTO.AreaDTO;
 import stag.ease.stagease.DTO.UBSDTO;
 import stag.ease.stagease.Entity.AreaEntity;
@@ -21,12 +23,10 @@ public class AreaService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public AreaDTO findByNomeArea(String nomeArea) {
-        return modelMapper.map(repository.findByNomeArea(nomeArea), AreaDTO.class);
-    }
+    public AreaDTO findByNomeArea(String nomeArea) { return modelMapper.map(repository.findByNomeArea(nomeArea), AreaDTO.class); }
 
     @Transactional
-    public List<AreaDTO> list() {
+    public List<AreaDTO> findAll() {
         return repository.findAll().stream()
                 .map(entity -> modelMapper.map(entity, AreaDTO.class))
                 .collect(Collectors.toList());

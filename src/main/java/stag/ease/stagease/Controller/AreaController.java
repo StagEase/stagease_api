@@ -21,19 +21,19 @@ public class AreaController {
     @Autowired
     private AreaRepository repository;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<AreaDTO>> list() {
+    @GetMapping("/nome")
+    public ResponseEntity<AreaDTO> findByNomeArea(@RequestParam("nome") String nome) {
         try {
-            return new ResponseEntity<>(service.list(), HttpStatus.OK);
+            return new ResponseEntity<>(service.findByNomeArea(nome), HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
-    @GetMapping
-    public ResponseEntity<AreaDTO> searchByNomeArea(@RequestParam("nome") String nome) {
+    @GetMapping("/list")
+    public ResponseEntity<List<AreaDTO>> findAll() {
         try {
-            return new ResponseEntity<>(service.findByNomeArea(nome), HttpStatus.OK);
+            return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -53,7 +53,7 @@ public class AreaController {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Erro " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

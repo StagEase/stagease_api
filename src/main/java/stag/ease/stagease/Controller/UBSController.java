@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import stag.ease.stagease.DTO.AreaDTO;
 import stag.ease.stagease.DTO.UBSDTO;
 import stag.ease.stagease.Entity.UBSEntity;
 import stag.ease.stagease.Repository.UBSRepository;
@@ -21,19 +22,19 @@ public class UBSController {
     @Autowired
     private UBSRepository repository;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<UBSDTO>> list() {
+    @GetMapping("/nome")
+    public ResponseEntity<UBSDTO> findByNomeUBS(@RequestParam("nome") String nome) {
         try {
-            return new ResponseEntity<>(service.list(), HttpStatus.OK);
+            return new ResponseEntity<>(service.findByNomeUBS(nome), HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
-    @GetMapping
-    public ResponseEntity<UBSDTO> searchByNomeUBS(@RequestParam("nome") String nome) {
+    @GetMapping("/list")
+    public ResponseEntity<List<UBSDTO>> list() {
         try {
-            return new ResponseEntity<>(service.findByNomeUBS(nome), HttpStatus.OK);
+            return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

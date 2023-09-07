@@ -26,7 +26,7 @@ public class UBSService {
     }
 
     @Transactional
-    public List<UBSDTO> list() {
+    public List<UBSDTO> findAll() {
         return repository.findAll().stream()
                 .map(entity -> modelMapper.map(entity, UBSDTO.class))
                 .collect(Collectors.toList());
