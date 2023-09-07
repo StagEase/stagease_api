@@ -32,7 +32,7 @@ public class UBSController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<UBSDTO>> list() {
+    public ResponseEntity<List<UBSDTO>> findAll() {
         try {
             return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
         } catch (Exception e) {

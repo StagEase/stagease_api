@@ -34,7 +34,7 @@ public class AreaTest {
 
     AreaEntity area = new AreaEntity();
     AreaDTO areaDTO = new AreaDTO();
-    List<AreaDTO> areas = new ArrayList<>();
+    List<AreaDTO> areaDTOList = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -46,10 +46,10 @@ public class AreaTest {
         areaDTO.setId(1L);
         areaDTO.setNomeArea("Exemplo area");
 
-        areas.add(areaDTO);
+        areaDTOList.add(areaDTO);
 
         when(repository.findById(1L)).thenReturn(Optional.of(area));
-        when(service.findAll()).thenReturn(areas);
+        when(service.findAll()).thenReturn(areaDTOList);
         when(controller.findByNomeArea("Exemplo area")).thenReturn(ResponseEntity.ok(areaDTO));
     }
 
@@ -67,10 +67,10 @@ public class AreaTest {
         exemploAreaDTO.setId(1L);
         exemploAreaDTO.setNomeArea("Exemplo area");
 
-        List<AreaDTO> areas = new ArrayList<>();
-        areas.add(exemploAreaDTO);
+        List<AreaDTO> areaListFindAll = new ArrayList<>();
+        areaListFindAll.add(exemploAreaDTO);
 
-        when(controller.findAll()).thenReturn(ResponseEntity.ok(areas));
+        when(controller.findAll()).thenReturn(ResponseEntity.ok(areaListFindAll));
 
         List<AreaDTO> allLembretes = controller.findAll().getBody();
         assertThat(allLembretes).isNotNull();

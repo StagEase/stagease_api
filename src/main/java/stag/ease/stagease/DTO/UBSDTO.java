@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 public class UBSDTO extends AbstractDTO{
     @NotBlank(message = "Este campo não pode ser nulo")
-    private String nomeArea;
+    private String nomeUBS;
 
     @NotBlank(message = "Este campo não pode ser nulo")
     private String gerente;
