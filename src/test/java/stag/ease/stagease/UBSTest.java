@@ -76,4 +76,16 @@ public class UBSTest {
         assertThat(ubsList).isNotNull();
         assertThat(ubsList.size()).isEqualTo(1);
     }
+
+    @Test
+    void testCreate() {
+        UBSDTO ubsDTO = new UBSDTO();
+        ubsDTO.setNomeUBS("Nova ubs");
+
+        when(controller.create(ubsDTO)).thenReturn(ResponseEntity.ok(ubsDTO));
+
+        ResponseEntity<UBSDTO> response = controller.create(ubsDTO);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(ubsDTO);
+    }
 }
