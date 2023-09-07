@@ -53,5 +53,11 @@ public class UBSTest {
         when(controller.findByNomeUBS("Exemplo ubs")).thenReturn(ResponseEntity.ok(ubsDTO));
     }
 
-
+    @Test
+    void testFindByNomeUBS() {
+        var ubsDTO = controller.findByNomeUBS("Exemplo ubs");
+        String nome = ubsDTO.getBody().getNomeUBS();
+        System.out.println(nome);
+        Assertions.assertEquals("Exemplo ubs", nome);
+    }
 }
