@@ -17,23 +17,19 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/supervisor")
 public class SupervisorController {
-    private final SupervisorService service;
-    private final SupervisorRepository repository;
-
     @Autowired
-    public SupervisorController(SupervisorService service, SupervisorRepository repository) {
-        this.service = service;
-        this.repository = repository;
-    }
+    private SupervisorService service;
+    @Autowired
+    private SupervisorRepository repository;
 
     @GetMapping("/list")
     public ResponseEntity<List<SupervisorEntity>> list() {
         List<SupervisorEntity> lista = repository.findAll();
-        return new ResponseEntity<>(lista, HttpStatus.FOUND);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<SupervisorDTO> create(@RequestBody @Validated final SupervisorDTO dto) {
+    public ResponseEntity<SupervisorDTO> create(@RequestBody @Validated SupervisorDTO dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -42,16 +38,16 @@ public class SupervisorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SupervisorDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final SupervisorDTO dto) {
+    public ResponseEntity<SupervisorDTO> update(@PathVariable("id") Long id, @RequestBody @Validated SupervisorDTO dto) {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             SupervisorEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel encontrar o id informado"));
             entity.setAtivo(false);

@@ -10,14 +10,11 @@ import stag.ease.stagease.Entity.Enum.Situacao;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
 public class SolicitacaoEntity extends AbstractEntity {
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ubs_id", referencedColumnName = "id", nullable = false)
     private UBSEntity ubs;

@@ -15,25 +15,21 @@ import stag.ease.stagease.Service.InstituicaoDeEnsinoService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/instituicaodeensino")
+@RequestMapping(value = "/instituicao_de_ensino")
 public class InstituicaoDeEnsinoController {
-    private final InstituicaoDeEnsinoService service;
-    private final InstituicaoDeEnsinoRepository repository;
-
     @Autowired
-    public InstituicaoDeEnsinoController(InstituicaoDeEnsinoService service, InstituicaoDeEnsinoRepository repository) {
-        this.service = service;
-        this.repository = repository;
-    }
+    private InstituicaoDeEnsinoService service;
+    @Autowired
+    private InstituicaoDeEnsinoRepository repository;
 
     @GetMapping("/list")
     public ResponseEntity<List<InstituicaoDeEnsinoEntity>> list() {
         List<InstituicaoDeEnsinoEntity> lista = repository.findAll();
-        return new ResponseEntity<>(lista, HttpStatus.FOUND);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<InstituicaoDeEnsinoDTO> create(@RequestBody @Validated final InstituicaoDeEnsinoDTO dto) {
+    public ResponseEntity<InstituicaoDeEnsinoDTO> create(@RequestBody @Validated InstituicaoDeEnsinoDTO dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -42,11 +38,11 @@ public class InstituicaoDeEnsinoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InstituicaoDeEnsinoDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final InstituicaoDeEnsinoDTO dto) {
+    public ResponseEntity<InstituicaoDeEnsinoDTO> update(@PathVariable("id") Long id, @RequestBody @Validated InstituicaoDeEnsinoDTO dto) {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

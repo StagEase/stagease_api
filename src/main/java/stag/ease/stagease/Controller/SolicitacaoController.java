@@ -28,12 +28,12 @@ public class SolicitacaoController {
         try {
             return service.getList();
         }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping
-    public ResponseEntity<SolicitacaoDTO> create(@RequestBody @Validated final SolicitacaoDTO dto) {
+    public ResponseEntity<SolicitacaoDTO> create(@RequestBody @Validated SolicitacaoDTO dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -42,16 +42,16 @@ public class SolicitacaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SolicitacaoDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated final SolicitacaoDTO dto) {
+    public ResponseEntity<SolicitacaoDTO> update(@PathVariable("id") Long id, @RequestBody @Validated SolicitacaoDTO dto) {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Flag desativada"));

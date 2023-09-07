@@ -10,8 +10,7 @@ import stag.ease.stagease.Entity.UBSEntity;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class AreaDTO extends AbstractDTO{
     @NotBlank(message = "Este campo não pode ser nulo")

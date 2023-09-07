@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import stag.ease.stagease.Entity.AreaEntity;
 import stag.ease.stagease.Entity.Enum.Distrito;
 import stag.ease.stagease.Entity.SolicitacaoEntity;
@@ -11,7 +12,7 @@ import stag.ease.stagease.Entity.SupervisorEntity;
 
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class UBSDTO extends AbstractDTO{
     @NotBlank(message = "Este campo não pode ser nulo")
