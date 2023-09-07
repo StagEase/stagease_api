@@ -88,4 +88,17 @@ public class AreaTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(areaDTO);
     }
+
+    @Test
+    void testUpdate() {
+        AreaDTO areaDTO = new AreaDTO();
+        areaDTO.setId(1L);
+        areaDTO.setNomeArea("Nova area");
+
+        when(controller.update(areaDTO.getId(), areaDTO)).thenReturn(ResponseEntity.ok(areaDTO));
+
+        ResponseEntity<AreaDTO> response = controller.update(areaDTO.getId(), areaDTO);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(areaDTO);
+    }
 }
