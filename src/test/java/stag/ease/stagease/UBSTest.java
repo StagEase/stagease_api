@@ -88,4 +88,17 @@ public class UBSTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(ubsDTO);
     }
+
+    @Test
+    void testUpdate() {
+        UBSDTO ubsDTO = new UBSDTO();
+        ubsDTO.setId(1L);
+        ubsDTO.setNomeUBS("Nova ubs");
+
+        when(controller.update(ubsDTO.getId(), ubsDTO)).thenReturn(ResponseEntity.ok(ubsDTO));
+
+        ResponseEntity<UBSDTO> response = controller.update(ubsDTO.getId(), ubsDTO);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(ubsDTO);
+    }
 }
