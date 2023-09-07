@@ -14,14 +14,7 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "ubs", schema = "stagease")
-public class UBSEntity {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, unique = true)
-    private Long id;
-
-    @Column(nullable = false)
-    private boolean ativo;
-
+public class UBSEntity extends AbstractEntity{
     @Column(length = 50, nullable = false, unique = true)
     private String nomeUBS;
 

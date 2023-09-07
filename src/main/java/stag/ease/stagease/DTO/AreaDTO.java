@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class AreaDTO extends AbstractDTO{
-
     @NotBlank(message = "Este campo não pode ser nulo")
     private String nomeArea;
 

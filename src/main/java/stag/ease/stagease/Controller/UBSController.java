@@ -49,7 +49,7 @@ public class UBSController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UBSDTO> update(@PathVariable("id") final Long id, @RequestBody @Validated UBSDTO dto) {
+    public ResponseEntity<UBSDTO> update(@PathVariable("id") Long id, @RequestBody @Validated UBSDTO dto) {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
         } catch (Exception e) {
