@@ -54,10 +54,26 @@ public class AreaTest {
     }
 
     @Test
-    void findByNomeArea() {
+    void testFindByNomeArea() {
         var areaDTO = controller.findByNomeArea("Exemplo area");
         String nome = areaDTO.getBody().getNomeArea();
         System.out.println(nome);
         Assertions.assertEquals("Exemplo area", nome);
+    }
+
+    @Test
+    void testFindAll() {
+        AreaDTO exemploAreaDTO = new AreaDTO();
+        exemploAreaDTO.setId(1L);
+        exemploAreaDTO.setNomeArea("Exemplo area");
+
+        List<AreaDTO> areas = new ArrayList<>();
+        areas.add(exemploAreaDTO);
+
+        when(controller.findAll()).thenReturn(ResponseEntity.ok(areas));
+
+        List<AreaDTO> allLembretes = controller.findAll().getBody();
+        assertThat(allLembretes).isNotNull();
+        assertThat(allLembretes.size()).isEqualTo(1);
     }
 }
