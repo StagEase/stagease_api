@@ -101,4 +101,15 @@ public class UBSTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(ubsDTO);
     }
+
+    @Test
+    void testDelete() {
+        Long id = 1L;
+
+        when(controller.delete(id)).thenReturn(ResponseEntity.ok(HttpStatus.OK));
+
+        ResponseEntity<HttpStatus> response = controller.delete(id);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(HttpStatus.OK);
+    }
 }
