@@ -76,4 +76,16 @@ public class AreaTest {
         assertThat(allLembretes).isNotNull();
         assertThat(allLembretes.size()).isEqualTo(1);
     }
+
+    @Test
+    void testCreate() {
+        AreaDTO areaDTO = new AreaDTO();
+        areaDTO.setNomeArea("Nova area");
+
+        when(controller.create(areaDTO)).thenReturn(ResponseEntity.ok(areaDTO));
+
+        ResponseEntity<AreaDTO> response = controller.create(areaDTO);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(areaDTO);
+    }
 }
