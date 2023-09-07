@@ -60,4 +60,20 @@ public class UBSTest {
         System.out.println(nome);
         Assertions.assertEquals("Exemplo ubs", nome);
     }
+
+    @Test
+    void testFindAll() {
+        UBSDTO exemploUBSDTO = new UBSDTO();
+        exemploUBSDTO.setId(1L);
+        exemploUBSDTO.setNomeUBS("Exemplo ubs");
+
+        List<UBSDTO> ubsListFindAll = new ArrayList<>();
+        ubsListFindAll.add(exemploUBSDTO);
+
+        when(controller.findAll()).thenReturn(ResponseEntity.ok(ubsListFindAll));
+
+        List<UBSDTO> ubsList = controller.findAll().getBody();
+        assertThat(ubsList).isNotNull();
+        assertThat(ubsList.size()).isEqualTo(1);
+    }
 }
