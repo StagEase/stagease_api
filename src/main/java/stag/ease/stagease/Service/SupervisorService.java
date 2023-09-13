@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.DTO.SupervisorDTO;
+import stag.ease.stagease.DTO.UBSDTO;
 import stag.ease.stagease.Entity.SupervisorEntity;
 import stag.ease.stagease.Repository.SupervisorRepository;
 
@@ -16,6 +17,11 @@ public class SupervisorService {
     private SupervisorRepository repository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Transactional
+    public SupervisorDTO findByNomeSupervisor(String nomeSupervisor) {
+        return modelMapper.map(repository.findByNomeSupervisor(nomeSupervisor), SupervisorDTO.class);
+    }
 
     @Transactional
     public SupervisorDTO create(SupervisorDTO dto) {
