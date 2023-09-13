@@ -6,10 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import stag.ease.stagease.DTO.SolicitacaoDTO;
 import stag.ease.stagease.DTO.SupervisorDTO;
 import stag.ease.stagease.DTO.UBSDTO;
 import stag.ease.stagease.Entity.SupervisorEntity;
 import stag.ease.stagease.Repository.SupervisorRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SupervisorService {
@@ -21,6 +25,13 @@ public class SupervisorService {
     @Transactional
     public SupervisorDTO findByNomeSupervisor(String nomeSupervisor) {
         return modelMapper.map(repository.findByNomeSupervisor(nomeSupervisor), SupervisorDTO.class);
+    }
+
+    @Transactional
+    public List<SupervisorDTO> getList() {
+        return repository.findAll().stream()
+                .map(entity -> modelMapper.map(entity, SupervisorDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Transactional
