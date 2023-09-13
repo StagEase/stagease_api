@@ -22,6 +22,26 @@ public class SupervisorController {
     @Autowired
     private SupervisorRepository repository;
 
+    @GetMapping("/nome")
+    public ResponseEntity<SupervisorDTO> findByNomeSupervisor(@RequestParam("nome") String nome) {
+        try {
+            return new ResponseEntity<>(service.findByNomeSupervisor(nome), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @GetMapping("/matricula")
+    public ResponseEntity<SupervisorDTO> findByMatricula(@RequestParam("matricula") String matricula) {
+        try {
+            return new ResponseEntity<>(service.findByMatricula(matricula), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    // pesquisar pela area de atuacao faltaria
+
     @GetMapping("/list")
     public ResponseEntity<List<SupervisorEntity>> list() {
         List<SupervisorEntity> lista = repository.findAll();
