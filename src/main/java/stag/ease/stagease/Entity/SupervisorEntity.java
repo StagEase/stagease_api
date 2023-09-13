@@ -28,6 +28,7 @@ public class SupervisorEntity extends AbstractEntity{
     @ManyToMany
     @JoinTable(
             name = "supervisor_ubs",
+            schema = "stagease",
             joinColumns = @JoinColumn(name = "supervisor_id"),
             inverseJoinColumns = @JoinColumn(name = "ubs_id")
     )

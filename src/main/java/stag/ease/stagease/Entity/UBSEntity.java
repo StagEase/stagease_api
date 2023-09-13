@@ -22,7 +22,7 @@ public class UBSEntity extends AbstractEntity{
     private String gerente;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column()
     private Distrito distrito;
 
     @Column
@@ -30,12 +30,14 @@ public class UBSEntity extends AbstractEntity{
 
     @ManyToMany
     @JoinTable(name = "ubs_supervisor",
+            schema = "stagease",
             joinColumns = @JoinColumn(name = "ubs_id"),
             inverseJoinColumns = @JoinColumn(name = "supervisor_id"))
     private List<SupervisorEntity> supervisorList;
 
     @ManyToMany
     @JoinTable(name = "ubs_area",
+            schema = "stagease",
             joinColumns = @JoinColumn(name = "ubs_id"),
             inverseJoinColumns = @JoinColumn(name = "area_id"))
     private List<AreaEntity> areaList;
