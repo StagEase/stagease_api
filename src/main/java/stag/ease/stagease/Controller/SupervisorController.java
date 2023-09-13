@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import stag.ease.stagease.DTO.SolicitacaoDTO;
 import stag.ease.stagease.DTO.SupervisorDTO;
 import stag.ease.stagease.Entity.SupervisorEntity;
 import stag.ease.stagease.Repository.SupervisorRepository;
@@ -43,9 +44,12 @@ public class SupervisorController {
     // pesquisar pela area de atuacao faltaria
 
     @GetMapping("/list")
-    public ResponseEntity<List<SupervisorEntity>> list() {
-        List<SupervisorEntity> lista = repository.findAll();
-        return new ResponseEntity<>(lista, HttpStatus.OK);
+    public List<SupervisorDTO> list() {
+        try {
+            return service.getList();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping
