@@ -6,4 +6,5 @@ import stag.ease.stagease.Entity.UBSEntity;
 
 public interface UBSRepository extends JpaRepository<UBSEntity, Long> {
     UBSEntity findByNomeUBS(String nome);
+    boolean existsByIdAndAtivoIsTrue(Long id);
 }
