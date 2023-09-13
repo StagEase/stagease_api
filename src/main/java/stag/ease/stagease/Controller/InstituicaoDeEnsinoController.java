@@ -8,8 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.DTO.InstituicaoDeEnsinoDTO;
-import stag.ease.stagease.DTO.SupervisorDTO;
-import stag.ease.stagease.Entity.InstituicaoDeEnsinoEntity;
 import stag.ease.stagease.Repository.InstituicaoDeEnsinoRepository;
 import stag.ease.stagease.Service.InstituicaoDeEnsinoService;
 
