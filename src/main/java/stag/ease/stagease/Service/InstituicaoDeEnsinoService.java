@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.DTO.InstituicaoDeEnsinoDTO;
+import stag.ease.stagease.DTO.SupervisorDTO;
 import stag.ease.stagease.Entity.InstituicaoDeEnsinoEntity;
 import stag.ease.stagease.Repository.InstituicaoDeEnsinoRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InstituicaoDeEnsinoService {
@@ -16,6 +20,13 @@ public class InstituicaoDeEnsinoService {
     private InstituicaoDeEnsinoRepository repository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Transactional
+    public List<InstituicaoDeEnsinoDTO> getList() {
+        return repository.findAll().stream()
+                .map(entity -> modelMapper.map(entity, InstituicaoDeEnsinoDTO.class))
+                .collect(Collectors.toList());
+    }
 
     @Transactional
     public InstituicaoDeEnsinoDTO create(InstituicaoDeEnsinoDTO dto) {
