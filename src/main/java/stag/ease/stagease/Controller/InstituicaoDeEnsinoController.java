@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.DTO.InstituicaoDeEnsinoDTO;
+import stag.ease.stagease.DTO.SupervisorDTO;
 import stag.ease.stagease.Entity.InstituicaoDeEnsinoEntity;
 import stag.ease.stagease.Repository.InstituicaoDeEnsinoRepository;
 import stag.ease.stagease.Service.InstituicaoDeEnsinoService;
@@ -23,9 +24,12 @@ public class InstituicaoDeEnsinoController {
     private InstituicaoDeEnsinoRepository repository;
 
     @GetMapping("/list")
-    public ResponseEntity<List<InstituicaoDeEnsinoEntity>> list() {
-        List<InstituicaoDeEnsinoEntity> lista = repository.findAll();
-        return new ResponseEntity<>(lista, HttpStatus.OK);
+    public List<InstituicaoDeEnsinoDTO> list() {
+        try {
+            return service.getList();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping
@@ -47,12 +51,10 @@ public class InstituicaoDeEnsinoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
-            InstituicaoDeEnsinoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel encontrar o id informado"));
-            entity.setAtivo(false);
-            repository.save(entity);
-            return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Flag desativada"));
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Excluido com sucesso"));
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

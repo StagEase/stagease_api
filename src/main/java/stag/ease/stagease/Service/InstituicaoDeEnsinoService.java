@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.DTO.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.DTO.SupervisorDTO;
 import stag.ease.stagease.Entity.InstituicaoDeEnsinoEntity;
+import stag.ease.stagease.Entity.SolicitacaoEntity;
 import stag.ease.stagease.Repository.InstituicaoDeEnsinoRepository;
 
 import java.util.List;
@@ -43,5 +44,11 @@ public class InstituicaoDeEnsinoService {
         InstituicaoDeEnsinoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado"));
         modelMapper.map(dto, repository.save(entity));
         return modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        InstituicaoDeEnsinoEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
+        repository.delete(entity);
     }
 }
