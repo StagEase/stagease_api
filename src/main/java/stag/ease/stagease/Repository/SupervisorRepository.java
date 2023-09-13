@@ -7,4 +7,5 @@ import stag.ease.stagease.Entity.SupervisorEntity;
 @Repository
 public interface SupervisorRepository extends JpaRepository<SupervisorEntity, Long> {
     SupervisorEntity findByNomeSupervisor(String nome);
+    SupervisorEntity findByMatricula(String matricula);
 }

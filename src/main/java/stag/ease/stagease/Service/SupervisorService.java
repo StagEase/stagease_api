@@ -27,7 +27,10 @@ public class SupervisorService {
     public SupervisorDTO findByNomeSupervisor(String nomeSupervisor) {
         return modelMapper.map(repository.findByNomeSupervisor(nomeSupervisor), SupervisorDTO.class);
     }
-
+    @Transactional
+    public SupervisorDTO findByMatricula(String matricula) {
+        return modelMapper.map(repository.findByMatricula(matricula), SupervisorDTO.class);
+    }
     @Transactional
     public List<SupervisorDTO> getList() {
         return repository.findAll().stream()
