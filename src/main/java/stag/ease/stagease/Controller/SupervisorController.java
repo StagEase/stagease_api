@@ -49,9 +49,7 @@ public class SupervisorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
-            SupervisorEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel encontrar o id informado"));
-            entity.setAtivo(false);
-            repository.save(entity);
+            service.delete(id);
             return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Flag desativada"));
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
