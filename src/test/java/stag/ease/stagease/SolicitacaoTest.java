@@ -1,6 +1,7 @@
 package stag.ease.stagease;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -8,6 +9,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.Controller.SolicitacaoController;
 import stag.ease.stagease.DTO.SolicitacaoDTO;
 import stag.ease.stagease.Entity.Enum.Situacao;
@@ -75,7 +78,19 @@ class SolicitacaoTest {
         when(controller.list()).thenReturn(findList);
 
         List<SolicitacaoDTO> solicitacaoDTOS = controller.list();
-        Assertions.assertThat(solicitacaoDTOS).isNotNull();
+        ListAssert<SolicitacaoDTO> notNull = Assertions.assertThat(solicitacaoDTOS).isNotNull();
         Assertions.assertThat(solicitacaoDTOS).hasSize(1);
+    }
+
+    @Test
+    void testCreate(){
+        SolicitacaoDTO solicitacaoDTO = new SolicitacaoDTO();
+        solicitacaoDTO.setQntdEstagiarios(7);
+
+        when(controller.create(solicitacaoDTO)).thenReturn(ResponseEntity.ok(solicitacaoDTO));
+
+        ResponseEntity<SolicitacaoDTO> response = controller.create(solicitacaoDTO);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(response.getBody()).isEqualTo(solicitacaoDTO);
     }
 }
