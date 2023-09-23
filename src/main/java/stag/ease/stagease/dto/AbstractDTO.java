@@ -7,8 +7,10 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AbstractDTO {
     private Long id;
     private LocalDateTime cadastro;

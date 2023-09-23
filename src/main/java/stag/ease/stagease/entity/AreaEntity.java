@@ -9,11 +9,11 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "area", schema = "stagease")
-public class AreaEntity extends AbstractEntity{
+public class AreaEntity extends AbstractEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String nomeArea;
 

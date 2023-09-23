@@ -23,21 +23,17 @@ public class SolicitacaoController {
 
 
     @GetMapping("/list")
-    public List<SolicitacaoDTO> list() {
+    public ResponseEntity<List<SolicitacaoDTO>> list() {
         try {
-            return service.getList();
-        }catch (Exception e){
+            return new ResponseEntity<>(service.getList(), HttpStatus.OK);
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping
     public ResponseEntity<SolicitacaoDTO> create(@RequestBody @Validated SolicitacaoDTO dto) {
-        try {
-            return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+        return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

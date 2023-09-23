@@ -32,9 +32,7 @@ public class SolicitacaoService {
         if (dto.getId() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id deve ser gerado pelo banco");
         }
-        SolicitacaoEntity entity = repository.save(modelMapper.map(dto, SolicitacaoEntity.class));
-        SolicitacaoDTO resultDTO = modelMapper.map(entity, SolicitacaoDTO.class);
-        return resultDTO;
+        return modelMapper.map(repository.save(modelMapper.map(dto, SolicitacaoEntity.class)), SolicitacaoDTO.class);
     }
 
     @Transactional

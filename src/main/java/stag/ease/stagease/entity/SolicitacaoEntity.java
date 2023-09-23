@@ -13,22 +13,22 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
 public class SolicitacaoEntity extends AbstractEntity {
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ubs_id", referencedColumnName = "id", nullable = false)
     private UBSEntity ubs;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", referencedColumnName = "id", nullable = false)
     private AreaEntity area;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supervisor_id", referencedColumnName = "id", nullable = false)
     private SupervisorEntity supervisor;
 
     @Column(nullable = false)
     private int qntdEstagiarios;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instituicaoDeEnsino_id", referencedColumnName = "id", nullable = false)
     private InstituicaoDeEnsinoEntity instituicaoDeEnsino;
 
