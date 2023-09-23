@@ -24,11 +24,12 @@ public class SolicitacaoController {
 
     @GetMapping("/list")
     public ResponseEntity<List<SolicitacaoDTO>> list() {
-        try {
-            return new ResponseEntity<>(service.getList(), HttpStatus.OK);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(service.getList(), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<SolicitacaoDTO> getById(@RequestParam("id") Long id){
+        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
     @PostMapping

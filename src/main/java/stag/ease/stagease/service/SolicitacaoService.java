@@ -10,8 +10,9 @@ import stag.ease.stagease.dto.SolicitacaoDTO;
 import stag.ease.stagease.entity.SolicitacaoEntity;
 import stag.ease.stagease.repository.SolicitacaoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class SolicitacaoService {
@@ -20,11 +21,28 @@ public class SolicitacaoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<SolicitacaoDTO> getList() {
-        return repository.findAll().stream()
-                .map(entity -> modelMapper.map(entity, SolicitacaoDTO.class))
-                .collect(Collectors.toList());
+        try {
+            List<SolicitacaoDTO> listDTO = new ArrayList<>();
+            for (SolicitacaoEntity entity : repository.findAll()){
+                SolicitacaoDTO map = modelMapper.map(entity, SolicitacaoDTO.class);
+                listDTO.add(map);
+            }
+            return listDTO;
+        }catch (RuntimeException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public SolicitacaoDTO getById(Long id){
+        Optional<SolicitacaoEntity> optionalSolicitacao = repository.findById(id);
+        if (optionalSolicitacao.isPresent()){
+            return modelMapper.map(optionalSolicitacao.get(), SolicitacaoDTO.class);
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encotrado");
+        }
     }
 
     @Transactional
