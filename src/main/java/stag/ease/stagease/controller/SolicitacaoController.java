@@ -7,7 +7,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.dto.SolicitacaoDTO;
-import stag.ease.stagease.repository.SolicitacaoRepository;
 import stag.ease.stagease.service.SolicitacaoService;
 
 import java.util.List;
@@ -17,8 +16,6 @@ import java.util.List;
 public class SolicitacaoController {
     @Autowired
     private SolicitacaoService service;
-    @Autowired
-    private SolicitacaoRepository repository;
 
 
     @GetMapping("/list")
@@ -45,9 +42,9 @@ public class SolicitacaoController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             service.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.valueOf("Flag desativada"));
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED, e.getMessage());
         }
     }
 }

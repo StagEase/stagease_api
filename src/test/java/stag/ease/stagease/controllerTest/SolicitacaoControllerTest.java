@@ -1,7 +1,5 @@
 package stag.ease.stagease.controllerTest;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,12 +9,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import stag.ease.stagease.controller.SolicitacaoController;
-import stag.ease.stagease.dto.SolicitacaoDTO;
+import stag.ease.stagease.dto.*;
 import stag.ease.stagease.entity.enums.Situacao;
 import stag.ease.stagease.repository.SolicitacaoRepository;
 import stag.ease.stagease.service.SolicitacaoService;
@@ -25,17 +23,18 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class SolicitacaoControllerTest {
+    private final Long id = 1L;
     @InjectMocks
     private SolicitacaoController controller;
     @Mock
@@ -44,9 +43,10 @@ class SolicitacaoControllerTest {
     private SolicitacaoRepository repository;
     @Mock
     private ModelMapper modelMapper;
+    @Autowired
+    private MockMvc mockMvc;
     private SolicitacaoDTO dto;
     private List<SolicitacaoDTO> listDTO;
-    private final Long id = 1L;
 
     @BeforeEach
     void inject() {
@@ -71,19 +71,59 @@ class SolicitacaoControllerTest {
     }
 
     @Test
-    void testCreate(){
-        SolicitacaoDTO solicitacaoDTO = new SolicitacaoDTO();
-        solicitacaoDTO.setQntdEstagiarios(7);
+    void testGetById() {
+        ResponseEntity<SolicitacaoDTO> response = controller.getById(id);
 
-        when(controller.create(solicitacaoDTO)).thenReturn(ResponseEntity.ok(solicitacaoDTO));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+    }
 
-        ResponseEntity<SolicitacaoDTO> response = controller.create(solicitacaoDTO);
-        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Assertions.assertThat(response.getBody()).isEqualTo(solicitacaoDTO);
+    @Test
+    void testCreate() {
+        ResponseEntity<SolicitacaoDTO> response = controller.create(dto);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+    }
+
+    @Test
+    void testUpdate() {
+        ResponseEntity<SolicitacaoDTO> response = controller.update(id, dto);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+    }
+
+    @Test
+    void testDelete() {
+        ResponseEntity<HttpStatus> response = controller.delete(id);
+
+        verify(service).delete(id);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testDeleteRuntime() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/solicitacao/{id}", id))
+                .andExpect(status().is(405));
     }
 
     private void initClass() {
+        UBSDTO ubs = new UBSDTO();
+        AreaDTO area = new AreaDTO();
+        SupervisorDTO supervisor = new SupervisorDTO();
+        InstituicaoDeEnsinoDTO ie = new InstituicaoDeEnsinoDTO();
+
+        dto = new SolicitacaoDTO();
+        listDTO = new ArrayList<>();
+
         dto.setId(id);
+        dto.setUbs(ubs);
+        dto.setArea(area);
+        dto.setSupervisor(supervisor);
+        dto.setQntdEstagiarios(4);
+        dto.setInstituicaoDeEnsino(ie);
         dto.setDataInicio(LocalDate.now());
         dto.setDataFim(LocalDate.now());
         dto.setInicioExpediente(LocalTime.now());
