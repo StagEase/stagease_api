@@ -1,6 +1,7 @@
 package stag.ease.stagease.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -28,13 +29,13 @@ public class SolicitacaoDTO extends AbstractDTO {
     private int qntdEstagiarios;
     @NotNull(message = "Este campo não pode ser nulo")
     private InstituicaoDeEnsinoDTO instituicaoDeEnsino;
-//    @NotBlank(message = "Este campo não pode ser nulo")
+    @NotNull(message = "Este campo não pode ser nulo")
     private LocalDate dataInicio;
-//    @NotBlank(message = "Este campo não pode ser nulo")
+    @NotNull(message = "Este campo não pode ser nulo")
     private LocalDate dataFim;
-//    @NotBlank(message = "Este campo não pode ser nulo")
+    @NotNull(message = "Este campo não pode ser nulo")
     private LocalTime inicioExpediente;
-//    @NotBlank(message = "Este campo não pode ser nulo")
+    @NotNull(message = "Este campo não pode ser nulo")
     private LocalTime fimExpediente;
     private Situacao situacao;
     private String descricao;

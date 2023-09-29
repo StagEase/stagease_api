@@ -1,7 +1,6 @@
 package stag.ease.stagease.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +27,7 @@ public class SolicitacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<SolicitacaoDTO> getById(@RequestParam("id") Long id){
+    public ResponseEntity<SolicitacaoDTO> getById(@RequestParam("id") Long id) {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
@@ -39,11 +38,7 @@ public class SolicitacaoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<SolicitacaoDTO> update(@PathVariable("id") Long id, @RequestBody @Validated SolicitacaoDTO dto) {
-        try {
-            return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
-        } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+        return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
