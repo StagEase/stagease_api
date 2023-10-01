@@ -1,115 +1,117 @@
 package stag.ease.stagease.controllerTest;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.UBSController;
+import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.UBSDTO;
-import stag.ease.stagease.entity.UBSEntity;
+import stag.ease.stagease.entity.enums.Distrito;
 import stag.ease.stagease.repository.UBSRepository;
 import stag.ease.stagease.service.UBSService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class UBSControllerTest {
-    @Autowired
+class UBSControllerTest {
+    @InjectMocks
+    private UBSController controller;
+    @Mock
     private UBSService service;
-    @MockBean
+    @Mock
     private UBSRepository repository;
     @Mock
-    private UBSController controller;
-
-    UBSEntity ubs = new UBSEntity();
-    UBSDTO ubsDTO = new UBSDTO();
-    List<UBSDTO> ubsDTOList = new ArrayList<>();
+    private ModelMapper modelMapper;
+    private UBSDTO dto;
+    private final Long id = 1L;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        ubs.setId(1L);
-        ubs.setNomeUBS("Exemplo ubs");
+        dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE, List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")), "Descrição");
+        List<UBSDTO> dtoList = new ArrayList<>();
+        dtoList.add(dto);
 
-        ubsDTO.setId(1L);
-        ubsDTO.setNomeUBS("Exemplo ubs");
-
-        ubsDTOList.add(ubsDTO);
-
-        when(repository.findById(1L)).thenReturn(Optional.of(ubs));
-        when(service.findAll()).thenReturn(ubsDTOList);
-        when(controller.findByNomeUBS("Exemplo ubs")).thenReturn(ResponseEntity.ok(ubsDTO));
+        when(service.getById(anyLong())).thenReturn(dto);
+        when(service.getByNomeUBS(anyString())).thenReturn(dto);
+        when(service.getAll()).thenReturn(dtoList);
+        when(service.create(any(UBSDTO.class))).thenReturn(dto);
+        when(service.update(anyLong(), any(UBSDTO.class))).thenReturn(dto);
+        doNothing().when(service).deleteById(anyLong());
     }
 
     @Test
-    void testFindByNomeUBS() {
-        var ubsDTO = controller.findByNomeUBS("Exemplo ubs");
-        String nome = ubsDTO.getBody().getNomeUBS();
-        System.out.println(nome);
-        Assertions.assertEquals("Exemplo ubs", nome);
+    void testGetById() {
+        ResponseEntity<UBSDTO> response = controller.getById(id);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+
+        verify(service).getById(id);
     }
 
     @Test
-    void testFindAll() {
-        UBSDTO exemploUBSDTO = new UBSDTO();
-        exemploUBSDTO.setId(1L);
-        exemploUBSDTO.setNomeUBS("Exemplo ubs");
+    void testGetByNomeArea() {
+        String nomeUBS = "Centro";
+        ResponseEntity<UBSDTO> response = controller.getByNomeUBS(nomeUBS);
 
-        List<UBSDTO> ubsListFindAll = new ArrayList<>();
-        ubsListFindAll.add(exemploUBSDTO);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
 
-        when(controller.findAll()).thenReturn(ResponseEntity.ok(ubsListFindAll));
+        verify(service).getByNomeUBS(nomeUBS);
+    }
 
-        List<UBSDTO> ubsList = controller.findAll().getBody();
-        assertThat(ubsList).isNotNull();
-        assertThat(ubsList.size()).isEqualTo(1);
+    @Test
+    void testGetAll() {
+        ResponseEntity<List<UBSDTO>> responseEntity = controller.getAll();
+
+        List<UBSDTO> dtoList = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(dtoList);
+
+        verify(service).getAll();
     }
 
     @Test
     void testCreate() {
-        UBSDTO ubsDTO = new UBSDTO();
-        ubsDTO.setNomeUBS("Nova ubs");
+        ResponseEntity<UBSDTO> response = controller.create(dto);
 
-        when(controller.create(ubsDTO)).thenReturn(ResponseEntity.ok(ubsDTO));
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(dto, response.getBody());
 
-        ResponseEntity<UBSDTO> response = controller.create(ubsDTO);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(ubsDTO);
+        verify(service).create(dto);
     }
 
     @Test
     void testUpdate() {
-        UBSDTO ubsDTO = new UBSDTO();
-        ubsDTO.setId(1L);
-        ubsDTO.setNomeUBS("Nova ubs");
+        ResponseEntity<UBSDTO> response = controller.update(id, dto);
 
-        when(controller.update(ubsDTO.getId(), ubsDTO)).thenReturn(ResponseEntity.ok(ubsDTO));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
 
-        ResponseEntity<UBSDTO> response = controller.update(ubsDTO.getId(), ubsDTO);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(ubsDTO);
+        verify(service).update(id, dto);
     }
 
     @Test
     void testDelete() {
-        Long id = 1L;
-
-        when(controller.delete(id)).thenReturn(ResponseEntity.ok(HttpStatus.OK));
-
         ResponseEntity<HttpStatus> response = controller.delete(id);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(HttpStatus.OK);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verify(service).deleteById(id);
     }
 }

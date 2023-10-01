@@ -39,7 +39,7 @@ class AreaControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        dto = new AreaDTO();
+        dto = new AreaDTO("Enfermagem");
         List<AreaDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 
@@ -52,21 +52,13 @@ class AreaControllerTest {
     }
 
     @Test
-    void testGetAll() {
-        ResponseEntity<List<AreaDTO>> responseEntity = controller.getAll();
-
-        List<AreaDTO> dtoList = responseEntity.getBody();
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertNotNull(dtoList);
-    }
-
-    @Test
     void testGetById() {
         ResponseEntity<AreaDTO> response = controller.getById(id);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
+
+        verify(service).getById(id);
     }
 
     @Test
@@ -76,6 +68,20 @@ class AreaControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
+
+        verify(service).getByNomeArea(nomeArea);
+    }
+
+    @Test
+    void testGetAll() {
+        ResponseEntity<List<AreaDTO>> responseEntity = controller.getAll();
+
+        List<AreaDTO> dtoList = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(dtoList);
+
+        verify(service).getAll();
     }
 
     @Test
@@ -84,6 +90,8 @@ class AreaControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(dto, response.getBody());
+
+        verify(service).create(dto);
     }
 
     @Test
@@ -92,14 +100,16 @@ class AreaControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
+
+        verify(service).update(id, dto);
     }
 
     @Test
     void testDelete() {
         ResponseEntity<HttpStatus> response = controller.delete(id);
 
-        verify(service).deleteById(id);
-
         assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verify(service).deleteById(id);
     }
 }
