@@ -23,24 +23,20 @@ public class SolicitacaoService {
 
     @Transactional(readOnly = true)
     public List<SolicitacaoDTO> getList() {
-        try {
-            List<SolicitacaoDTO> listDTO = new ArrayList<>();
-            for (SolicitacaoEntity entity : repository.findAll()){
-                SolicitacaoDTO map = modelMapper.map(entity, SolicitacaoDTO.class);
-                listDTO.add(map);
-            }
-            return listDTO;
-        }catch (RuntimeException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        List<SolicitacaoDTO> listDTO = new ArrayList<>();
+        for (SolicitacaoEntity entity : repository.findAll()) {
+            SolicitacaoDTO map = modelMapper.map(entity, SolicitacaoDTO.class);
+            listDTO.add(map);
         }
+        return listDTO;
     }
 
     @Transactional(readOnly = true)
-    public SolicitacaoDTO getById(Long id){
+    public SolicitacaoDTO getById(Long id) {
         Optional<SolicitacaoEntity> optionalSolicitacao = repository.findById(id);
-        if (optionalSolicitacao.isPresent()){
+        if (optionalSolicitacao.isPresent()) {
             return modelMapper.map(optionalSolicitacao.get(), SolicitacaoDTO.class);
-        }else {
+        } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encotrado");
         }
     }

@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class SolicitacaoControllerTest {
-    private final Long id = 1L;
     @InjectMocks
     private SolicitacaoController controller;
     @Mock
@@ -45,6 +44,7 @@ class SolicitacaoControllerTest {
     private ModelMapper modelMapper;
     @Autowired
     private MockMvc mockMvc;
+    private final Long id = 1L;
     private SolicitacaoDTO dto;
     private List<SolicitacaoDTO> listDTO;
 
