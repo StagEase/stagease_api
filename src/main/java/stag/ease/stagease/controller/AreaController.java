@@ -19,13 +19,13 @@ public class AreaController {
     @Autowired
     private AreaRepository repository;
 
-    @GetMapping
-    public ResponseEntity<AreaDTO> getById(@RequestParam("id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<AreaDTO> getById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<AreaDTO> getByNomeArea(@RequestParam("nome") String nome) {
+    public ResponseEntity<AreaDTO> getByNomeArea(@PathVariable("nome") String nome) {
         return new ResponseEntity<>(service.getByNomeArea(nome), HttpStatus.OK);
     }
 
