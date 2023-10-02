@@ -16,8 +16,6 @@ import java.util.List;
 public class InstituicaoDeEnsinoController {
     @Autowired
     private InstituicaoDeEnsinoService service;
-    @Autowired
-    private InstituicaoDeEnsinoRepository repository;
 
     @GetMapping("/list")
     public ResponseEntity<List<InstituicaoDeEnsinoDTO>> getAll() {
