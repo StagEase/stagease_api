@@ -1,17 +1,16 @@
 package stag.ease.stagease.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class InstituicaoDeEnsinoService {
@@ -21,32 +20,32 @@ public class InstituicaoDeEnsinoService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public List<InstituicaoDeEnsinoDTO> getList() {
-        return repository.findAll().stream()
-                .map(entity -> modelMapper.map(entity, InstituicaoDeEnsinoDTO.class))
-                .collect(Collectors.toList());
+    public List<InstituicaoDeEnsinoDTO> getAll() {
+        List<InstituicaoDeEnsinoDTO> list = new ArrayList<>();
+        for (InstituicaoDeEnsinoEntity entity : repository.findAll()) {
+            InstituicaoDeEnsinoDTO map = modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
+            list.add(map);
+        }
+        return list;
     }
 
     @Transactional
     public InstituicaoDeEnsinoDTO create(InstituicaoDeEnsinoDTO dto) {
-        if (dto.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id deve ser gerado pelo banco");
-        }
-        InstituicaoDeEnsinoEntity entity = repository.save(modelMapper.map(dto, InstituicaoDeEnsinoEntity.class));
-        InstituicaoDeEnsinoDTO resultDTO = modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
-        return resultDTO;
+        return modelMapper.map(repository.save(modelMapper.map(dto, InstituicaoDeEnsinoEntity.class)), InstituicaoDeEnsinoDTO.class);
     }
 
     @Transactional
     public InstituicaoDeEnsinoDTO update(Long id, InstituicaoDeEnsinoDTO dto) {
-        InstituicaoDeEnsinoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado"));
-        modelMapper.map(dto, repository.save(entity));
-        return modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
+        InstituicaoDeEnsinoEntity existingEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Área não encontrada com o ID: " + id));
+
+        modelMapper.map(dto, existingEntity);
+
+        return modelMapper.map(repository.save(existingEntity), InstituicaoDeEnsinoDTO.class);
     }
 
     @Transactional
-    public void delete(Long id) {
-        InstituicaoDeEnsinoEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
-        repository.delete(entity);
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
 }

@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import stag.ease.stagease.entity.enums.Distrito;
 
 import java.util.List;
 
@@ -21,9 +20,6 @@ public class UBSEntity extends AbstractEntity{
     @Column(length = 50, nullable = false)
     private String gerente;
 
-    @Enumerated(EnumType.STRING)
-    @Column()
-    private Distrito distrito;
 
     @Column
     private List<String> contatoList;

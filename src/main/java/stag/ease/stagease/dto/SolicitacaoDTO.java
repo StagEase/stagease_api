@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import stag.ease.stagease.entity.enums.Situacao;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -35,6 +34,5 @@ public class SolicitacaoDTO extends AbstractDTO {
     private LocalTime inicioExpediente;
     @NotNull(message = "Este campo não pode ser nulo")
     private LocalTime fimExpediente;
-    private Situacao situacao;
     private String descricao;
 }
