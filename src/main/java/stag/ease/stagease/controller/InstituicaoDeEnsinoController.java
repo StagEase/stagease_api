@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 
 
+import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.service.InstituicaoDeEnsinoService;
 
 import java.util.List;

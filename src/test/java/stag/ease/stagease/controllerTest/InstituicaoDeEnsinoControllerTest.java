@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.InstituicaoDeEnsinoController;
-import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 import stag.ease.stagease.service.InstituicaoDeEnsinoService;
@@ -63,6 +62,7 @@ class InstituicaoDeEnsinoControllerTest {
 
         verify(service).getById(id);
     }
+
 
     @Test
     void testGetAll() {
