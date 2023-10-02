@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import stag.ease.stagease.entity.enums.Distrito;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class UBSDTO extends AbstractDTO {
     private String nomeUBS;
     @NotBlank(message = "Este campo não pode ser nulo")
     private String gerente;
-
+    @NotNull(message = "Este campo não pode ser nulo")
+    private Distrito distrito;
     private List<String> contatoList;
     @NotNull(message = "Este campo não pode ser nulo")
     private List<AreaDTO> areaList;
