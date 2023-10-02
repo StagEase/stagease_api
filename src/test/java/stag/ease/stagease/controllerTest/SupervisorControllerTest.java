@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.SupervisorController;
+import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.repository.SupervisorRepository;
@@ -46,6 +47,7 @@ class SupervisorControllerTest {
         List<SupervisorDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 
+        when(service.getById(anyLong())).thenReturn(dto);
         when(service.findByMatricula(anyString())).thenReturn(dto);
         when(service.findByNomeSupervisor(anyString())).thenReturn(dto);
         when(service.getAll()).thenReturn(dtoList);
@@ -55,9 +57,19 @@ class SupervisorControllerTest {
     }
 
     @Test
+    void testGetById() {
+        ResponseEntity<SupervisorDTO> response = controller.getById(id);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+
+        verify(service).getById(id);
+    }
+
+    @Test
     void testGetByMatricula() {
         String matricula = "matricula1";
-        ResponseEntity<SupervisorDTO> response = controller.findByMatricula(matricula);
+        ResponseEntity<SupervisorDTO> response = controller.getByNomeMatricula(matricula);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
@@ -68,12 +80,12 @@ class SupervisorControllerTest {
     @Test
     void testGetByNomeSupervisor() {
         String nomeSupervisor = "Marcelo";
-        ResponseEntity<SupervisorDTO> response = controller.findByMatricula(nomeSupervisor);
+        ResponseEntity<SupervisorDTO> response = controller.getByNomeSupervisor(nomeSupervisor);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
 
-        verify(service).findByMatricula(nomeSupervisor);
+        verify(service).findByNomeSupervisor(nomeSupervisor);
     }
 
     @Test

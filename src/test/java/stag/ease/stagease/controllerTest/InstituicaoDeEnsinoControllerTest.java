@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.InstituicaoDeEnsinoController;
+import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 import stag.ease.stagease.service.InstituicaoDeEnsinoService;
@@ -46,10 +47,21 @@ class InstituicaoDeEnsinoControllerTest {
         List<InstituicaoDeEnsinoDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 
+        when(service.getById(anyLong())).thenReturn(dto);
         when(service.getAll()).thenReturn(dtoList);
         when(service.create(any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
         when(service.update(anyLong(), any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
         doNothing().when(service).deleteById(anyLong());
+    }
+
+    @Test
+    void testGetById() {
+        ResponseEntity<InstituicaoDeEnsinoDTO> response = controller.getById(id);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+
+        verify(service).getById(id);
     }
 
     @Test

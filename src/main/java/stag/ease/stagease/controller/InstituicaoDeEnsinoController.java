@@ -6,11 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
-<<<<<<< HEAD
-import stag.ease.stagease.dto.SupervisorDTO;
-import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
-=======
->>>>>>> f0a1fd20015663fcfba2dbcd27ce1d1c66a46215
+
+
 import stag.ease.stagease.service.InstituicaoDeEnsinoService;
 
 import java.util.List;
