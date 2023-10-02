@@ -6,16 +6,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
+import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 import stag.ease.stagease.service.InstituicaoDeEnsinoService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/instituicao_de_ensino")
+@RequestMapping(value = "/instituicao")
 public class InstituicaoDeEnsinoController {
     @Autowired
     private InstituicaoDeEnsinoService service;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<InstituicaoDeEnsinoDTO> getById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+    }
 
     @GetMapping("/list")
     public ResponseEntity<List<InstituicaoDeEnsinoDTO>> getAll() {

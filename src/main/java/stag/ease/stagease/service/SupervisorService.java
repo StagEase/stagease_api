@@ -5,13 +5,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.SupervisorDTO;
+import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.entity.SupervisorEntity;
 import stag.ease.stagease.repository.SupervisorRepository;
 import stag.ease.stagease.repository.UBSRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SupervisorService {
@@ -21,6 +24,18 @@ public class SupervisorService {
     private UBSRepository ubsRepository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Transactional
+    public SupervisorDTO getById(Long id) {
+        Optional<SupervisorEntity> optional = repository.findById(id);
+
+        if (optional.isPresent()) {
+            SupervisorEntity entity = optional.get();
+            return modelMapper.map(entity, SupervisorDTO.class);
+        } else {
+            throw new EntityNotFoundException("Área não encontrada com o ID: " + id);
+        }
+    }
 
     @Transactional
     public SupervisorDTO findByNomeSupervisor(String nomeSupervisor) {

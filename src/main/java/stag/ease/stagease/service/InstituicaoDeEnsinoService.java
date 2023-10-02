@@ -5,12 +5,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
+import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InstituicaoDeEnsinoService {
@@ -18,6 +21,18 @@ public class InstituicaoDeEnsinoService {
     private InstituicaoDeEnsinoRepository repository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Transactional
+    public InstituicaoDeEnsinoDTO getById(Long id) {
+        Optional<InstituicaoDeEnsinoEntity> optional = repository.findById(id);
+
+        if (optional.isPresent()) {
+            InstituicaoDeEnsinoEntity entity = optional.get();
+            return modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
+        } else {
+            throw new EntityNotFoundException("Área não encontrada com o ID: " + id);
+        }
+    }
 
     @Transactional
     public List<InstituicaoDeEnsinoDTO> getAll() {

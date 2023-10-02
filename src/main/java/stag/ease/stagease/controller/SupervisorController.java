@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.repository.SupervisorRepository;
 import stag.ease.stagease.service.SupervisorService;
@@ -20,22 +20,19 @@ public class SupervisorController {
     @Autowired
     private SupervisorRepository repository;
 
-    @GetMapping("/nome")
-    public ResponseEntity<SupervisorDTO> findByNomeSupervisor(@RequestParam("nome") String nome) {
-        try {
-            return new ResponseEntity<>(service.findByNomeSupervisor(nome), HttpStatus.OK);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    @GetMapping("/{id}")
+    public ResponseEntity<SupervisorDTO> getById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/matricula")
-    public ResponseEntity<SupervisorDTO> findByMatricula(@RequestParam("matricula") String matricula) {
-        try {
-            return new ResponseEntity<>(service.findByMatricula(matricula), HttpStatus.OK);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<SupervisorDTO> getByNomeSupervisor(@PathVariable("nome") String nome) {
+        return new ResponseEntity<>(service.findByNomeSupervisor(nome), HttpStatus.OK);
+    }
+
+    @GetMapping("/matricula/{matricula}")
+    public ResponseEntity<SupervisorDTO> getByNomeMatricula(@PathVariable("matricula") String matricula) {
+        return new ResponseEntity<>(service.findByMatricula(matricula), HttpStatus.OK);
     }
 
     // pesquisar pela area de atuacao faltaria
