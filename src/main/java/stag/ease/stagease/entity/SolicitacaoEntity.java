@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import stag.ease.stagease.entity.enums.Situacao;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -47,6 +48,9 @@ public class SolicitacaoEntity extends AbstractEntity {
     @Column(nullable = false)
     private LocalTime fimExpediente;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Situacao situacao;
 
     @Column
     private String descricao;
