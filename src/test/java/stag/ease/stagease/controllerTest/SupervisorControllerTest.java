@@ -9,11 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import stag.ease.stagease.controller.UBSController;
-import stag.ease.stagease.dto.AreaDTO;
+import stag.ease.stagease.controller.SupervisorController;
+import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.dto.UBSDTO;
-import stag.ease.stagease.repository.UBSRepository;
-import stag.ease.stagease.service.UBSService;
+import stag.ease.stagease.repository.SupervisorRepository;
+import stag.ease.stagease.service.SupervisorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,63 +21,66 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class UBSControllerTest {
+public class SupervisorControllerTest {
+
     @InjectMocks
-    private UBSController controller;
+    private SupervisorController controller;
     @Mock
-    private UBSService service;
+    private SupervisorService service;
     @Mock
-    private UBSRepository repository;
+    private SupervisorRepository repository;
     @Mock
     private ModelMapper modelMapper;
-    private UBSDTO dto;
+    private SupervisorDTO dto;
     private final Long id = 1L;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        dto = new UBSDTO("Centro", "Carlos", List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")), "Descrição");
-        List<UBSDTO> dtoList = new ArrayList<>();
+        dto = new SupervisorDTO("Marcelo", "matricula1", List.of(new UBSDTO()), "Descrição");
+        List<SupervisorDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 
-        when(service.getById(anyLong())).thenReturn(dto);
-        when(service.getByNomeUBS(anyString())).thenReturn(dto);
+        when(service.findByMatricula(anyString())).thenReturn(dto);
+        when(service.findByNomeSupervisor(anyString())).thenReturn(dto);
         when(service.getAll()).thenReturn(dtoList);
-        when(service.create(any(UBSDTO.class))).thenReturn(dto);
-        when(service.update(anyLong(), any(UBSDTO.class))).thenReturn(dto);
+        when(service.create(any(SupervisorDTO.class))).thenReturn(dto);
+        when(service.update(anyLong(), any(SupervisorDTO.class))).thenReturn(dto);
         doNothing().when(service).deleteById(anyLong());
     }
 
     @Test
-    void testGetById() {
-        ResponseEntity<UBSDTO> response = controller.getById(id);
+    void testGetByMatricula() {
+        String matricula = "matricula1";
+        ResponseEntity<SupervisorDTO> response = controller.findByMatricula(matricula);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
 
-        verify(service).getById(id);
+        verify(service).findByMatricula(matricula);
     }
 
     @Test
-    void testGetByNomeArea() {
-        String nomeUBS = "Centro";
-        ResponseEntity<UBSDTO> response = controller.getByNomeUBS(nomeUBS);
+    void testGetByNomeSupervisor() {
+        String nomeSupervisor = "Marcelo";
+        ResponseEntity<SupervisorDTO> response = controller.findByMatricula(nomeSupervisor);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
 
-        verify(service).getByNomeUBS(nomeUBS);
+        verify(service).findByMatricula(nomeSupervisor);
     }
 
     @Test
     void testGetAll() {
-        ResponseEntity<List<UBSDTO>> responseEntity = controller.getAll();
+        ResponseEntity<List<SupervisorDTO>> responseEntity = controller.getAll();
 
-        List<UBSDTO> dtoList = responseEntity.getBody();
+        List<SupervisorDTO> dtoList = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(dtoList);
@@ -87,7 +90,7 @@ class UBSControllerTest {
 
     @Test
     void testCreate() {
-        ResponseEntity<UBSDTO> response = controller.create(dto);
+        ResponseEntity<SupervisorDTO> response = controller.create(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(dto, response.getBody());
@@ -97,7 +100,7 @@ class UBSControllerTest {
 
     @Test
     void testUpdate() {
-        ResponseEntity<UBSDTO> response = controller.update(id, dto);
+        ResponseEntity<SupervisorDTO> response = controller.update(id, dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());

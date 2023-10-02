@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.dto.*;
 import stag.ease.stagease.entity.*;
-import stag.ease.stagease.entity.enums.Situacao;
 import stag.ease.stagease.repository.SolicitacaoRepository;
 import stag.ease.stagease.service.SolicitacaoService;
 
@@ -98,7 +97,6 @@ class SolicitacaoServiceTest {
         dto.setDataFim(LocalDate.now());
         dto.setInicioExpediente(LocalTime.now());
         dto.setFimExpediente(LocalTime.now());
-        dto.setSituacao(Situacao.LIBERADO);
 
         UBSEntity ubsEntity = new UBSEntity();
         AreaEntity areaEntity = new AreaEntity();
@@ -116,7 +114,7 @@ class SolicitacaoServiceTest {
         entity.setDataFim(LocalDate.now());
         entity.setInicioExpediente(LocalTime.now());
         entity.setFimExpediente(LocalTime.now());
-        entity.setSituacao(Situacao.LIBERADO);
+
     }
 }
 

@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import stag.ease.stagease.controller.SolicitacaoController;
 import stag.ease.stagease.dto.*;
-import stag.ease.stagease.entity.enums.Situacao;
 import stag.ease.stagease.repository.SolicitacaoRepository;
 import stag.ease.stagease.service.SolicitacaoService;
 
@@ -128,7 +127,7 @@ class SolicitacaoControllerTest {
         dto.setDataFim(LocalDate.now());
         dto.setInicioExpediente(LocalTime.now());
         dto.setFimExpediente(LocalTime.now());
-        dto.setSituacao(Situacao.LIBERADO);
+
 
         listDTO.add(dto);
     }

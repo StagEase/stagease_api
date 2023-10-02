@@ -9,11 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import stag.ease.stagease.controller.UBSController;
-import stag.ease.stagease.dto.AreaDTO;
-import stag.ease.stagease.dto.UBSDTO;
-import stag.ease.stagease.repository.UBSRepository;
-import stag.ease.stagease.service.UBSService;
+import stag.ease.stagease.controller.InstituicaoDeEnsinoController;
+import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
+import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
+import stag.ease.stagease.service.InstituicaoDeEnsinoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,63 +20,43 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class UBSControllerTest {
+class InstituicaoDeEnsinoControllerTest {
+
     @InjectMocks
-    private UBSController controller;
+    private InstituicaoDeEnsinoController controller;
+
     @Mock
-    private UBSService service;
+    private InstituicaoDeEnsinoService service;
     @Mock
-    private UBSRepository repository;
+    private InstituicaoDeEnsinoRepository repository;
     @Mock
     private ModelMapper modelMapper;
-    private UBSDTO dto;
+    private InstituicaoDeEnsinoDTO dto;
     private final Long id = 1L;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        dto = new UBSDTO("Centro", "Carlos", List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")), "Descrição");
-        List<UBSDTO> dtoList = new ArrayList<>();
+        dto = new InstituicaoDeEnsinoDTO("Uniamerica");
+        List<InstituicaoDeEnsinoDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 
-        when(service.getById(anyLong())).thenReturn(dto);
-        when(service.getByNomeUBS(anyString())).thenReturn(dto);
         when(service.getAll()).thenReturn(dtoList);
-        when(service.create(any(UBSDTO.class))).thenReturn(dto);
-        when(service.update(anyLong(), any(UBSDTO.class))).thenReturn(dto);
+        when(service.create(any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
+        when(service.update(anyLong(), any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
         doNothing().when(service).deleteById(anyLong());
     }
 
     @Test
-    void testGetById() {
-        ResponseEntity<UBSDTO> response = controller.getById(id);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(dto, response.getBody());
-
-        verify(service).getById(id);
-    }
-
-    @Test
-    void testGetByNomeArea() {
-        String nomeUBS = "Centro";
-        ResponseEntity<UBSDTO> response = controller.getByNomeUBS(nomeUBS);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(dto, response.getBody());
-
-        verify(service).getByNomeUBS(nomeUBS);
-    }
-
-    @Test
     void testGetAll() {
-        ResponseEntity<List<UBSDTO>> responseEntity = controller.getAll();
+        ResponseEntity<List<InstituicaoDeEnsinoDTO>> responseEntity = controller.getAll();
 
-        List<UBSDTO> dtoList = responseEntity.getBody();
+        List<InstituicaoDeEnsinoDTO> dtoList = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(dtoList);
@@ -87,7 +66,7 @@ class UBSControllerTest {
 
     @Test
     void testCreate() {
-        ResponseEntity<UBSDTO> response = controller.create(dto);
+        ResponseEntity<InstituicaoDeEnsinoDTO> response = controller.create(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(dto, response.getBody());
@@ -97,7 +76,7 @@ class UBSControllerTest {
 
     @Test
     void testUpdate() {
-        ResponseEntity<UBSDTO> response = controller.update(id, dto);
+        ResponseEntity<InstituicaoDeEnsinoDTO> response = controller.update(id, dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
@@ -113,4 +92,5 @@ class UBSControllerTest {
 
         verify(service).deleteById(id);
     }
+
 }
