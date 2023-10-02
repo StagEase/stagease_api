@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.AreaDTO;
-import stag.ease.stagease.repository.AreaRepository;
 import stag.ease.stagease.service.AreaService;
 
 import java.util.List;
@@ -16,8 +15,6 @@ import java.util.List;
 public class AreaController {
     @Autowired
     private AreaService service;
-    @Autowired
-    private AreaRepository repository;
 
     @GetMapping("/{id}")
     public ResponseEntity<AreaDTO> getById(@PathVariable("id") Long id) {

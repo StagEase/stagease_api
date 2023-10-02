@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.UBSDTO;
-import stag.ease.stagease.repository.UBSRepository;
 import stag.ease.stagease.service.UBSService;
 
 import java.util.List;
@@ -16,8 +15,6 @@ import java.util.List;
 public class UBSController {
     @Autowired
     private UBSService service;
-    @Autowired
-    private UBSRepository repository;
 
     @GetMapping("/{id}")
     public ResponseEntity<UBSDTO> getById(@PathVariable("id") Long id) {
@@ -31,17 +28,17 @@ public class UBSController {
 
     @GetMapping("/list")
     public ResponseEntity<List<UBSDTO>> getAll() {
-            return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<UBSDTO> create(@RequestBody @Validated UBSDTO dto) {
-            return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UBSDTO> update(@PathVariable("id") Long id, @RequestBody @Validated UBSDTO dto) {
-            return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
+        return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
