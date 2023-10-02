@@ -25,8 +25,7 @@ public class    AreaService {
         Optional<AreaEntity> optional = repository.findById(id);
 
         if (optional.isPresent()) {
-            AreaEntity entity = optional.get();
-            return modelMapper.map(entity, AreaDTO.class);
+            return modelMapper.map(optional.get(), AreaDTO.class);
         } else {
             throw new EntityNotFoundException("Área não encontrada com o ID: " + id);
         }

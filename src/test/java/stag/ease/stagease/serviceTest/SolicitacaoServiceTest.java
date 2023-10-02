@@ -117,7 +117,6 @@ class SolicitacaoServiceTest {
         entity.setInicioExpediente(LocalTime.now());
         entity.setFimExpediente(LocalTime.now());
         entity.setSituacao(Situacao.LIBERADO);
-
     }
 }
 
