@@ -11,6 +11,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "area", schema = "stagease")
 public class AreaEntity extends AbstractEntity {

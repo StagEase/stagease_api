@@ -10,11 +10,13 @@ import stag.ease.stagease.entity.enums.Distrito;
 
 import java.util.List;
 
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "ubs", schema = "stagease")
-public class UBSEntity extends AbstractEntity{
+public class UBSEntity extends AbstractEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String nomeUBS;
 
@@ -29,17 +31,11 @@ public class UBSEntity extends AbstractEntity{
     private List<String> contatoList;
 
     @ManyToMany
-    @JoinTable(name = "ubs_supervisor",
-            schema = "stagease",
-            joinColumns = @JoinColumn(name = "ubs_id"),
-            inverseJoinColumns = @JoinColumn(name = "supervisor_id"))
+    @JoinTable(name = "ubs_supervisor", schema = "stagease", joinColumns = @JoinColumn(name = "ubs_id"), inverseJoinColumns = @JoinColumn(name = "supervisor_id"))
     private List<SupervisorEntity> supervisorList;
 
     @ManyToMany
-    @JoinTable(name = "ubs_area",
-            schema = "stagease",
-            joinColumns = @JoinColumn(name = "ubs_id"),
-            inverseJoinColumns = @JoinColumn(name = "area_id"))
+    @JoinTable(name = "ubs_area", schema = "stagease", joinColumns = @JoinColumn(name = "ubs_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
     private List<AreaEntity> areaList;
 
     @JsonIgnore

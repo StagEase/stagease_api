@@ -9,11 +9,13 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "supervisor", schema = "stagease")
-public class SupervisorEntity extends AbstractEntity{
+public class SupervisorEntity extends AbstractEntity {
 
     @Column(nullable = false)
     private String nomeSupervisor;
@@ -26,12 +28,7 @@ public class SupervisorEntity extends AbstractEntity{
     private List<SolicitacaoEntity> solicitacaoList;
 
     @ManyToMany
-    @JoinTable(
-            name = "supervisor_ubs",
-            schema = "stagease",
-            joinColumns = @JoinColumn(name = "supervisor_id"),
-            inverseJoinColumns = @JoinColumn(name = "ubs_id")
-    )
+    @JoinTable(name = "supervisor_ubs", schema = "stagease", joinColumns = @JoinColumn(name = "supervisor_id"), inverseJoinColumns = @JoinColumn(name = "ubs_id"))
     private List<UBSEntity> ubsList;
 
     private String descricao;
