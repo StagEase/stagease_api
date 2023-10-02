@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.dto.SupervisorDTO;
-import stag.ease.stagease.repository.SupervisorRepository;
 import stag.ease.stagease.service.SupervisorService;
 
 import java.util.List;
@@ -17,8 +15,6 @@ import java.util.List;
 public class SupervisorController {
     @Autowired
     private SupervisorService service;
-    @Autowired
-    private SupervisorRepository repository;
 
     @GetMapping("/{id}")
     public ResponseEntity<SupervisorDTO> getById(@PathVariable("id") Long id) {

@@ -24,5 +24,6 @@ public class UBSDTO extends AbstractDTO {
     private List<String> contatoList;
     @NotNull(message = "Este campo não pode ser nulo")
     private List<AreaDTO> areaList;
+    private List<SupervisorDTO> supervisorList;
     private String descricao;
 }

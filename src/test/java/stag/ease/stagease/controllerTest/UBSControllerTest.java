@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.UBSController;
 import stag.ease.stagease.dto.AreaDTO;
+import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.entity.enums.Distrito;
 import stag.ease.stagease.repository.UBSRepository;
@@ -41,7 +42,7 @@ class UBSControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE, List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")), "Descrição");
+        dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE, List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")),List.of(new SupervisorDTO("Gustavo", "1233321", "")) , "Descrição");
         List<UBSDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 

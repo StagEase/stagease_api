@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import stag.ease.stagease.dto.AreaDTO;
+import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.entity.UBSEntity;
 import stag.ease.stagease.entity.enums.Distrito;
@@ -22,14 +23,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UBSServiceTest {
+    private final Long id = 1L;
+    private final Long idNaoExistente = 2L;
     @InjectMocks
     private UBSService service;
     @Mock
     private UBSRepository repository;
     @Mock
     private ModelMapper modelMapper;
-    private final Long id = 1L;
-    private final Long idNaoExistente = 2L;
 
     @BeforeEach
     void setUp() {
@@ -38,6 +39,7 @@ class UBSServiceTest {
         UBSDTO dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE,
                 List.of("Contato1", "Contato2"),
                 List.of(new AreaDTO("Enfermagem")),
+                List.of(new SupervisorDTO("Gustavo", "1233321", "")),
                 "Descrição");
         dto.setId(id);
 

@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class SupervisorServiceTest {
+class SupervisorServiceTest {
 
     @InjectMocks
     private SupervisorService service;
