@@ -3,10 +3,14 @@ package stag.ease.stagease.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
+import stag.ease.stagease.dto.SolicitacaoDTO;
 import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
+import stag.ease.stagease.entity.SolicitacaoEntity;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 
 import java.util.ArrayList;
@@ -49,17 +53,17 @@ public class InstituicaoDeEnsinoService {
 
     @Transactional
     public InstituicaoDeEnsinoDTO create(InstituicaoDeEnsinoDTO dto) {
+        if (dto.getId() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id deve ser gerado pelo banco");
+        }
         return modelMapper.map(repository.save(modelMapper.map(dto, InstituicaoDeEnsinoEntity.class)), InstituicaoDeEnsinoDTO.class);
     }
 
     @Transactional
     public InstituicaoDeEnsinoDTO update(Long id, InstituicaoDeEnsinoDTO dto) {
-        InstituicaoDeEnsinoEntity existingEntity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Área não encontrada com o ID: " + id));
-
-        modelMapper.map(dto, existingEntity);
-
-        return modelMapper.map(repository.save(existingEntity), InstituicaoDeEnsinoDTO.class);
+        InstituicaoDeEnsinoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado"));
+        modelMapper.map(dto, repository.save(entity));
+        return modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
     }
 
     @Transactional
