@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class SupervisorControllerTest {
+class SupervisorControllerTest {
 
     @InjectMocks
     private SupervisorController controller;

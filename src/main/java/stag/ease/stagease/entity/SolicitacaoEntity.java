@@ -1,7 +1,9 @@
 package stag.ease.stagease.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -9,6 +11,8 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
 public class SolicitacaoEntity extends AbstractEntity {
