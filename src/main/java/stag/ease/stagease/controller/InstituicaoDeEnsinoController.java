@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 
 
-import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.service.InstituicaoDeEnsinoService;
 
 import java.util.List;
@@ -22,6 +21,11 @@ public class InstituicaoDeEnsinoController {
     @GetMapping("/{id}")
     public ResponseEntity<InstituicaoDeEnsinoDTO> getById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<InstituicaoDeEnsinoDTO> getByNome(@PathVariable("nome") String nome) {
+        return new ResponseEntity<>(service.findByNome(nome), HttpStatus.OK);
     }
 
     @GetMapping("/list")

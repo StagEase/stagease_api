@@ -6,4 +6,7 @@ import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
 
 @Repository
 public interface InstituicaoDeEnsinoRepository extends JpaRepository<InstituicaoDeEnsinoEntity, Long> {
+
+    InstituicaoDeEnsinoEntity findByNome(String nome);
+
 }

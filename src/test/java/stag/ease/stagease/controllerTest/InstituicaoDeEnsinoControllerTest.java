@@ -47,6 +47,7 @@ class InstituicaoDeEnsinoControllerTest {
         dtoList.add(dto);
 
         when(service.getById(anyLong())).thenReturn(dto);
+        when(service.findByNome(anyString())).thenReturn(dto);
         when(service.getAll()).thenReturn(dtoList);
         when(service.create(any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
         when(service.update(anyLong(), any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
@@ -63,6 +64,16 @@ class InstituicaoDeEnsinoControllerTest {
         verify(service).getById(id);
     }
 
+    @Test
+    void testGetByNome() {
+        String nome = "Uniamerica";
+        ResponseEntity<InstituicaoDeEnsinoDTO> response = controller.getByNome(nome);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(dto, response.getBody());
+
+        verify(service).findByNome(nome);
+    }
 
     @Test
     void testGetAll() {

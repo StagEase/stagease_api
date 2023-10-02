@@ -5,9 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
-import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 
@@ -32,6 +30,11 @@ public class InstituicaoDeEnsinoService {
         } else {
             throw new EntityNotFoundException("Área não encontrada com o ID: " + id);
         }
+    }
+
+    @Transactional
+    public InstituicaoDeEnsinoDTO findByNome(String nome) {
+        return modelMapper.map(repository.findByNome(nome), InstituicaoDeEnsinoDTO.class);
     }
 
     @Transactional

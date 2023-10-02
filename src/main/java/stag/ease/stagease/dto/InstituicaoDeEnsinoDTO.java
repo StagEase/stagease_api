@@ -13,5 +13,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class InstituicaoDeEnsinoDTO extends AbstractDTO {
     @NotBlank(message = "Este campo não pode ser nulo")
-    private String nomeIE;
+    private String nome;
 }
