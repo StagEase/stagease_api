@@ -1,6 +1,5 @@
 package stag.ease.stagease.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,14 +30,17 @@ public class UBSEntity extends AbstractEntity {
     private List<String> contatoList;
 
     @ManyToMany
-    @JoinTable(name = "ubs_supervisor", schema = "stagease", joinColumns = @JoinColumn(name = "ubs_id"), inverseJoinColumns = @JoinColumn(name = "supervisor_id"))
+    @JoinTable(
+            name = "ubs-supervisor",
+            schema = "stagease",
+            joinColumns = @JoinColumn(name = "supervisor_id"),
+            inverseJoinColumns = @JoinColumn(name = "ubs_id"))
     private List<SupervisorEntity> supervisorList;
 
     @ManyToMany
     @JoinTable(name = "ubs_area", schema = "stagease", joinColumns = @JoinColumn(name = "ubs_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
     private List<AreaEntity> areaList;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "ubs")
     private List<SolicitacaoEntity> solicitacaoList;
 

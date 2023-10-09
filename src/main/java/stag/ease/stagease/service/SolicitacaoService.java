@@ -18,7 +18,7 @@ import java.util.Optional;
 public class SolicitacaoService {
     @Autowired
     private SolicitacaoRepository repository;
-    @Autowired
+        @Autowired
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)

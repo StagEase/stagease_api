@@ -43,7 +43,7 @@ class SupervisorControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        dto = new SupervisorDTO("Marcelo", "matricula1", List.of(new UBSDTO()), "Descrição");
+        dto = new SupervisorDTO("Marcelo", "matricula1", "Descrição");
         List<SupervisorDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 

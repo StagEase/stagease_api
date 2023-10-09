@@ -17,15 +17,14 @@ public class SolicitacaoController {
     @Autowired
     private SolicitacaoService service;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<SolicitacaoDTO> getById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+    }
 
     @GetMapping("/list")
     public ResponseEntity<List<SolicitacaoDTO>> list() {
         return new ResponseEntity<>(service.getList(), HttpStatus.OK);
-    }
-
-    @GetMapping
-    public ResponseEntity<SolicitacaoDTO> getById(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
     @PostMapping
