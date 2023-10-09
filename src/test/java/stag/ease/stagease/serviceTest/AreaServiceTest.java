@@ -56,6 +56,7 @@ class AreaServiceTest {
 
         when(repository.findById(id)).thenReturn(Optional.of(entity));
         when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
+        when(repository.findByNomeArea("Enfermagem")).thenReturn(entity);
         when(repository.findAll()).thenReturn(entityList);
         when(repository.findById(id)).thenReturn(Optional.of(entity));
     }
@@ -75,6 +76,13 @@ class AreaServiceTest {
         assertThrows(EntityNotFoundException.class, () -> service.getById(idNaoExistente));
 
         verify(repository, times(1)).findById(idNaoExistente);
+    }
+
+    @Test
+    void testGetByNomeUBS() {
+        AreaEntity database = service.getByNomeArea("Enfermagem");
+
+        assertEquals("Enfermagem", database.getNomeArea());
     }
 
     @Test

@@ -1,11 +1,15 @@
 package stag.ease.stagease.controllerTest;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 import stag.ease.stagease.controller.AreaController;
 import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.entity.AreaEntity;
@@ -19,8 +23,11 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+@AutoConfigureMockMvc
 @SpringBootTest
 class AreaControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
     @InjectMocks
     private AreaController controller;
     @Mock
@@ -52,7 +59,7 @@ class AreaControllerTest {
         doNothing().when(service).deleteById(anyLong());
     }
 
-    /*@Test
+    @Test
     void testGetById() {
     }
 
@@ -74,5 +81,5 @@ class AreaControllerTest {
 
     @Test
     void testDelete() {
-    }*/
+    }
 }
