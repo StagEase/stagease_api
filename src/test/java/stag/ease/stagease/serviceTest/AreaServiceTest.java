@@ -71,10 +71,8 @@ class AreaServiceTest {
 
     @Test
     void testCreate() {
-        // Criação de uma área fictícia
         AreaEntity entityToCreate = new AreaEntity("Nova Área", null, null);
 
-        // Mock do repository para retornar a área criada
         when(repository.save(any(AreaEntity.class))).thenReturn(entityToCreate);
 
         AreaEntity createdEntity = service.create(entityToCreate);
@@ -84,12 +82,11 @@ class AreaServiceTest {
         verify(repository, times(1)).save(entityToCreate);
     }
 
-    /*@Test
+    @Test
     void testUpdate() {
         AreaEntity existingEntity = new AreaEntity("Área Existente", null, null);
         when(repository.findById(id)).thenReturn(Optional.of(existingEntity));
 
-        // Dados atualizados da área
         AreaEntity updatedData = new AreaEntity("Área Atualizada", null, null);
 
         AreaEntity updatedEntity = service.update(id, updatedData);
@@ -98,7 +95,7 @@ class AreaServiceTest {
         assertEquals("Área Atualizada", updatedEntity.getNomeArea());
         verify(repository, times(1)).findById(id);
         verify(repository, times(1)).save(existingEntity);
-    }*/
+    }
 
     @Test
     void testDeleteById() {

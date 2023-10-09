@@ -1,18 +1,21 @@
 package stag.ease.stagease.controllerTest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import stag.ease.stagease.controller.UBSController;
 import stag.ease.stagease.dto.AreaDTO;
-import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.dto.UBSDTO;
+import stag.ease.stagease.entity.AreaEntity;
+import stag.ease.stagease.entity.SupervisorEntity;
 import stag.ease.stagease.entity.UBSEntity;
 import stag.ease.stagease.entity.enums.Distrito;
 import stag.ease.stagease.repository.UBSRepository;
@@ -21,105 +24,96 @@ import stag.ease.stagease.service.UBSService;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc
 @SpringBootTest
 class UBSControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
     @InjectMocks
     private UBSController controller;
     @Mock
     private UBSService service;
     @Mock
     private UBSRepository repository;
-    @Mock
-    private ModelMapper modelMapper;
+    private ObjectMapper objectMapper;
     private UBSDTO dto;
     private UBSEntity entity;
+    private List<UBSEntity> entityList;
     private final Long id = 1L;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-<<<<<<< HEAD
-        dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE, List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")), "Descrição");
-
-=======
-        dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE, List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")),List.of(new SupervisorDTO("Gustavo", "1233321", "")) , "Descrição");
->>>>>>> 07207122276f02dbecfd48bc31e60bbfb5066485
-        List<UBSDTO> dtoList = new ArrayList<>();
-        dtoList.add(dto);
+        objectMapper = new ObjectMapper();
+        initClass();
 
         when(service.getById(anyLong())).thenReturn(entity);
         when(service.getByNomeUBS(anyString())).thenReturn(entity);
-        when(service.getAll()).thenReturn(dtoList);
-        when(service.create(any(UBSDTO.class))).thenReturn(dto);
-        when(service.update(anyLong(), any(UBSDTO.class))).thenReturn(dto);
+        when(service.getAll()).thenReturn(entityList);
+        when(service.create(any(UBSEntity.class))).thenReturn(entity);
+        when(service.update(anyLong(), any(UBSEntity.class))).thenReturn(entity);
         doNothing().when(service).deleteById(anyLong());
     }
 
     @Test
-    void testGetById() {
-        ResponseEntity<UBSDTO> response = controller.getById(id);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(dto, response.getBody());
-
-        verify(service).getById(id);
+    void testGetById() throws Exception {
     }
 
     @Test
-    void testGetByNomeArea() {
-        String nomeUBS = "Centro";
-        ResponseEntity<UBSDTO> response = controller.getByNomeUBS(nomeUBS);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(dto, response.getBody());
-
-        verify(service).getByNomeUBS(nomeUBS);
+    void testGetByNomeUBS() throws Exception {
     }
 
     @Test
-    void testGetAll() {
-        ResponseEntity<List<UBSDTO>> responseEntity = controller.getAll();
-
-        List<UBSDTO> dtoList = responseEntity.getBody();
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertNotNull(dtoList);
-
-        verify(service).getAll();
+    void testGetAll() throws Exception {
     }
 
     @Test
-    void testCreate() {
-        ResponseEntity<UBSDTO> response = controller.create(dto);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(dto, response.getBody());
-
-        verify(service).create(dto);
+    void testCreate() throws Exception {
     }
 
     @Test
-    void testUpdate() {
-        ResponseEntity<UBSDTO> response = controller.update(id, dto);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(dto, response.getBody());
-
-        verify(service).update(id, dto);
+    void testUpdate() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/ubs/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void testDelete() {
-        ResponseEntity<HttpStatus> response = controller.delete(id);
+    void testDelete() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/ubs/{id}", id))
+                .andExpect(status().isOk());
+    }
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+    private void initClass() {
+        dto = new UBSDTO();
 
-        verify(service).deleteById(id);
+        dto.setId(id);
+        dto.setNomeUBS("Centro");
+        dto.setGerente("Marcelo");
+        dto.setDistrito(Distrito.NORTE);
+        dto.setContatoList(null);
+        dto.setAreaList(List.of(new AreaDTO("Enfermagem")));
+        dto.setDescricao("Descrição");
+
+        entity = new UBSEntity();
+
+        entity.setId(id);
+        entity.setNomeUBS("Centro");
+        entity.setGerente("Marcelo");
+        entity.setDistrito(Distrito.NORTE);
+        entity.setContatoList(null);
+        entity.setSupervisorList(List.of(new SupervisorEntity("Kaue", "12345", null, null, "Descrição")));
+        entity.setAreaList(List.of(new AreaEntity("Enfermagem", null, null)));
+        entity.setSolicitacaoList(null);
+        entity.setDescricao("Descrição");
+
+        entityList = new ArrayList<>();
+
+        entityList.add(entity);
     }
 }

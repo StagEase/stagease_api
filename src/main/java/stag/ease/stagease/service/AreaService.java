@@ -49,6 +49,8 @@ public class    AreaService {
         AreaEntity existingEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Área não encontrada com o ID: " + id));
 
+        modelMapper.map(entity, existingEntity);
+
         return repository.save(existingEntity);
     }
 

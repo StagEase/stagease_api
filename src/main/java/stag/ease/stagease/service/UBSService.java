@@ -5,11 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.entity.UBSEntity;
 import stag.ease.stagease.repository.UBSRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,28 +35,23 @@ public class UBSService {
     }
 
     @Transactional
-    public List<UBSDTO> getAll() {
-        List<UBSDTO> list = new ArrayList<>();
-        for (UBSEntity entity : repository.findAll()) {
-            UBSDTO map = modelMapper.map(entity, UBSDTO.class);
-            list.add(map);
-        }
-        return list;
+    public List<UBSEntity> getAll() {
+        return repository.findAll();
     }
 
     @Transactional
-    public UBSDTO create(UBSDTO dto) {
-        return modelMapper.map(repository.save(modelMapper.map(dto, UBSEntity.class)), UBSDTO.class);
+    public UBSEntity create(UBSEntity entity) {
+        return repository.save(entity);
     }
 
     @Transactional
-    public UBSDTO update(Long id, UBSDTO dto) {
+    public UBSEntity update(Long id, UBSEntity entity) {
         UBSEntity existingEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("UBS não encontrada com o ID: " + id));
 
-        modelMapper.map(dto, existingEntity);
+        modelMapper.map(entity, existingEntity);
 
-        return modelMapper.map(repository.save(existingEntity), UBSDTO.class);
+        return repository.save(existingEntity);
     }
 
     @Transactional

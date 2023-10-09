@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.UBSDTO;
+import stag.ease.stagease.entity.UBSEntity;
 import stag.ease.stagease.service.UBSService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,17 +33,23 @@ public class UBSController {
 
     @GetMapping("/list")
     public ResponseEntity<List<UBSDTO>> getAll() {
-        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+        List<UBSDTO> list = new ArrayList<>();
+        for (UBSEntity entity : service.getAll()) {
+            UBSDTO map = modelMapper.map(entity, UBSDTO.class);
+            list.add(map);
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<UBSDTO> create(@RequestBody @Validated UBSDTO dto) {
-        return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(service.create(modelMapper.map(dto, UBSEntity.class)), UBSDTO.class), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UBSDTO> update(@PathVariable("id") Long id, @RequestBody @Validated UBSDTO dto) {
-        return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(service.update(id, modelMapper.map(dto, UBSEntity.class)), UBSDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

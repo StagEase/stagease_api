@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import stag.ease.stagease.dto.AreaDTO;
-import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.entity.SupervisorEntity;
@@ -23,41 +22,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UBSServiceTest {
-    private final Long id = 1L;
-    private final Long idNaoExistente = 2L;
     @InjectMocks
     private UBSService service;
     @Mock
     private UBSRepository repository;
-<<<<<<< HEAD
     private UBSDTO dto;
     private UBSEntity entity;
     private final Long id = 1L;
     private final Long idNaoExistente = 2L;
-=======
-    @Mock
-    private ModelMapper modelMapper;
->>>>>>> 07207122276f02dbecfd48bc31e60bbfb5066485
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-<<<<<<< HEAD
         initClass();
-=======
-
-        UBSDTO dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE,
-                List.of("Contato1", "Contato2"),
-                List.of(new AreaDTO("Enfermagem")),
-                List.of(new SupervisorDTO("Gustavo", "1233321", "")),
-                "Descrição");
-        dto.setId(id);
-
-        UBSEntity entity = new UBSEntity();
-        UBSEntity entity2 = new UBSEntity();
-
-        List<UBSEntity> entityList = Arrays.asList(entity, entity2);
->>>>>>> 07207122276f02dbecfd48bc31e60bbfb5066485
 
         when(repository.findById(id)).thenReturn(Optional.of(entity));
         when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
