@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
 import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.repository.AreaRepository;
@@ -24,8 +23,6 @@ class AreaServiceTest {
     private AreaService service;
     @Mock
     private AreaRepository repository;
-    @Mock
-    private ModelMapper modelMapper;
     private final Long id = 1L;
     private final Long idNaoExistente = 2L;
 
@@ -37,22 +34,22 @@ class AreaServiceTest {
         dto.setId(id);
 
         AreaEntity entity = new AreaEntity("Enfermagem", null, null);
+        entity.setId(id);
         AreaEntity entity2 = new AreaEntity("Fisioterapia", null, null);
 
         List<AreaEntity> entityList = Arrays.asList(entity, entity2);
 
         when(repository.findById(id)).thenReturn(Optional.of(entity));
         when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
-
-        when(modelMapper.map(entity, AreaDTO.class)).thenReturn(dto);
+        when(repository.findAll()).thenReturn(entityList);
     }
 
     @Test
     void testGetByIdExistente() {
-        AreaDTO dtoBanco = service.getById(id);
+        AreaEntity database = service.getById(id);
 
-        assertNotNull(dtoBanco);
-        assertEquals(id, dtoBanco.getId());
+        assertNotNull(database);
+        assertEquals(id, database.getId());
 
         verify(repository, times(1)).findById(id);
     }
@@ -63,6 +60,45 @@ class AreaServiceTest {
 
         verify(repository, times(1)).findById(idNaoExistente);
     }
+
+    @Test
+    void testFindAll() {
+        List<AreaEntity> result = service.getAll();
+
+        assertEquals(2, result.size());
+        verify(repository, times(1)).findAll();
+    }
+
+    @Test
+    void testCreate() {
+        // Criação de uma área fictícia
+        AreaEntity entityToCreate = new AreaEntity("Nova Área", null, null);
+
+        // Mock do repository para retornar a área criada
+        when(repository.save(any(AreaEntity.class))).thenReturn(entityToCreate);
+
+        AreaEntity createdEntity = service.create(entityToCreate);
+
+        assertNotNull(createdEntity);
+        assertEquals("Nova Área", createdEntity.getNomeArea());
+        verify(repository, times(1)).save(entityToCreate);
+    }
+
+    /*@Test
+    void testUpdate() {
+        AreaEntity existingEntity = new AreaEntity("Área Existente", null, null);
+        when(repository.findById(id)).thenReturn(Optional.of(existingEntity));
+
+        // Dados atualizados da área
+        AreaEntity updatedData = new AreaEntity("Área Atualizada", null, null);
+
+        AreaEntity updatedEntity = service.update(id, updatedData);
+
+        assertNotNull(updatedEntity);
+        assertEquals("Área Atualizada", updatedEntity.getNomeArea());
+        verify(repository, times(1)).findById(id);
+        verify(repository, times(1)).save(existingEntity);
+    }*/
 
     @Test
     void testDeleteById() {

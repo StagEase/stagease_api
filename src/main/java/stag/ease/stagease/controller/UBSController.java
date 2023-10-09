@@ -1,5 +1,6 @@
 package stag.ease.stagease.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +16,17 @@ import java.util.List;
 public class UBSController {
     @Autowired
     private UBSService service;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/{id}")
     public ResponseEntity<UBSDTO> getById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(service.getById(id), UBSDTO.class), HttpStatus.OK);
     }
 
     @GetMapping("/nome/{nome}")
     public ResponseEntity<UBSDTO> getByNomeUBS(@PathVariable("nome") String nome) {
-        return new ResponseEntity<>(service.getByNomeUBS(nome), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(service.getByNomeUBS(nome), UBSDTO.class), HttpStatus.OK);
     }
 
     @GetMapping("/list")

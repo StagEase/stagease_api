@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.AreaController;
 import stag.ease.stagease.dto.AreaDTO;
+import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.repository.AreaRepository;
 import stag.ease.stagease.service.AreaService;
 
@@ -33,6 +34,7 @@ class AreaControllerTest {
     @Mock
     private ModelMapper modelMapper;
     private AreaDTO dto;
+    private AreaEntity entity;
     private final Long id = 1L;
 
     @BeforeEach
@@ -40,14 +42,17 @@ class AreaControllerTest {
         MockitoAnnotations.openMocks(this);
 
         dto = new AreaDTO("Enfermagem");
+        entity = new AreaEntity("Enfermagem", null, null);
         List<AreaDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
+        List<AreaEntity> entityList = new ArrayList<>();
+        entityList.add(entity);
 
-        when(service.getById(anyLong())).thenReturn(dto);
-        when(service.getByNomeArea(anyString())).thenReturn(dto);
-        when(service.getAll()).thenReturn(dtoList);
-        when(service.create(any(AreaDTO.class))).thenReturn(dto);
-        when(service.update(anyLong(), any(AreaDTO.class))).thenReturn(dto);
+        when(service.getById(anyLong())).thenReturn(entity);
+        when(service.getByNomeArea(anyString())).thenReturn(entity);
+        when(service.getAll()).thenReturn(entityList);
+        when(service.create(any(AreaEntity.class))).thenReturn(entity);
+        when(service.update(anyLong(), any(AreaEntity.class))).thenReturn(entity);
         doNothing().when(service).deleteById(anyLong());
     }
 
@@ -91,7 +96,7 @@ class AreaControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(dto, response.getBody());
 
-        verify(service).create(dto);
+        verify(service).create(entity);
     }
 
     @Test
@@ -101,7 +106,7 @@ class AreaControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
 
-        verify(service).update(id, dto);
+        verify(service).update(id, entity);
     }
 
     @Test

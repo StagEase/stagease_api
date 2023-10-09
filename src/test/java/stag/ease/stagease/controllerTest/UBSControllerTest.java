@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.UBSController;
 import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.UBSDTO;
+import stag.ease.stagease.entity.UBSEntity;
 import stag.ease.stagease.entity.enums.Distrito;
 import stag.ease.stagease.repository.UBSRepository;
 import stag.ease.stagease.service.UBSService;
@@ -35,6 +36,7 @@ class UBSControllerTest {
     @Mock
     private ModelMapper modelMapper;
     private UBSDTO dto;
+    private UBSEntity entity;
     private final Long id = 1L;
 
     @BeforeEach
@@ -42,11 +44,12 @@ class UBSControllerTest {
         MockitoAnnotations.openMocks(this);
 
         dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE, List.of("+55 45 99988-7766"), List.of(new AreaDTO("Enfermagem")), "Descrição");
+
         List<UBSDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 
-        when(service.getById(anyLong())).thenReturn(dto);
-        when(service.getByNomeUBS(anyString())).thenReturn(dto);
+        when(service.getById(anyLong())).thenReturn(entity);
+        when(service.getByNomeUBS(anyString())).thenReturn(entity);
         when(service.getAll()).thenReturn(dtoList);
         when(service.create(any(UBSDTO.class))).thenReturn(dto);
         when(service.update(anyLong(), any(UBSDTO.class))).thenReturn(dto);

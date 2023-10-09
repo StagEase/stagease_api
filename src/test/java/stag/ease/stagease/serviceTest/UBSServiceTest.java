@@ -6,15 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
 import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.UBSDTO;
+import stag.ease.stagease.entity.AreaEntity;
+import stag.ease.stagease.entity.SupervisorEntity;
 import stag.ease.stagease.entity.UBSEntity;
 import stag.ease.stagease.entity.enums.Distrito;
 import stag.ease.stagease.repository.UBSRepository;
 import stag.ease.stagease.service.UBSService;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,38 +26,26 @@ class UBSServiceTest {
     private UBSService service;
     @Mock
     private UBSRepository repository;
-    @Mock
-    private ModelMapper modelMapper;
+    private UBSDTO dto;
+    private UBSEntity entity;
     private final Long id = 1L;
     private final Long idNaoExistente = 2L;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        UBSDTO dto = new UBSDTO("Centro", "Carlos", Distrito.NOROESTE,
-                List.of("Contato1", "Contato2"),
-                List.of(new AreaDTO("Enfermagem")),
-                "Descrição");
-        dto.setId(id);
-
-        UBSEntity entity = new UBSEntity();
-        UBSEntity entity2 = new UBSEntity();
-
-        List<UBSEntity> entityList = Arrays.asList(entity, entity2);
+        initClass();
 
         when(repository.findById(id)).thenReturn(Optional.of(entity));
         when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
-
-        when(modelMapper.map(entity, UBSDTO.class)).thenReturn(dto);
     }
 
     @Test
     void testGetByIdExistente() {
-        UBSDTO dtoBanco = service.getById(id);
+        UBSEntity database = service.getById(id);
 
-        assertNotNull(dtoBanco);
-        assertEquals(id, dtoBanco.getId());
+        assertNotNull(database);
+        assertEquals(id, database.getId());
 
         verify(repository, times(1)).findById(id);
     }
@@ -74,5 +62,29 @@ class UBSServiceTest {
         service.deleteById(id);
 
         verify(repository, times(1)).deleteById(id);
+    }
+
+    private void initClass() {
+        dto = new UBSDTO();
+
+        dto.setId(1L);
+        dto.setNomeUBS("Centro");
+        dto.setGerente("Marcelo");
+        dto.setDistrito(Distrito.NORTE);
+        dto.setContatoList(null);
+        dto.setAreaList(List.of(new AreaDTO("Enfermagem")));
+        dto.setDescricao("Descrição");
+
+        entity = new UBSEntity();
+
+        entity.setId(1L);
+        entity.setNomeUBS("Centro");
+        entity.setGerente("Marcelo");
+        entity.setDistrito(Distrito.NORTE);
+        entity.setContatoList(null);
+        entity.setSupervisorList(List.of(new SupervisorEntity("Kaue", "12345", null, null, "Descrição")));
+        entity.setAreaList(List.of(new AreaEntity("Enfermagem", null, null)));
+        entity.setSolicitacaoList(null);
+        entity.setDescricao("Descrição");
     }
 }

@@ -5,11 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.repository.AreaRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,44 +19,37 @@ public class    AreaService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public AreaDTO getById(Long id) {
+    public AreaEntity getById(Long id) {
         Optional<AreaEntity> optional = repository.findById(id);
 
         if (optional.isPresent()) {
-            return modelMapper.map(optional.get(), AreaDTO.class);
+            return optional.get();
         } else {
             throw new EntityNotFoundException("Área não encontrada com o ID: " + id);
         }
     }
 
     @Transactional
-    public AreaDTO getByNomeArea(String nome) {
-        return modelMapper.map(repository.findByNomeArea(nome), AreaDTO.class);
+    public AreaEntity getByNomeArea(String nome) {
+        return repository.findByNomeArea(nome);
     }
 
     @Transactional
-    public List<AreaDTO> getAll() {
-        List<AreaDTO> list = new ArrayList<>();
-        for (AreaEntity entity : repository.findAll()) {
-            AreaDTO map = modelMapper.map(entity, AreaDTO.class);
-            list.add(map);
-        }
-        return list;
+    public List<AreaEntity> getAll() {
+        return repository.findAll();
     }
 
     @Transactional
-    public AreaDTO create(AreaDTO dto) {
-        return modelMapper.map(repository.save(modelMapper.map(dto, AreaEntity.class)), AreaDTO.class);
+    public AreaEntity create(AreaEntity entity) {
+        return repository.save(entity);
     }
 
     @Transactional
-    public AreaDTO update(Long id, AreaDTO dto) {
+    public AreaEntity update(Long id, AreaEntity entity) {
         AreaEntity existingEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Área não encontrada com o ID: " + id));
 
-        modelMapper.map(dto, existingEntity);
-
-        return modelMapper.map(repository.save(existingEntity), AreaDTO.class);
+        return repository.save(existingEntity);
     }
 
     @Transactional

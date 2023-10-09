@@ -10,10 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.dto.SupervisorDTO;
 import stag.ease.stagease.dto.UBSDTO;
-import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
 import stag.ease.stagease.entity.SupervisorEntity;
 import stag.ease.stagease.repository.SupervisorRepository;
 import stag.ease.stagease.service.SupervisorService;
@@ -26,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class SupervisorServiceTest {
+class SupervisorServiceTest {
 
     @InjectMocks
     private SupervisorService service;

@@ -21,20 +21,19 @@ public class UBSService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public UBSDTO getById(Long id) {
+    public UBSEntity getById(Long id) {
         Optional<UBSEntity> optional = repository.findById(id);
 
         if (optional.isPresent()) {
-            UBSEntity entity = optional.get();
-            return modelMapper.map(entity, UBSDTO.class);
+            return optional.get();
         } else {
             throw new EntityNotFoundException("UBS não encontrada com o ID: " + id);
         }
     }
 
     @Transactional
-    public UBSDTO getByNomeUBS(String nome) {
-        return modelMapper.map(repository.findByNomeUBS(nome), UBSDTO.class);
+    public UBSEntity getByNomeUBS(String nome) {
+        return repository.findByNomeUBS(nome);
     }
 
     @Transactional
