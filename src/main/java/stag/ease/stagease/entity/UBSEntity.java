@@ -1,9 +1,7 @@
 package stag.ease.stagease.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import stag.ease.stagease.entity.enums.Distrito;
 
@@ -11,8 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "ubs", schema = "stagease")
 public class UBSEntity extends AbstractEntity {

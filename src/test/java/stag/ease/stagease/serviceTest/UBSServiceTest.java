@@ -126,6 +126,14 @@ class UBSServiceTest {
         dto.setAreaList(List.of(new AreaDTO("Enfermagem")));
         dto.setDescricao("Descrição");
 
+        AreaEntity areaEntity = new AreaEntity();
+        areaEntity.setId(id);
+        areaEntity.setNomeArea("Enfermagem");
+
+        SupervisorEntity supervisorEntity = new SupervisorEntity();
+        supervisorEntity.setId(id);
+        supervisorEntity.setNomeSupervisor("Zé");
+
         entity = new UBSEntity();
 
         entity.setId(id);
@@ -133,8 +141,8 @@ class UBSServiceTest {
         entity.setGerente("Marcelo");
         entity.setDistrito(Distrito.NORTE);
         entity.setContatoList(null);
-        entity.setSupervisorList(List.of(new SupervisorEntity("Kaue", "12345", null, null, "Descrição")));
-        entity.setAreaList(List.of(new AreaEntity("Enfermagem", null, null)));
+        entity.setSupervisorList(List.of(supervisorEntity));
+        entity.setAreaList(List.of(areaEntity));
         entity.setSolicitacaoList(null);
         entity.setDescricao("Descrição");
 
@@ -145,8 +153,8 @@ class UBSServiceTest {
         entity2.setGerente("Marcelo");
         entity2.setDistrito(Distrito.NORTE);
         entity2.setContatoList(null);
-        entity2.setSupervisorList(List.of(new SupervisorEntity("Kaue", "12345", null, null, "Descrição")));
-        entity2.setAreaList(List.of(new AreaEntity("Enfermagem", null, null)));
+        entity2.setSupervisorList(List.of(supervisorEntity));
+        entity2.setAreaList(List.of(areaEntity));
         entity2.setSolicitacaoList(null);
         entity2.setDescricao("Descrição");
 

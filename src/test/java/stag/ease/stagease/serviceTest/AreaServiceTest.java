@@ -40,13 +40,17 @@ class AreaServiceTest {
 
         modelMapper = new ModelMapper();
 
-        dto = new AreaDTO("Enfermagem");
+        dto = new AreaDTO();
         dto.setId(id);
+        dto.setNomeArea("Enfermagem");
 
-        entity = new AreaEntity("Enfermagem", null, null);
+        entity = new AreaEntity();
         entity.setId(id);
+        entity.setNomeArea("Enfermagem");
 
-        entity2 = new AreaEntity("Fisioterapia", null, null);
+        entity2 = new AreaEntity();
+        entity2.setId(2L);
+        entity2.setNomeArea("Enfermagem");
 
         entityList = Arrays.asList(entity, entity2);
 
