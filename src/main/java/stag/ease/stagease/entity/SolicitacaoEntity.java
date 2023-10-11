@@ -52,6 +52,5 @@ public class SolicitacaoEntity extends AbstractEntity {
     @Column(nullable = false)
     private Situacao situacao;
 
-    @Column
     private String descricao;
 }

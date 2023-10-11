@@ -19,10 +19,8 @@ public class UBSEntity extends AbstractEntity {
     private String gerente;
 
     @Enumerated(EnumType.STRING)
-    @Column()
     private Distrito distrito;
 
-    @Column
     private List<String> contatoList;
 
     @ManyToMany
@@ -40,6 +38,5 @@ public class UBSEntity extends AbstractEntity {
     @OneToMany(mappedBy = "ubs")
     private List<SolicitacaoEntity> solicitacaoList;
 
-    @Column
     private String descricao;
 }

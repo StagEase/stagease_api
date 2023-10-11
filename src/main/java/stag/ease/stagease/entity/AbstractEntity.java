@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -20,9 +21,9 @@ public class AbstractEntity {
     private Long id;
 
     @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime cadastro;
 
-    @Column
     private LocalDateTime atualizacao;
 
     @Column(nullable = false)
@@ -30,7 +31,6 @@ public class AbstractEntity {
 
     @PrePersist
     public void prePersist() {
-        this.cadastro = LocalDateTime.now();
         this.ativo = true;
     }
 
