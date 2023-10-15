@@ -27,14 +27,4 @@ class HandlerExceptionTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("Recurso não encontrado", response.getBody());
     }
-
-    @Test
-    void testHandleRuntimeException() {
-        RuntimeException exception = new RuntimeException("RuntimeException internal");
-
-        ResponseEntity<Object> response = handlerException.handleRunTimeException(exception);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("RuntimeException internal", response.getBody());
-    }
 }

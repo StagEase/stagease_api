@@ -1,5 +1,6 @@
 package stag.ease.stagease.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,12 @@ public class UBSDTO extends AbstractDTO {
     @NotNull(message = "Este campo não pode ser nulo")
     private Distrito distrito;
     private List<String> contatoList;
+    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private List<AreaDTO> areaList;
+    @JsonIgnoreProperties({"ubsList", "solicitacaoList"})
     private List<SupervisorDTO> supervisorList;
+    @JsonIgnoreProperties({"ubs", "area", "supervisor", "instituicaoDeEnsino"})
+    private List<SolicitacaoDTO> solicitacaoList;
     private String descricao;
 }

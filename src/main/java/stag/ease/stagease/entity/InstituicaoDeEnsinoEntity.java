@@ -22,7 +22,6 @@ public class InstituicaoDeEnsinoEntity extends AbstractEntity {
     @Column(nullable = false, unique = true)
     private String nome;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "instituicaoDeEnsino")
     private List<SolicitacaoEntity> solicitacaoList;
 }

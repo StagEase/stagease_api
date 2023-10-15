@@ -1,6 +1,5 @@
 package stag.ease.stagease.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +17,6 @@ public class AreaEntity extends AbstractEntity {
     @ManyToMany(mappedBy = "areaList")
     private List<UBSEntity> ubsList;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "area")
     private List<SolicitacaoEntity> solicitacaoList;
 }

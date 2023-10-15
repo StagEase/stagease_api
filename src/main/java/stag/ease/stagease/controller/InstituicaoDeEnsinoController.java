@@ -5,9 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
-
-
+import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
+import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 import stag.ease.stagease.service.InstituicaoDeEnsinoService;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 public class InstituicaoDeEnsinoController {
     @Autowired
     private InstituicaoDeEnsinoService service;
+    @Autowired
+    private InstituicaoDeEnsinoRepository repository;
 
     @GetMapping("/{id}")
     public ResponseEntity<InstituicaoDeEnsinoDTO> getById(@PathVariable("id") Long id) {
@@ -44,8 +47,23 @@ public class InstituicaoDeEnsinoController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
-        service.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+        InstituicaoDeEnsinoEntity database = repository.findById(id).orElse(null);
+
+        if (database == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encontrado");
+        }
+
+        try {
+            repository.delete(database);
+            return ResponseEntity.ok("Registro deletado com sucesso!");
+        } catch (RuntimeException e) {
+            if (database.isAtivo()) {
+                database.setAtivo(false);
+                repository.save(database);
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro no delete, flag desativada!");
+            }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro no delete, a flag já está desativada");
+        }
     }
 }

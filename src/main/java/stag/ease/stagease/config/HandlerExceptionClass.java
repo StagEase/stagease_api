@@ -14,10 +14,4 @@ public class HandlerExceptionClass extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleGenericException(Exception ex) {
         return new ResponseEntity<>("Recurso não encontrado", HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Object> handleRunTimeException(RuntimeException e){
-        return new ResponseEntity<>("RuntimeException internal", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }

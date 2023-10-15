@@ -1,6 +1,5 @@
 package stag.ease.stagease.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +22,7 @@ public class SupervisorEntity extends AbstractEntity {
     @Column(nullable = false, unique = true)
     private String matricula;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "supervisor")
     private List<SolicitacaoEntity> solicitacaoList;
 

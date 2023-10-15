@@ -1,5 +1,7 @@
 package stag.ease.stagease.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +24,7 @@ public class UBSEntity extends AbstractEntity {
     private Distrito distrito;
 
     private List<String> contatoList;
+
 
     @ManyToMany
     @JoinTable(
