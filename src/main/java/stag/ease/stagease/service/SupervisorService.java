@@ -2,20 +2,13 @@ package stag.ease.stagease.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.Super;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-import stag.ease.stagease.dto.SupervisorDTO;
-import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.entity.SupervisorEntity;
-import stag.ease.stagease.entity.UBSEntity;
 import stag.ease.stagease.repository.SupervisorRepository;
 import stag.ease.stagease.repository.UBSRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
