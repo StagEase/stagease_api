@@ -20,6 +20,8 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.xmlReportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.xmlReportPath>
 		<sonar.language>java</sonar.language>
+		<sonar.login>admin</sonar.login>
+		<sonar.password>basquet011</sonar.password>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -70,12 +72,7 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>RELEASE</version>
-			<scope>compile</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>

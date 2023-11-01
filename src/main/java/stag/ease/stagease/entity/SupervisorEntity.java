@@ -16,10 +16,10 @@ import java.util.List;
 @Table(name = "supervisor", schema = "stagease")
 public class SupervisorEntity extends AbstractEntity {
 
-    @Column(nullable = false)
+    @Column(length = 60, nullable = false)
     private String nomeSupervisor;
 
-    @Column(nullable = false, unique = true)
+    @Column(length = 40, nullable = false, unique = true)
     private String matricula;
 
 
