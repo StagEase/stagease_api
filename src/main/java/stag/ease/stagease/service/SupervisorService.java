@@ -29,49 +29,41 @@ public class SupervisorService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public SupervisorDTO getById(Long id) {
+    public SupervisorEntity getById(Long id) {
         Optional<SupervisorEntity> optional = repository.findById(id);
 
         if (optional.isPresent()) {
-            SupervisorEntity entity = optional.get();
-            return modelMapper.map(entity, SupervisorDTO.class);
+            return optional.get();
         } else {
-            throw new EntityNotFoundException("Área não encontrada com o ID: " + id);
+            throw new EntityNotFoundException("Supervisor não encontrada com o ID: " + id);
         }
     }
 
     @Transactional
-    public SupervisorDTO findByNomeSupervisor(String nomeSupervisor) {
-        return modelMapper.map(repository.findByNomeSupervisor(nomeSupervisor), SupervisorDTO.class);
-    }
-    @Transactional
-    public SupervisorDTO findByMatricula(String matricula) {
-        return modelMapper.map(repository.findByMatricula(matricula), SupervisorDTO.class);
-    }
-    @Transactional
-    public List<SupervisorDTO> getAll() {
-        List<SupervisorDTO> list = new ArrayList<>();
-        for (SupervisorEntity entity : repository.findAll()) {
-            SupervisorDTO map = modelMapper.map(entity, SupervisorDTO.class);
-            list.add(map);
-        }
-
-        return list;
+    public SupervisorEntity findByNomeSupervisor(String nomeSupervisor) {
+        return repository.findByNomeSupervisor(nomeSupervisor);
     }
 
     @Transactional
-    public SupervisorDTO create(SupervisorDTO dto) {
-        if (dto.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id deve ser gerado pelo banco");
-        }
-        return modelMapper.map(repository.save(modelMapper.map(dto, SupervisorEntity.class)), SupervisorDTO.class);
+    public SupervisorEntity findByMatricula(String matricula) {
+        return repository.findByMatricula(matricula);
+    }
+    @Transactional
+    public List<SupervisorEntity> getAll() {
+        return repository.findAll();
     }
 
     @Transactional
-    public SupervisorDTO update(Long id, SupervisorDTO dto) {
-        SupervisorEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado"));
-        modelMapper.map(dto, repository.save(entity));
-        return modelMapper.map(entity, SupervisorDTO.class);
+    public SupervisorEntity create(SupervisorEntity entity) {
+        return repository.save(entity);
+    }
+
+    @Transactional
+    public SupervisorEntity update(Long id, SupervisorEntity entity) {
+        SupervisorEntity existingEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Supervisor não encontrado com o ID: " + id));
+        modelMapper.map(entity, existingEntity);
+        return repository.save(existingEntity);
     }
 
     @Transactional
