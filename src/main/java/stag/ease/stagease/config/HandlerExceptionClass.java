@@ -12,6 +12,11 @@ public class HandlerExceptionClass extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> handleGenericException(Exception ex) {
-        return new ResponseEntity<>("Recurso não encontrado", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidDateTimeException.class)
+    public ResponseEntity<String> handleSuaExcecao(InvalidDateTimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

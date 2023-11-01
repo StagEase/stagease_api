@@ -1,5 +1,6 @@
 package stag.ease.stagease.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -16,15 +17,18 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SolicitacaoDTO extends AbstractDTO {
+    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private UBSDTO ubs;
+    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private AreaDTO area;
+    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private SupervisorDTO supervisor;
     @Positive(message = "O numero deve ser positivo")
-    @NotNull(message = "Este campo não pode ser nulo")
     private int qntdEstagiarios;
+    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private InstituicaoDeEnsinoDTO instituicaoDeEnsino;
     @NotNull(message = "Este campo não pode ser nulo")

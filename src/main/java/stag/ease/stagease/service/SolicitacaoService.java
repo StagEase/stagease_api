@@ -1,16 +1,14 @@
 package stag.ease.stagease.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-import stag.ease.stagease.dto.SolicitacaoDTO;
+import stag.ease.stagease.config.InvalidDateTimeException;
 import stag.ease.stagease.entity.SolicitacaoEntity;
 import stag.ease.stagease.repository.SolicitacaoRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,48 +16,57 @@ import java.util.Optional;
 public class SolicitacaoService {
     @Autowired
     private SolicitacaoRepository repository;
-        @Autowired
+    @Autowired
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-    public List<SolicitacaoDTO> getList() {
-        List<SolicitacaoDTO> listDTO = new ArrayList<>();
-        for (SolicitacaoEntity entity : repository.findAll()) {
-            SolicitacaoDTO map = modelMapper.map(entity, SolicitacaoDTO.class);
-            listDTO.add(map);
-        }
-        return listDTO;
+    public List<SolicitacaoEntity> getAll() {
+        return this.repository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public SolicitacaoDTO getById(Long id) {
-        Optional<SolicitacaoEntity> optionalSolicitacao = repository.findById(id);
-        if (optionalSolicitacao.isPresent()) {
-            return modelMapper.map(optionalSolicitacao.get(), SolicitacaoDTO.class);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encotrado");
+    public SolicitacaoEntity getById(Long id) {
+        Optional<SolicitacaoEntity> optional = this.repository.findById(id);
+        if (optional.isPresent()){
+            return optional.get();
+        }else {
+            throw new EntityNotFoundException("Solicitação não encontrada com o ID: " + id);
         }
     }
 
     @Transactional
-    public SolicitacaoDTO create(SolicitacaoDTO dto) {
-        if (dto.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id deve ser gerado pelo banco");
-        }
-        return modelMapper.map(repository.save(modelMapper.map(dto, SolicitacaoEntity.class)), SolicitacaoDTO.class);
+    public SolicitacaoEntity create(SolicitacaoEntity entity) {
+        validaData(entity);
+        validaHora(entity);
+        return this.repository.save(entity);
     }
 
     @Transactional
-    public SolicitacaoDTO update(Long id, SolicitacaoDTO dto) {
-        SolicitacaoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado"));
-        modelMapper.map(dto, repository.save(entity));
-        return modelMapper.map(entity, SolicitacaoDTO.class);
+    public SolicitacaoEntity update(Long id, SolicitacaoEntity entity) {
+        SolicitacaoEntity database = this.repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Área não encontrada com o ID: " + id));
+        validaData(entity);
+        validaHora(entity);
+
+        modelMapper.map(entity, database);
+        return repository.save(database);
     }
 
     @Transactional
     public void delete(Long id) {
-        SolicitacaoEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
+        SolicitacaoEntity entity = repository.findById(id).orElseThrow(() -> new  EntityNotFoundException("Não foi possível encontrar o registro informado"));
         entity.setAtivo(false);
         repository.save(entity);
+    }
+
+    private void validaData(SolicitacaoEntity solicitacao) {
+        if (solicitacao.getDataInicio().isAfter(solicitacao.getDataFim())) {
+            throw new InvalidDateTimeException("A data de início não pode ser posterior à data final");
+        }
+    }
+
+    private void validaHora(SolicitacaoEntity solicitacao) {
+        if (solicitacao.getInicioExpediente().isAfter(solicitacao.getFimExpediente())) {
+            throw new InvalidDateTimeException("O início do expediente não pode ser posterior ao final do expediente");
+        }
     }
 }
