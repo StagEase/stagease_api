@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.dto.InstituicaoDeEnsinoDTO;
 import stag.ease.stagease.entity.InstituicaoDeEnsinoEntity;
+import stag.ease.stagease.entity.SupervisorEntity;
 import stag.ease.stagease.repository.InstituicaoDeEnsinoRepository;
 
 import java.util.ArrayList;
@@ -23,45 +24,37 @@ public class InstituicaoDeEnsinoService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public InstituicaoDeEnsinoDTO getById(Long id) {
+    public InstituicaoDeEnsinoEntity getById(Long id) {
         Optional<InstituicaoDeEnsinoEntity> optional = repository.findById(id);
 
         if (optional.isPresent()) {
-            InstituicaoDeEnsinoEntity entity = optional.get();
-            return modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
+            return optional.get();
         } else {
-            throw new EntityNotFoundException("Área não encontrada com o ID: " + id);
+            throw new EntityNotFoundException("Instituicao não encontrada com o ID: " + id);
         }
     }
 
     @Transactional
-    public InstituicaoDeEnsinoDTO findByNome(String nome) {
-        return modelMapper.map(repository.findByNome(nome), InstituicaoDeEnsinoDTO.class);
+    public InstituicaoDeEnsinoEntity findByNome(String nome) {
+        return repository.findByNome(nome);
     }
 
     @Transactional
-    public List<InstituicaoDeEnsinoDTO> getAll() {
-        List<InstituicaoDeEnsinoDTO> list = new ArrayList<>();
-        for (InstituicaoDeEnsinoEntity entity : repository.findAll()) {
-            InstituicaoDeEnsinoDTO map = modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
-            list.add(map);
-        }
-        return list;
+    public List<InstituicaoDeEnsinoEntity> getAll() {
+        return repository.findAll();
     }
 
     @Transactional
-    public InstituicaoDeEnsinoDTO create(InstituicaoDeEnsinoDTO dto) {
-        if (dto.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id deve ser gerado pelo banco");
-        }
-        return modelMapper.map(repository.save(modelMapper.map(dto, InstituicaoDeEnsinoEntity.class)), InstituicaoDeEnsinoDTO.class);
+    public InstituicaoDeEnsinoEntity create(InstituicaoDeEnsinoEntity entity) {
+        return repository.save(entity);
     }
 
     @Transactional
-    public InstituicaoDeEnsinoDTO update(Long id, InstituicaoDeEnsinoDTO dto) {
-        InstituicaoDeEnsinoEntity entity = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado"));
-        modelMapper.map(dto, repository.save(entity));
-        return modelMapper.map(entity, InstituicaoDeEnsinoDTO.class);
+    public InstituicaoDeEnsinoEntity update(Long id, InstituicaoDeEnsinoEntity entity) {
+        InstituicaoDeEnsinoEntity existingEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Instituicao não encontrado com o ID: " + id));
+        modelMapper.map(entity, existingEntity);
+        return repository.save(existingEntity);
     }
 
     @Transactional
@@ -69,7 +62,7 @@ public class InstituicaoDeEnsinoService {
         InstituicaoDeEnsinoEntity database = repository.findById(id).orElse(null);
 
         if (database == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível encontrar o registro informado");
         }
 
         try {

@@ -19,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "instituicao_de_ensino", schema = "stagease")
 public class InstituicaoDeEnsinoEntity extends AbstractEntity {
-    @Column(nullable = false, unique = true)
+    @Column(length = 50, nullable = false, unique = true)
     private String nome;
 
     @OneToMany(mappedBy = "instituicaoDeEnsino")

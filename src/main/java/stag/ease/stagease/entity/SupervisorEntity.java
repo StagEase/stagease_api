@@ -22,7 +22,6 @@ public class SupervisorEntity extends AbstractEntity {
     @Column(length = 40, nullable = false, unique = true)
     private String matricula;
 
-
     @OneToMany(mappedBy = "supervisor")
     private List<SolicitacaoEntity> solicitacaoList;
 
