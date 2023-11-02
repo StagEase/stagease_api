@@ -1,5 +1,6 @@
 package stag.ease.stagease.serviceTest;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,100 +24,154 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class SolicitacaoServiceTest {
     @InjectMocks
-    private SolicitacaoService service;
-    @MockBean
-    private SolicitacaoService serviceTest;
+    private  SolicitacaoService service;
     @MockBean
     private SolicitacaoRepository repository;
     @Mock
     private ModelMapper modelMapper;
+    private final Long id = 1L;
+    private final Long idNaoExistente = 2L;
     private SolicitacaoDTO dto;
     private SolicitacaoEntity entity;
+    private SolicitacaoEntity entity2;
+    private List<SolicitacaoEntity> entityList;
+    private SolicitacaoEntity updatedEntity;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+        modelMapper = new ModelMapper();
         initClass();
-    }
 
-    @Test
-    void testList() {
-        List<SolicitacaoEntity> entityList = new ArrayList<>();
-        entityList.add(entity);
-
+        when(repository.findById(id)).thenReturn(Optional.of(entity));
+        when(repository.findById(idNaoExistente)).thenReturn(Optional.empty());
         when(repository.findAll()).thenReturn(entityList);
-
-        List<SolicitacaoDTO> result = service.getList();
-        assertEquals(1, result.size());
+        when(repository.findById(id)).thenReturn(Optional.of(entity));
     }
 
     @Test
-    void testGetId() {
-        Long id = 1L;
-        when(serviceTest.getById(id)).thenReturn(dto);
+    void testGetByIdExistente() {
+        SolicitacaoEntity database = service.getById(id);
 
-        SolicitacaoDTO result = serviceTest.getById(id);
+        assertNotNull(database);
+        assertEquals(id, database.getId());
+
+        verify(repository, times(1)).findById(id);
+    }
+
+    @Test
+    void testGetByIdNaoExistente() {
+        assertThrows(EntityNotFoundException.class, () -> service.getById(idNaoExistente));
+
+        verify(repository, times(1)).findById(idNaoExistente);
+    }
+
+    @Test
+    void testFindAll() {
+        List<SolicitacaoEntity> database = service.getAll();
+
+        assertEquals(2, database.size());
+
+        verify(repository, times(1)).findAll();
+    }
+
+    @Test
+    void testCreate() {
+        when(repository.save(any())).thenReturn(entity);
+
+        SolicitacaoEntity createdEntity = service.create(entity);
+
+        assertNotNull(createdEntity);
+//        assertEquals("Enfermagem", createdEntity.getNomeArea());
+
+        verify(repository, times(1)).save(entity);
+    }
+
+    @Test
+    void testUpdate() {
+        when(repository.save(any())).thenReturn(updatedEntity);
+
+        SolicitacaoEntity result = service.update(id, updatedEntity);
+
         assertNotNull(result);
-        assertEquals(dto.getQntdEstagiarios(), result.getQntdEstagiarios());
+        assertEquals(id, result.getId());
+//        assertEquals("Fisioterapia", result.getNomeArea());
+
+        verify(repository, times(1)).save(any());
     }
 
     @Test
-    void testCreateException() {
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> service.create(dto));
-        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
-    }
+    void testDeleteById() {
+        service.delete(id);
 
-    @Test
-    void testUpdateException() {
-        when(repository.findById(2L)).thenReturn(Optional.empty());
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, ()-> service.update(2L, dto));
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        verify(repository, times(1)).deleteById(id);
     }
 
     private void initClass() {
-        modelMapper = new ModelMapper();
-        UBSDTO ubs = new UBSDTO();
-        AreaDTO area = new AreaDTO();
-        SupervisorDTO supervisor = new SupervisorDTO();
-        InstituicaoDeEnsinoDTO ie = new InstituicaoDeEnsinoDTO();
-
         dto = new SolicitacaoDTO();
 
-        dto.setId(1L);
-        dto.setUbs(ubs);
-        dto.setArea(area);
-        dto.setSupervisor(supervisor);
+        dto.setId(id);
+        dto.setUbs(new UBSDTO());
+        dto.setArea(new AreaDTO());
+        dto.setSupervisor(new SupervisorDTO());
         dto.setQntdEstagiarios(4);
-        dto.setInstituicaoDeEnsino(ie);
+        dto.setInstituicaoDeEnsino(new InstituicaoDeEnsinoDTO());
         dto.setDataInicio(LocalDate.now());
         dto.setDataFim(LocalDate.now());
         dto.setInicioExpediente(LocalTime.now());
         dto.setFimExpediente(LocalTime.now());
         dto.setSituacao(Situacao.LIBERADO);
 
-        UBSEntity ubsEntity = new UBSEntity();
-        AreaEntity areaEntity = new AreaEntity();
-        SupervisorEntity supervisorEntity = new SupervisorEntity();
-        InstituicaoDeEnsinoEntity ieEntity = new InstituicaoDeEnsinoEntity();
-
         entity = new SolicitacaoEntity();
 
-        entity.setUbs(ubsEntity);
-        entity.setArea(areaEntity);
-        entity.setSupervisor(supervisorEntity);
+        entity.setId(id);
+        entity.setUbs(new UBSEntity());
+        entity.setArea(new AreaEntity());
+        entity.setSupervisor(new SupervisorEntity());
         entity.setQntdEstagiarios(4);
-        entity.setInstituicaoDeEnsino(ieEntity);
+        entity.setInstituicaoDeEnsino(new InstituicaoDeEnsinoEntity());
         entity.setDataInicio(LocalDate.now());
         entity.setDataFim(LocalDate.now());
         entity.setInicioExpediente(LocalTime.now());
         entity.setFimExpediente(LocalTime.now());
         entity.setSituacao(Situacao.LIBERADO);
+
+        entity2 = new SolicitacaoEntity();
+
+        entity2.setId(id);
+        entity2.setUbs(new UBSEntity());
+        entity2.setArea(new AreaEntity());
+        entity2.setSupervisor(new SupervisorEntity());
+        entity2.setQntdEstagiarios(4);
+        entity2.setInstituicaoDeEnsino(new InstituicaoDeEnsinoEntity());
+        entity2.setDataInicio(LocalDate.now());
+        entity2.setDataFim(LocalDate.now());
+        entity2.setInicioExpediente(LocalTime.now());
+        entity2.setFimExpediente(LocalTime.now());
+        entity2.setSituacao(Situacao.LIBERADO);
+
+        entityList = new ArrayList<>();
+        entityList.add(entity);
+
+        updatedEntity = new SolicitacaoEntity();
+
+        updatedEntity.setId(id);
+        updatedEntity.setUbs(new UBSEntity());
+        updatedEntity.setArea(new AreaEntity());
+        updatedEntity.setSupervisor(new SupervisorEntity());
+        updatedEntity.setQntdEstagiarios(4);
+        updatedEntity.setInstituicaoDeEnsino(new InstituicaoDeEnsinoEntity());
+        updatedEntity.setDataInicio(LocalDate.now());
+        updatedEntity.setDataFim(LocalDate.now());
+        updatedEntity.setInicioExpediente(LocalTime.now());
+        updatedEntity.setFimExpediente(LocalTime.now());
+        updatedEntity.setSituacao(Situacao.LIBERADO);
     }
 }
 

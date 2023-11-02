@@ -30,14 +30,14 @@ public class SolicitacaoController {
     @GetMapping("/list")
     public ResponseEntity<List<SolicitacaoDTO>> list() {
         List<SolicitacaoDTO> list = new ArrayList<>();
-        for (SolicitacaoEntity entity : service.getAll()){
+        for (SolicitacaoEntity entity : service.getAll()) {
             SolicitacaoDTO map = modelMapper.map(entity, SolicitacaoDTO.class);
             list.add(map);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<SolicitacaoDTO> create(@RequestBody @Validated SolicitacaoDTO dto) {
         return new ResponseEntity<>(modelMapper.map(service.create(modelMapper.map(dto, SolicitacaoEntity.class)), SolicitacaoDTO.class), HttpStatus.CREATED);
     }

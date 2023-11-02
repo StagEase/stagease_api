@@ -33,7 +33,7 @@ public class SupervisorController {
 
     @GetMapping("/matricula/{matricula}")
     public ResponseEntity<SupervisorDTO> getByNomeMatricula(@PathVariable("matricula") String matricula) {
-        return new ResponseEntity<>(modelMapper.map(service.findByMatricula(matricula), SupervisorDTO.class),HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(service.findByMatricula(matricula), SupervisorDTO.class), HttpStatus.OK);
     }
 
     // pesquisar pela area de atuacao faltaria
@@ -48,7 +48,7 @@ public class SupervisorController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<SupervisorDTO> create(@RequestBody @Validated SupervisorDTO dto) {
         return new ResponseEntity<>(modelMapper.map(service.create(modelMapper.map(dto, SupervisorEntity.class)), SupervisorDTO.class), HttpStatus.CREATED);
     }

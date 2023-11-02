@@ -1,5 +1,6 @@
 package stag.ease.stagease.controllerTest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,14 +10,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import stag.ease.stagease.controller.SolicitacaoController;
 import stag.ease.stagease.dto.*;
+import stag.ease.stagease.entity.*;
 import stag.ease.stagease.entity.enums.Situacao;
-import stag.ease.stagease.repository.SolicitacaoRepository;
 import stag.ease.stagease.service.SolicitacaoService;
 
 import java.time.LocalDate;
@@ -24,113 +24,103 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class SolicitacaoControllerTest {
+    private final Long id = 1L;
+    @Autowired
+    private MockMvc mockMvc;
     @InjectMocks
     private SolicitacaoController controller;
     @Mock
     private SolicitacaoService service;
     @Mock
-    private SolicitacaoRepository repository;
-    @Mock
     private ModelMapper modelMapper;
-    @Autowired
-    private MockMvc mockMvc;
-    private final Long id = 1L;
     private SolicitacaoDTO dto;
-    private List<SolicitacaoDTO> listDTO;
+    private SolicitacaoEntity entity;
+    private List<SolicitacaoEntity> entityList;
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void inject() {
         MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         initClass();
-
-        when(service.getById(anyLong())).thenReturn(dto);
-        when(service.getList()).thenReturn(listDTO);
-        when(service.create(any(SolicitacaoDTO.class))).thenReturn(dto);
-        when(service.update(anyLong(), any(SolicitacaoDTO.class))).thenReturn(dto);
-        doNothing().when(service).delete(anyLong());
     }
 
     @Test
-    void testGetAll() {
-        ResponseEntity<List<SolicitacaoDTO>> responseEntity = controller.list();
+    void shouldCreate() throws Exception {
+        String areaDTOJson = objectMapper.writeValueAsString(dto);
 
-        List<SolicitacaoDTO> listDTOTest = responseEntity.getBody();
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertNotNull(listDTOTest);
+        mockMvc.perform(post("/area")
+                        .content(areaDTOJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    void testGetById() {
-        ResponseEntity<SolicitacaoDTO> response = controller.getById(id);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(dto, response.getBody());
+    void shouldGetById() throws Exception {
+        when(service.getById(id)).thenReturn(entity);
+        mockMvc.perform(get("/solicitacao/{id}", id))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void testCreate() {
-        ResponseEntity<SolicitacaoDTO> response = controller.create(dto);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(dto, response.getBody());
+    void shouldGetAll() throws Exception {
+        when(service.getAll()).thenReturn(entityList);
+        mockMvc.perform(get("/solicitacao/list"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    void testUpdate() {
-        ResponseEntity<SolicitacaoDTO> response = controller.update(id, dto);
+    void shouldUpdate() throws Exception {
+        String json = objectMapper.writeValueAsString(dto);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(dto, response.getBody());
+        mockMvc.perform(put("/solicitacao/{id}", id)
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void testDelete() {
-        ResponseEntity<HttpStatus> response = controller.delete(id);
-
-        verify(service).delete(id);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    void testDeleteRuntime() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/solicitacao/{id}", id))
-                .andExpect(status().is(405));
+    void shouldDelete() throws Exception {
+        mockMvc.perform(delete("/solicitacao/{id}", id))
+                .andExpect(status().isOk());
     }
 
     private void initClass() {
-        UBSDTO ubs = new UBSDTO();
-        AreaDTO area = new AreaDTO();
-        SupervisorDTO supervisor = new SupervisorDTO();
-        InstituicaoDeEnsinoDTO ie = new InstituicaoDeEnsinoDTO();
-
         dto = new SolicitacaoDTO();
-        listDTO = new ArrayList<>();
 
-        dto.setId(id);
-        dto.setUbs(ubs);
-        dto.setArea(area);
-        dto.setSupervisor(supervisor);
+        dto.setUbs(new UBSDTO());
+        dto.setArea(new AreaDTO());
+        dto.setSupervisor(new SupervisorDTO());
         dto.setQntdEstagiarios(4);
-        dto.setInstituicaoDeEnsino(ie);
+        dto.setInstituicaoDeEnsino(new InstituicaoDeEnsinoDTO());
         dto.setDataInicio(LocalDate.now());
         dto.setDataFim(LocalDate.now());
         dto.setInicioExpediente(LocalTime.now());
         dto.setFimExpediente(LocalTime.now());
         dto.setSituacao(Situacao.LIBERADO);
 
+        entity = new SolicitacaoEntity();
+        entity.setUbs(new UBSEntity());
+        entity.setArea(new AreaEntity());
+        entity.setSupervisor(new SupervisorEntity());
+        entity.setQntdEstagiarios(4);
+        entity.setInstituicaoDeEnsino(new InstituicaoDeEnsinoEntity());
+        entity.setDataInicio(LocalDate.now());
+        entity.setDataFim(LocalDate.now());
+        entity.setInicioExpediente(LocalTime.now());
+        entity.setFimExpediente(LocalTime.now());
+        entity.setSituacao(Situacao.LIBERADO);
 
-        listDTO.add(dto);
+        entityList = new ArrayList<>();
+        entityList.add(entity);
     }
 }

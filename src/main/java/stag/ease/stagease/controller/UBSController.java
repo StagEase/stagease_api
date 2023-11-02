@@ -42,7 +42,7 @@ public class UBSController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<UBSDTO> create(@RequestBody @Validated UBSDTO dto) {
         return new ResponseEntity<>(modelMapper.map(service.create(modelMapper.map(dto, UBSEntity.class)), UBSDTO.class), HttpStatus.CREATED);
     }

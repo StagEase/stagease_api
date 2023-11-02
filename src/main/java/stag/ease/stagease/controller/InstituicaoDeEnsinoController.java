@@ -44,7 +44,7 @@ public class InstituicaoDeEnsinoController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<InstituicaoDeEnsinoDTO> create(@RequestBody @Validated InstituicaoDeEnsinoDTO dto) {
         return new ResponseEntity<>(modelMapper.map(service.create(modelMapper.map(dto, InstituicaoDeEnsinoEntity.class)), InstituicaoDeEnsinoDTO.class), HttpStatus.CREATED);
     }

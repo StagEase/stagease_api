@@ -27,7 +27,7 @@ public class SolicitacaoDTO extends AbstractDTO {
     @NotNull(message = "Este campo não pode ser nulo")
     private SupervisorDTO supervisor;
     @Positive(message = "O numero deve ser positivo")
-    private int qntdEstagiarios;
+    private int qntdEstagiarios;    
     @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private InstituicaoDeEnsinoDTO instituicaoDeEnsino;

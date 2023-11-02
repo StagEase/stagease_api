@@ -42,7 +42,7 @@ public class AreaController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<AreaDTO> create(@RequestBody @Validated AreaDTO dto) {
         return new ResponseEntity<>(modelMapper.map(service.create(modelMapper.map(dto, AreaEntity.class)), AreaDTO.class), HttpStatus.CREATED);
     }
