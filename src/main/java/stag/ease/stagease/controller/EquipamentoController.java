@@ -42,7 +42,7 @@ public class EquipamentoController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<EquipamentoDTO> create(@RequestBody @Validated EquipamentoDTO dto) {
         return new ResponseEntity<>(modelMapper.map(service.create(modelMapper.map(dto, EquipamentoEntity.class)), EquipamentoDTO.class), HttpStatus.CREATED);
     }
