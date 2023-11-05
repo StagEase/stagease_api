@@ -1,7 +1,5 @@
 package stag.ease.stagease.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +10,10 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "ubs", schema = "stagease")
-public class UBSEntity extends AbstractEntity {
+@Table(name = "equipamento", schema = "stagease")
+public class EquipamentoEntity extends AbstractEntity {
     @Column(length = 50, nullable = false, unique = true)
-    private String nomeUBS;
+    private String nomeEquipamento;
 
     @Column(length = 50, nullable = false)
     private String gerente;
@@ -25,20 +23,19 @@ public class UBSEntity extends AbstractEntity {
 
     private List<String> contatoList;
 
-
     @ManyToMany
     @JoinTable(
-            name = "ubs-supervisor",
+            name = "equipamento-supervisor",
             schema = "stagease",
             joinColumns = @JoinColumn(name = "supervisor_id"),
-            inverseJoinColumns = @JoinColumn(name = "ubs_id"))
+            inverseJoinColumns = @JoinColumn(name = "equipamento_id"))
     private List<SupervisorEntity> supervisorList;
 
     @ManyToMany
-    @JoinTable(name = "ubs_area", schema = "stagease", joinColumns = @JoinColumn(name = "ubs_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
+    @JoinTable(name = "equipamento_area", schema = "stagease", joinColumns = @JoinColumn(name = "equipamento_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
     private List<AreaEntity> areaList;
 
-    @OneToMany(mappedBy = "ubs")
+    @OneToMany(mappedBy = "equipamento")
     private List<SolicitacaoEntity> solicitacaoList;
 
     private String descricao;

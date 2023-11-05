@@ -42,12 +42,12 @@ class InstituicaoDeEnsinoControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        dto = new InstituicaoDeEnsinoDTO("Uniamerica");
+        dto = new InstituicaoDeEnsinoDTO("Uniamerica", null);
         List<InstituicaoDeEnsinoDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 
         when(service.getById(anyLong())).thenReturn(dto);
-        when(service.findByNome(anyString())).thenReturn(dto);
+        when(service.findByNomeIe(anyString())).thenReturn(dto);
         when(service.getAll()).thenReturn(dtoList);
         when(service.create(any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
         when(service.update(anyLong(), any(InstituicaoDeEnsinoDTO.class))).thenReturn(dto);
@@ -67,12 +67,12 @@ class InstituicaoDeEnsinoControllerTest {
     @Test
     void testGetByNome() {
         String nome = "Uniamerica";
-        ResponseEntity<InstituicaoDeEnsinoDTO> response = controller.getByNome(nome);
+        ResponseEntity<InstituicaoDeEnsinoDTO> response = controller.getByNomeIe(nome);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(dto, response.getBody());
 
-        verify(service).findByNome(nome);
+        verify(service).findByNomeIe(nome);
     }
 
     @Test

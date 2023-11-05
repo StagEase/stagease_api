@@ -62,7 +62,7 @@ class InstituicaoDeEnsinoServiceTest {
 
         InstituicaoDeEnsinoDTO result = serviceTest.getById(id);
         assertNotNull(result);
-        assertEquals(dto.getNome(), result.getNome());
+        assertEquals(dto.getNomeIe(), result.getNomeIe());
     }
 
     @Test
@@ -86,13 +86,13 @@ class InstituicaoDeEnsinoServiceTest {
         dto = new InstituicaoDeEnsinoDTO();
 
         dto.setId(1L);
-        dto.setNome("Uniamerica");
+        dto.setNomeIe("Uniamerica");
 
         InstituicaoDeEnsinoEntity ieEntity = new InstituicaoDeEnsinoEntity();
 
         entity = new InstituicaoDeEnsinoEntity();
 
 
-        entity.setNome("Uniamerica");
+        entity.setNomeIe("Uniamerica");
     }
 }

@@ -30,8 +30,8 @@ public class InstituicaoDeEnsinoController {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<InstituicaoDeEnsinoDTO> getByNome(@PathVariable("nome") String nome) {
-        return new ResponseEntity<>(modelMapper.map(service.findByNome(nome), InstituicaoDeEnsinoDTO.class), HttpStatus.OK);
+    public ResponseEntity<InstituicaoDeEnsinoDTO> getByNomeIe(@PathVariable("nome") String nome) {
+        return new ResponseEntity<>(service.findByNomeIe(nome), HttpStatus.OK);
     }
 
     @GetMapping("/list")

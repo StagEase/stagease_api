@@ -10,9 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import stag.ease.stagease.controller.SupervisorController;
-import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.SupervisorDTO;
-import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.repository.SupervisorRepository;
 import stag.ease.stagease.service.SupervisorService;
 
@@ -43,7 +41,7 @@ class SupervisorControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        dto = new SupervisorDTO("Marcelo", "matricula1", "Descrição");
+        dto = new SupervisorDTO();
         List<SupervisorDTO> dtoList = new ArrayList<>();
         dtoList.add(dto);
 

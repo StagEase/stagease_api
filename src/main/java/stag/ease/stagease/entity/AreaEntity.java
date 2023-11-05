@@ -15,7 +15,7 @@ public class AreaEntity extends AbstractEntity {
     private String nomeArea;
 
     @ManyToMany(mappedBy = "areaList")
-    private List<UBSEntity> ubsList;
+    private List<EquipamentoEntity> equipamentoList;
 
     @OneToMany(mappedBy = "area")
     private List<SolicitacaoEntity> solicitacaoList;

@@ -13,14 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import stag.ease.stagease.controller.UBSController;
+import stag.ease.stagease.controller.EquipamentoController;
 import stag.ease.stagease.dto.AreaDTO;
-import stag.ease.stagease.dto.UBSDTO;
+import stag.ease.stagease.dto.EquipamentoDTO;
 import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.entity.SupervisorEntity;
-import stag.ease.stagease.entity.UBSEntity;
+import stag.ease.stagease.entity.EquipamentoEntity;
 import stag.ease.stagease.entity.enums.Distrito;
-import stag.ease.stagease.service.UBSService;
+import stag.ease.stagease.service.EquipamentoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +32,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class UBSControllerTest {
+class EquipamentoControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @InjectMocks
-    private UBSController controller;
+    private EquipamentoController controller;
     @Mock
-    private UBSService service;
+    private EquipamentoService service;
     @Mock
     private ModelMapper modelMapper;
     private final Long id = 1L;
-    private UBSDTO dto;
-    private UBSEntity entity;
-    private List<UBSEntity> entityList;
+    private EquipamentoDTO dto;
+    private EquipamentoEntity entity;
+    private List<EquipamentoEntity> entityList;
     private ObjectMapper objectMapper;
 
     @BeforeEach
@@ -67,52 +67,52 @@ class UBSControllerTest {
     @Test
     void shouldGetById() throws Exception {
         when(service.getById(id)).thenReturn(entity);
-        mockMvc.perform(get("/ubs/{id}", id))
+        mockMvc.perform(get("/equipamento/{id}", id))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void shouldGetByNomeUBS() throws Exception {
-        when(service.getByNomeUBS("Centro")).thenReturn(entity); // Substitua someAreaDTO pelo objeto correto
-        mockMvc.perform(get("/ubs/nome/{nome}", "Centro"))
+    void shouldGetByNomeEquipamento() throws Exception {
+        when(service.getByNomeEquipamento("Centro")).thenReturn(entity);
+        mockMvc.perform(get("/equipamento/nome/{nome}", "Centro"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void shouldGetAll() throws Exception {
         when(service.getAll()).thenReturn(entityList);
-        mockMvc.perform(get("/ubs/list"))
+        mockMvc.perform(get("/equipamento/list"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     void shouldUpdate() throws Exception {
-        String ubsDTOJson = objectMapper.writeValueAsString(dto);
+        String equipamentoDTOJson = objectMapper.writeValueAsString(dto);
 
-        mockMvc.perform(put("/ubs/{id}", id)
-                        .content(ubsDTOJson)
+        mockMvc.perform(put("/equipamento/{id}", id)
+                        .content(equipamentoDTOJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void shouldDelete() throws Exception {
-        mockMvc.perform(delete("/ubs/{id}", id))
+        mockMvc.perform(delete("/equipamento/{id}", id))
                 .andExpect(status().isOk());
     }
 
     private void initClass() {
         objectMapper = new ObjectMapper();
 
-        dto = new UBSDTO();
+        dto = new EquipamentoDTO();
 
         dto.setId(id);
-        dto.setNomeUBS("Centro");
+        dto.setNomeEquipamento("Centro");
         dto.setGerente("Marcelo");
         dto.setDistrito(Distrito.NORTE);
         dto.setContatoList(null);
-        dto.setAreaList(List.of(new AreaDTO("Enfermagem")));
+        dto.setAreaList(List.of(new AreaDTO()));
         dto.setDescricao("Descrição");
 
         AreaEntity areaEntity = new AreaEntity();
@@ -123,10 +123,10 @@ class UBSControllerTest {
         supervisorEntity.setId(id);
         supervisorEntity.setNomeSupervisor("Zé");
 
-        entity = new UBSEntity();
+        entity = new EquipamentoEntity();
 
         entity.setId(id);
-        entity.setNomeUBS("Centro");
+        entity.setNomeEquipamento("Centro");
         entity.setGerente("Marcelo");
         entity.setDistrito(Distrito.NORTE);
         entity.setContatoList(null);

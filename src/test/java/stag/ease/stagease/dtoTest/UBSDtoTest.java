@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import stag.ease.stagease.dto.AreaDTO;
 import stag.ease.stagease.dto.SupervisorDTO;
-import stag.ease.stagease.dto.UBSDTO;
+import stag.ease.stagease.dto.EquipamentoDTO;
 import stag.ease.stagease.entity.enums.Distrito;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 public class UBSDtoTest {
     @Test
     void testDTO() {
-        UBSDTO dto = new UBSDTO("Centro", "Marcelo", Distrito.NORTE, null, List.of(new AreaDTO()), List.of(new SupervisorDTO()), "Descrição");
+        EquipamentoDTO dto = new EquipamentoDTO("Centro", "Marcelo", Distrito.NORTE, null, List.of(new AreaDTO()), List.of(new SupervisorDTO()), "Descrição");
 
         Assertions.assertEquals("Centro", dto.getNomeUBS());
         Assertions.assertEquals("Marcelo", dto.getGerente());
@@ -27,7 +27,7 @@ public class UBSDtoTest {
 
     @Test
     void testDTOSetter() {
-        UBSDTO dto = new UBSDTO();
+        EquipamentoDTO dto = new EquipamentoDTO();
 
         dto.setNomeUBS("Centro");
         dto.setGerente("Marcelo");

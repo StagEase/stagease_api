@@ -19,8 +19,7 @@ import java.time.LocalTime;
 public class SolicitacaoDTO extends AbstractDTO {
     @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
-    private UBSDTO ubs;
-    @JsonIgnoreProperties("solicitacaoList")
+    private EquipamentoDTO equipamento;
     @NotNull(message = "Este campo não pode ser nulo")
     private AreaDTO area;
     @JsonIgnoreProperties("solicitacaoList")

@@ -95,11 +95,17 @@ class SolicitacaoControllerTest {
     }
 
     private void initClass() {
+        EquipamentoDTO equipamento = new EquipamentoDTO();
+        AreaDTO area = new AreaDTO();
+        SupervisorDTO supervisor = new SupervisorDTO();
+        InstituicaoDeEnsinoDTO ie = new InstituicaoDeEnsinoDTO();
+
         dto = new SolicitacaoDTO();
 
-        dto.setUbs(new UBSDTO());
-        dto.setArea(new AreaDTO());
-        dto.setSupervisor(new SupervisorDTO());
+        dto.setId(id);
+        dto.setEquipamento(equipamento);
+        dto.setArea(area);
+        dto.setSupervisor(supervisor);
         dto.setQntdEstagiarios(4);
         dto.setInstituicaoDeEnsino(new InstituicaoDeEnsinoDTO());
         dto.setDataInicio(LocalDate.now());
@@ -109,7 +115,7 @@ class SolicitacaoControllerTest {
         dto.setSituacao(Situacao.LIBERADO);
 
         entity = new SolicitacaoEntity();
-        entity.setUbs(new UBSEntity());
+        entity.setEquipamento(new EquipamentoEntity());
         entity.setArea(new AreaEntity());
         entity.setSupervisor(new SupervisorEntity());
         entity.setQntdEstagiarios(4);

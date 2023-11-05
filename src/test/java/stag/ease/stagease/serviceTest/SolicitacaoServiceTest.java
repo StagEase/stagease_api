@@ -114,12 +114,27 @@ class SolicitacaoServiceTest {
     }
 
     private void initClass() {
+<<<<<<< Updated upstream
         dto = new SolicitacaoDTO();
 
         dto.setId(id);
         dto.setUbs(new UBSDTO());
         dto.setArea(new AreaDTO());
         dto.setSupervisor(new SupervisorDTO());
+=======
+        modelMapper = new ModelMapper();
+        EquipamentoDTO equipamento = new EquipamentoDTO();
+        AreaDTO area = new AreaDTO();
+        SupervisorDTO supervisor = new SupervisorDTO();
+        InstituicaoDeEnsinoDTO ie = new InstituicaoDeEnsinoDTO();
+
+        dto = new SolicitacaoDTO();
+
+        dto.setId(1L);
+        dto.setEquipamento(equipamento);
+        dto.setArea(area);
+        dto.setSupervisor(supervisor);
+>>>>>>> Stashed changes
         dto.setQntdEstagiarios(4);
         dto.setInstituicaoDeEnsino(new InstituicaoDeEnsinoDTO());
         dto.setDataInicio(LocalDate.now());
@@ -128,12 +143,25 @@ class SolicitacaoServiceTest {
         dto.setFimExpediente(LocalTime.now());
         dto.setSituacao(Situacao.LIBERADO);
 
+<<<<<<< Updated upstream
         entity = new SolicitacaoEntity();
 
         entity.setId(id);
         entity.setUbs(new UBSEntity());
         entity.setArea(new AreaEntity());
         entity.setSupervisor(new SupervisorEntity());
+=======
+        EquipamentoEntity equipamentoEntity = new EquipamentoEntity();
+        AreaEntity areaEntity = new AreaEntity();
+        SupervisorEntity supervisorEntity = new SupervisorEntity();
+        InstituicaoDeEnsinoEntity ieEntity = new InstituicaoDeEnsinoEntity();
+
+        entity = new SolicitacaoEntity();
+
+        entity.setEquipamento(equipamentoEntity);
+        entity.setArea(areaEntity);
+        entity.setSupervisor(supervisorEntity);
+>>>>>>> Stashed changes
         entity.setQntdEstagiarios(4);
         entity.setInstituicaoDeEnsino(new InstituicaoDeEnsinoEntity());
         entity.setDataInicio(LocalDate.now());

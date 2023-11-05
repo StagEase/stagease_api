@@ -15,9 +15,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UBSDTO extends AbstractDTO {
+public class EquipamentoDTO extends AbstractDTO {
     @NotBlank(message = "Este campo não pode ser nulo")
-    private String nomeUBS;
+    private String nomeEquipamento;
     @NotBlank(message = "Este campo não pode ser nulo")
     private String gerente;
     @NotNull(message = "Este campo não pode ser nulo")
@@ -26,9 +26,9 @@ public class UBSDTO extends AbstractDTO {
     @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private List<AreaDTO> areaList;
-    @JsonIgnoreProperties({"ubsList", "solicitacaoList"})
+    @JsonIgnoreProperties({"equipamentoList", "solicitacaoList"})
     private List<SupervisorDTO> supervisorList;
-    @JsonIgnoreProperties({"ubs", "area", "supervisor", "instituicaoDeEnsino"})
+    @JsonIgnoreProperties({"equipamento", "area", "supervisor", "instituicaoDeEnsino"})
     private List<SolicitacaoDTO> solicitacaoList;
     private String descricao;
 }

@@ -1,17 +1,13 @@
 package stag.ease.stagease.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "supervisor", schema = "stagease")
 public class SupervisorEntity extends AbstractEntity {
@@ -26,7 +22,7 @@ public class SupervisorEntity extends AbstractEntity {
     private List<SolicitacaoEntity> solicitacaoList;
 
     @ManyToMany(mappedBy = "supervisorList")
-    private List<UBSEntity> ubsList;
+    private List<EquipamentoEntity> equipamentoList;
 
     private String descricao;
 }

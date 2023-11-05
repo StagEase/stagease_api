@@ -5,49 +5,49 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stag.ease.stagease.entity.UBSEntity;
-import stag.ease.stagease.repository.UBSRepository;
+import stag.ease.stagease.entity.EquipamentoEntity;
+import stag.ease.stagease.repository.EquipamentoRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UBSService {
+public class EquipamentoService {
     @Autowired
-    private UBSRepository repository;
+    private EquipamentoRepository repository;
     @Autowired
     private ModelMapper modelMapper;
 
     @Transactional
-    public UBSEntity getById(Long id) {
-        Optional<UBSEntity> optional = repository.findById(id);
+    public EquipamentoEntity getById(Long id) {
+        Optional<EquipamentoEntity> optional = repository.findById(id);
 
         if (optional.isPresent()) {
             return optional.get();
         } else {
-            throw new EntityNotFoundException("UBS não encontrada com o ID: " + id);
+            throw new EntityNotFoundException("Equipamento não encontrado com o ID: " + id);
         }
     }
 
     @Transactional
-    public UBSEntity getByNomeUBS(String nome) {
-        return repository.findByNomeUBS(nome);
+    public EquipamentoEntity getByNomeEquipamento(String nome) {
+        return repository.findByNomeEquipamento(nome);
     }
 
     @Transactional
-    public List<UBSEntity> getAll() {
+    public List<EquipamentoEntity> getAll() {
         return repository.findAll();
     }
 
     @Transactional
-    public UBSEntity create(UBSEntity entity) {
+    public EquipamentoEntity create(EquipamentoEntity entity) {
         return repository.save(entity);
     }
 
     @Transactional
-    public UBSEntity update(Long id, UBSEntity entity) {
-        UBSEntity existingEntity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("UBS não encontrada com o ID: " + id));
+    public EquipamentoEntity update(Long id, EquipamentoEntity entity) {
+        EquipamentoEntity existingEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Equipamento não encontrada com o ID: " + id));
 
         modelMapper.map(entity, existingEntity);
 

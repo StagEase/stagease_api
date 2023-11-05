@@ -1,9 +1,7 @@
 package stag.ease.stagease.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import stag.ease.stagease.entity.enums.Situacao;
 
@@ -12,14 +10,12 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "solicitacao", schema = "stagease")
 public class SolicitacaoEntity extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ubs_id", referencedColumnName = "id", nullable = false)
-    private UBSEntity ubs;
+    @JoinColumn(name = "equipamento_id", referencedColumnName = "id", nullable = false)
+    private EquipamentoEntity equipamento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", referencedColumnName = "id", nullable = false)

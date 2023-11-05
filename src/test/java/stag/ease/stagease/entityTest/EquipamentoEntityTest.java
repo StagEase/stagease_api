@@ -5,17 +5,17 @@ import org.junit.jupiter.api.Test;
 import stag.ease.stagease.entity.AreaEntity;
 import stag.ease.stagease.entity.SolicitacaoEntity;
 import stag.ease.stagease.entity.SupervisorEntity;
-import stag.ease.stagease.entity.UBSEntity;
+import stag.ease.stagease.entity.EquipamentoEntity;
 import stag.ease.stagease.entity.enums.Distrito;
 
 import java.util.List;
 
-public class UBSEntityTest {
+class EquipamentoEntityTest {
     @Test
     void testEntitySetter() {
-        UBSEntity entity = new UBSEntity();
+        EquipamentoEntity entity = new EquipamentoEntity();
 
-        entity.setNomeUBS("Centro");
+        entity.setNomeEquipamento("Centro");
         entity.setGerente("Marcelo");
         entity.setDistrito(Distrito.NORTE);
         entity.setContatoList(null);
@@ -24,7 +24,7 @@ public class UBSEntityTest {
         entity.setSolicitacaoList(List.of(new SolicitacaoEntity()));
         entity.setDescricao("Descrição");
 
-        Assertions.assertEquals("Centro", entity.getNomeUBS());
+        Assertions.assertEquals("Centro", entity.getNomeEquipamento());
         Assertions.assertEquals("Marcelo", entity.getGerente());
         Assertions.assertEquals(Distrito.NORTE, entity.getDistrito());
         Assertions.assertNull(entity.getContatoList());

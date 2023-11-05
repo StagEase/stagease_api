@@ -20,7 +20,7 @@ public class SupervisorDTO extends AbstractDTO {
     private String matricula;
     private String descricao;
     @JsonIgnoreProperties("supervisorList")
-    private List<UBSDTO> ubsList;
-    @JsonIgnoreProperties({"ubs", "area", "supervisor", "instituicaoDeEnsino"})
+    private List<EquipamentoDTO> equipamentoList;
+    @JsonIgnoreProperties({"equipamento", "area", "supervisor", "instituicaoDeEnsino"})
     private List<SolicitacaoDTO> solicitacaoList;
 }

@@ -11,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import stag.ease.stagease.dto.SupervisorDTO;
-import stag.ease.stagease.dto.UBSDTO;
 import stag.ease.stagease.entity.SupervisorEntity;
 import stag.ease.stagease.repository.SupervisorRepository;
 import stag.ease.stagease.service.SupervisorService;
@@ -81,7 +80,6 @@ class SupervisorServiceTest {
     private void initClass() {
         modelMapper = new ModelMapper();
         SupervisorDTO ie = new SupervisorDTO();
-        UBSDTO ubs = new UBSDTO();
 
         dto = new SupervisorDTO();
 

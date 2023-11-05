@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stag.ease.stagease.entity.SupervisorEntity;
 import stag.ease.stagease.repository.SupervisorRepository;
-import stag.ease.stagease.repository.UBSRepository;
+import stag.ease.stagease.repository.EquipamentoRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ public class SupervisorService {
     @Autowired
     private SupervisorRepository repository;
     @Autowired
-    private UBSRepository ubsRepository;
+    private EquipamentoRepository equipamentoRepository;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -62,9 +62,9 @@ public class SupervisorService {
     @Transactional
     public void deleteById(Long id) {
         SupervisorEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
-        boolean ubsAtivo = entity.getUbsList().stream()
-                .anyMatch(ubs -> ubsRepository.existsByIdAndAtivoIsTrue(ubs.getId()));
-        if (ubsAtivo) {
+        boolean equipamentoAtivo = entity.getEquipamentoList().stream()
+                .anyMatch(equipamento -> equipamentoRepository.existsByIdAndAtivoIsTrue(equipamento.getId()));
+        if (equipamentoAtivo) {
             entity.setAtivo(false);
             repository.save(entity);
         } else {
