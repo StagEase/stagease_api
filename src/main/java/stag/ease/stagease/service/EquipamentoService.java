@@ -47,7 +47,7 @@ public class EquipamentoService {
     @Transactional
     public EquipamentoEntity update(Long id, EquipamentoEntity entity) {
         EquipamentoEntity existingEntity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Equipamento não encontrada com o ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Equipamento não encontrado com o ID: " + id));
 
         modelMapper.map(entity, existingEntity);
 
