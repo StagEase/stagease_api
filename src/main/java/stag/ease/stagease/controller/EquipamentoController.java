@@ -52,7 +52,7 @@ public class EquipamentoController {
         return new ResponseEntity<>(modelMapper.map(service.update(id, modelMapper.map(dto, EquipamentoEntity.class)), EquipamentoDTO.class), HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
