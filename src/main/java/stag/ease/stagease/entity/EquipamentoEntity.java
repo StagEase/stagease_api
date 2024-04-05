@@ -3,6 +3,8 @@ package stag.ease.stagease.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 import stag.ease.stagease.entity.enums.Distrito;
 
 import java.util.List;
@@ -10,7 +12,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Audited
 @Table(name = "equipamento", schema = "stagease")
+@AuditTable(value = "tb_equipamento_audit", schema = "audit")
 public class EquipamentoEntity extends AbstractEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String nomeEquipamento;

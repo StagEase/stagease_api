@@ -3,6 +3,8 @@ package stag.ease.stagease.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 import stag.ease.stagease.entity.enums.Situacao;
 
 import java.time.LocalDate;
@@ -11,7 +13,9 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Entity
+@Audited
 @Table(name = "solicitacao", schema = "stagease")
+@AuditTable(value = "tb_solicitacao_audit", schema = "audit")
 public class SolicitacaoEntity extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "equipamento_id", referencedColumnName = "id", nullable = false)
