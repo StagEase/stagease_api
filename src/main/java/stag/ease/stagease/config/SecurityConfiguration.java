@@ -26,7 +26,6 @@ public class SecurityConfiguration {
         http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
-
         http
                 .authorizeHttpRequests()
                 .requestMatchers("/unauthenticated", "/oauth2/**").permitAll()
@@ -38,7 +37,7 @@ public class SecurityConfiguration {
 
     private SimpleUrlAuthenticationSuccessHandler successHandler() {
         SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
-        handler.setDefaultTargetUrl("http://localhost:4200/"); // front
+        handler.setDefaultTargetUrl("http://192.168.56.120:80"); // front
         return handler;
     }
 }
