@@ -33,7 +33,7 @@ public class SolicitacaoEntity extends AbstractEntity {
     private int qntdEstagiarios;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instituicaoDeEnsino_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "instituicaoDeEnsino", referencedColumnName = "id", nullable = false)
     private InstituicaoDeEnsinoEntity instituicaoDeEnsino;
 
     @Column(nullable = false)

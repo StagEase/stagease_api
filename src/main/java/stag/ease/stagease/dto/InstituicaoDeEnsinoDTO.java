@@ -16,6 +16,4 @@ import java.util.List;
 public class InstituicaoDeEnsinoDTO extends AbstractDTO {
     @NotBlank(message = "Este campo não pode ser nulo")
     private String nomeIe;
-    @JsonIgnoreProperties({"equipamento", "area", "supervisor", "instituicaoDeEnsino"})
-    private List<SolicitacaoDTO> solicitacaoList;
 }

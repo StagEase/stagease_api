@@ -23,12 +23,8 @@ public class EquipamentoDTO extends AbstractDTO {
     @NotNull(message = "Este campo não pode ser nulo")
     private Distrito distrito;
     private List<String> contatoList;
-    @JsonIgnoreProperties("solicitacaoList")
+    private List<SupervisorDTO> supervisorList;
     @NotNull(message = "Este campo não pode ser nulo")
     private List<AreaDTO> areaList;
-    @JsonIgnoreProperties({"equipamentoList", "solicitacaoList"})
-    private List<SupervisorDTO> supervisorList;
-    @JsonIgnoreProperties({"equipamento", "area", "supervisor", "instituicaoDeEnsino"})
-    private List<SolicitacaoDTO> solicitacaoList;
     private String descricao;
 }

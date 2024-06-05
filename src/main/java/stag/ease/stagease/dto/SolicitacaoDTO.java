@@ -17,17 +17,14 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SolicitacaoDTO extends AbstractDTO {
-    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private EquipamentoDTO equipamento;
     @NotNull(message = "Este campo não pode ser nulo")
     private AreaDTO area;
-    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private SupervisorDTO supervisor;
     @Positive(message = "O numero deve ser positivo")
     private int qntdEstagiarios;    
-    @JsonIgnoreProperties("solicitacaoList")
     @NotNull(message = "Este campo não pode ser nulo")
     private InstituicaoDeEnsinoDTO instituicaoDeEnsino;
     @NotNull(message = "Este campo não pode ser nulo")

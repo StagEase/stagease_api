@@ -29,14 +29,13 @@ public class EquipamentoEntity extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "equipamento-supervisor",
-            schema = "stagease",
+            name = "supervisor_equipamento",
             joinColumns = @JoinColumn(name = "supervisor_id"),
             inverseJoinColumns = @JoinColumn(name = "equipamento_id"))
     private List<SupervisorEntity> supervisorList;
 
     @ManyToMany
-    @JoinTable(name = "equipamento_area", schema = "stagease", joinColumns = @JoinColumn(name = "equipamento_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
+    @JoinTable(name = "area_equipamento ", joinColumns = @JoinColumn(name = "equipamento_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
     private List<AreaEntity> areaList;
 
     private String descricao;

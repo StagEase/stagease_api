@@ -19,8 +19,4 @@ public class SupervisorDTO extends AbstractDTO {
     @NotBlank(message = "Este campo não pode ser nulo")
     private String matricula;
     private String descricao;
-    @JsonIgnoreProperties("supervisorList")
-    private List<EquipamentoDTO> equipamentoList;
-    @JsonIgnoreProperties({"equipamento", "area", "supervisor", "instituicaoDeEnsino"})
-    private List<SolicitacaoDTO> solicitacaoList;
 }
