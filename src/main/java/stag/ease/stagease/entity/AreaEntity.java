@@ -11,16 +11,10 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Audited
-@Table(name = "area", schema = "stagease")
-@AuditTable(value = "tb_area_audit", schema = "audit")
+//@Audited
+@Table(name = "area")
+//@AuditTable(value = "tb_area_audit", schema = "audit")
 public class AreaEntity extends AbstractEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String nomeArea;
-
-    @ManyToMany(mappedBy = "areaList")
-    private List<EquipamentoEntity> equipamentoList;
-
-    @OneToMany(mappedBy = "area")
-    private List<SolicitacaoEntity> solicitacaoList;
 }

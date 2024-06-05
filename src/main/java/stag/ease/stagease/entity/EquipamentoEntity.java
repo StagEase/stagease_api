@@ -12,9 +12,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Audited
-@Table(name = "equipamento", schema = "stagease")
-@AuditTable(value = "tb_equipamento_audit", schema = "audit")
+//@Audited
+@Table(name = "equipamento")
+//@AuditTable(value = "tb_equipamento_audit", schema = "audit")
 public class EquipamentoEntity extends AbstractEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String nomeEquipamento;
@@ -38,9 +38,6 @@ public class EquipamentoEntity extends AbstractEntity {
     @ManyToMany
     @JoinTable(name = "equipamento_area", schema = "stagease", joinColumns = @JoinColumn(name = "equipamento_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
     private List<AreaEntity> areaList;
-
-    @OneToMany(mappedBy = "equipamento")
-    private List<SolicitacaoEntity> solicitacaoList;
 
     private String descricao;
 }

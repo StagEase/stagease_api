@@ -13,9 +13,9 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Entity
-@Audited
-@Table(name = "solicitacao", schema = "stagease")
-@AuditTable(value = "tb_solicitacao_audit", schema = "audit")
+//@Audited
+@Table(name = "solicitacao")
+//@AuditTable(value = "tb_solicitacao_audit", schema = "audit")
 public class SolicitacaoEntity extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "equipamento_id", referencedColumnName = "id", nullable = false)

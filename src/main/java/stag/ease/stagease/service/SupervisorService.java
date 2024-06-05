@@ -62,13 +62,6 @@ public class SupervisorService {
     @Transactional
     public void deleteById(Long id) {
         SupervisorEntity entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Não foi possível encontrar o registro informado"));
-        boolean equipamentoAtivo = entity.getEquipamentoList().stream()
-                .anyMatch(equipamento -> equipamentoRepository.existsByIdAndAtivoIsTrue(equipamento.getId()));
-        if (equipamentoAtivo) {
-            entity.setAtivo(false);
-            repository.save(entity);
-        } else {
-            repository.delete(entity);
-        }
+        repository.delete(entity);
     }
 }
