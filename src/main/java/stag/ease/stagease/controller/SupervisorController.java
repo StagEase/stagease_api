@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stag.ease.stagease.dto.SupervisorDTO;
@@ -36,7 +37,6 @@ public class SupervisorController {
         return new ResponseEntity<>(modelMapper.map(service.findByMatricula(matricula), SupervisorDTO.class), HttpStatus.OK);
     }
 
-    // pesquisar pela area de atuacao faltaria
 
     @GetMapping("/list")
     public ResponseEntity<List<SupervisorDTO>> getAll() {
